@@ -4,22 +4,24 @@ using System.Text;
 
 namespace introSE.KanbanBoard.Backend.BuisnessLayer
 {
-    class Task
+    public class Task
     {
         //fields
+        public int taskId;
         private DateTime creation_time;
-        private string due_time;
+        private DateTime due_time;
         private string title;
         private int TITLE_MAX_LENGTH = 50;
         private int DESCRIPTION_MAX_LENGTH = 300;
         private string description;
         //constructor
-        public Task( string due_time, string title, string description)
+        public Task(DateTime due_time, string title, string description,int id)
         {
             creation_time = DateTime.Now;
             this.due_time = due_time;
             setTitle(title);
             setDescription(description);
+            taskId = id;
         }
         //methods
         public void setTitle(string title)
@@ -43,12 +45,12 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
 
             this.description = description;
         }
-        public void setDueTime(string dueTime)
+        public void setDueTime(DateTime dueTime)
         {
             this.due_time = dueTime;
         }
 
-        public string getCreationTime()
+        public DateTime getCreationTime()
         {
             return creation_time;
         }
@@ -56,7 +58,7 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
         {
             return title;
         }
-        public string getDueTime()
+        public DateTime getDueTime()
         {
             return due_time;
         }

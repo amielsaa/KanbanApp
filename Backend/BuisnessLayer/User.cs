@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace introSE.KanbanBoard.Backend.BuisnessLayer
 {
 
-    class User
+    public class User
     {
         // feilds
         private string password;
@@ -38,8 +38,10 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
         {
             boards.removeBoard(board);
         }
-        private void logout()
-        { }
+        public void logout()
+        {
+            login = false;
+        }
         private void changePassword(string newPassword)
         {
             newPassword = validatePasswod(newPassword);
@@ -108,6 +110,11 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
                 list.AddRange(listToAdd);
             }
             return list;
+        }
+
+        public Board getBoardByName(string name)
+        {
+            return boards.getBoardByName(name);
         }
 
     }

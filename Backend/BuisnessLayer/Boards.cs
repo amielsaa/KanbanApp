@@ -10,7 +10,7 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
     {
         //fields
         public List<Board> boards;
-        private List<String> boardsId;
+        private List<string> boardsId;
         private List<string> boardsName;
         //constructor
         public Boards() {
@@ -66,6 +66,10 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
                 Console.WriteLine("no such board exist in your boards list");
 
         }
-
+        public Board getBoardByName(string name)
+        {
+            int index = boardsName.IndexOf(name);
+            return boards[index];
+        }
     }
 }

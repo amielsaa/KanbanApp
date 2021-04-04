@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace introSE.KanbanBoard.Backend.BuisnessLayer
 {
-    class UserController
+    public class UserController
     {
         //fields
         public List<User> users;
@@ -17,14 +17,13 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
             users = new List<User>(); 
         }
         //methods
-        public User register(string email, string password)
+        public void register(string email, string password)
         {
             email = checkExistance(email);
             User user = new User(email, password);
             users.Add(user);
-            return user;
         }
-        public void login(string email, string password)
+        public User login(string email, string password)
         {
             User user = getUser(email);
             if (user == null)
@@ -38,8 +37,9 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
                 else
                     throw new ArgumentException("Password is incorrect");
             }
+            return user;
         }
-        private User getUser(string email)
+        public User getUser(string email)
         {
             return users.Find(x => x.email == email);
         }

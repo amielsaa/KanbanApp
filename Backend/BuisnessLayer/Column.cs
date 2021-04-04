@@ -4,7 +4,7 @@ using System.Text;
 
 namespace introSE.KanbanBoard.Backend.BuisnessLayer
 {
-    class Column
+    public class Column
     {
         //fields
         private string title;
@@ -33,6 +33,19 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
             return tasks;
         }
 
+        public int getColumnLimit()
+        {
+            return limit_task_num;
+        }
+        public string getColumnTitle()
+        {
+            return title;
+        }
+
+        public Task getTaskById(int id)
+        {
+            return tasks[id];
+        }
 
     }
 }
