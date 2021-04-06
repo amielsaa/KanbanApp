@@ -24,9 +24,11 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
             email = em;
             password = validatePasswod(pw);
             password = pw;
+            oldPassword = new List<string>();
+            boards = new Boards();
         }
         //methods
-        private Board newBoard(string name, string id)
+        public Board newBoard(string name, string id)
         {
             id = boards.getValidateId(id);
             name = boards.getValidatename(name);
@@ -34,7 +36,7 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
             boards.addboard(board, name, id);
             return board;
         }
-        private void removeBoard(Board board)
+        public void removeBoard(Board board)
         {
             boards.removeBoard(board);
         }

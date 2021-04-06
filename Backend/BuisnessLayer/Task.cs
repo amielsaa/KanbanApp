@@ -63,6 +63,11 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
             return due_time;
         }
 
+        public string getDescription()
+        {
+            return description;
+        }
+
 
     }
 }
