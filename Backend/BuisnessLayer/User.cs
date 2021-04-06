@@ -28,12 +28,11 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
             boards = new Boards();
         }
         //methods
-        public Board newBoard(string name, string id)
+        public Board newBoard(string name)
         {
-            id = boards.getValidateId(id);
             name = boards.getValidatename(name);
-            Board board = new Board(name, this, id, new Column("backlog"), new Column("in progress"), new Column("done"));
-            boards.addboard(board, name, id);
+            Board board = new Board(name, this, new Column("backlog"), new Column("in progress"), new Column("done"));
+            boards.addboard(board, name);
             return board;
         }
         public void removeBoard(Board board)
