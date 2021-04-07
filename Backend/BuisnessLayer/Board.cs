@@ -14,7 +14,7 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
         private Column[] columns;
         public int taskId;
         //constructor
-        public Board(string name, User creator, string id, Column backlog, Column inProgress, Column done)
+        public Board(string name, User creator, Column backlog, Column inProgress, Column done)
         {
             this.name = name;
             this.creator = creator;
