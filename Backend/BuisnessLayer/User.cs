@@ -12,6 +12,7 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
     {
         // feilds
         private string password;
+        private string Password { get { return password; } set { if (validatePasswordRules(value)) password = value; } }
         private List<string> oldPassword;
         public string email;
         private Boards boards;
@@ -22,8 +23,7 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
         public User(string em, string pw)
         {
             email = em;
-            password = validatePasswod(pw);
-            password = pw;
+            Password = pw;
             oldPassword = new List<string>();
             boards = new Boards();
         }
@@ -31,7 +31,7 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
         public Board newBoard(string name)
         {
             name = boards.getValidatename(name);
-            Board board = new Board(name, this, new Column("backlog"), new Column("in progress"), new Column("done"));
+            Board board = new Board(name, this,boards.id, new Column("backlog"), new Column("in progress"), new Column("done"));
             boards.addboard(board, name);
             return board;
         }
@@ -91,11 +91,8 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
         }
         public string validatePasswod(string newPassword)
         {
-            while (!(validatePasswordMatch(newPassword) & validatePasswordRules(newPassword)))
-            {
-                Console.WriteLine("choose a password that hasn't been used or a password that complies with the rules");
-                newPassword = Console.ReadLine();
-            }
+            if (!(validatePasswordMatch(newPassword) & validatePasswordRules(newPassword)))
+                throw new ArgumentException("the password doesn't stand in the password rules");
             return newPassword;
         }
         public string getpassword()

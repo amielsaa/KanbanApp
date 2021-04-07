@@ -10,15 +10,15 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
         //fields
         public string name;
         private User creator;
-        public string id;
+        public int id;
         private Column[] columns;
         public int taskId;
         //constructor
-        public Board(string name, User creator, Column backlog, Column inProgress, Column done)
+        public Board(string name, User creator,int id, Column backlog, Column inProgress, Column done)
         {
             this.name = name;
             this.creator = creator;
-            this.id = id;
+            this.id =id;
             taskId = 0;
             columns = new Column[3];
             columns[0] = backlog;

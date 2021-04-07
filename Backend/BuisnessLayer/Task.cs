@@ -27,21 +27,16 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
         public void setTitle(string title)
         {
             bool goodTitle = title.Length >= 1 & title.Length <= TITLE_MAX_LENGTH;
-            while (!goodTitle)
-            {
-                Console.WriteLine("Enter new title that answer the requierments");
-                title = Console.ReadLine();
-            }
+            if (!goodTitle)
+                throw new ArgumentException("Enter new title that answer the requierments");
+            
             this.title = title;
         }
         public void setDescription(string description)
         {
             bool goodDescription = description.Length <= DESCRIPTION_MAX_LENGTH;
-            while (!goodDescription)
-            {
-                Console.WriteLine("Enter new description that answer the requierments");
-                description = Console.ReadLine();
-            }
+            if (!goodDescription)
+                throw new ArgumentException("Enter new description that answer the requierments");
 
             this.description = description;
         }

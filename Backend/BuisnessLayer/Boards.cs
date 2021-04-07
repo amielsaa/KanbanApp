@@ -12,7 +12,7 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
         public List<Board> boards;
         private List<string> boardsId;
         private List<string> boardsName;
-        private int id;
+        public int id;
         //constructor
         public Boards() {
             boards = new List<Board>();
@@ -40,11 +40,8 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
         
         public string getValidatename(string name)
         {
-            while (!checkValidation(boardsName, name))
-            {
-                Console.WriteLine("This board name already exist, choose a diffrent name");
-                name = Console.ReadLine();
-            }
+            if (!checkValidation(boardsName, name))
+                throw new ArgumentException("This board name already exist, choose a diffrent name");
             return name;
         }
         public void removeBoard(Board board)
@@ -58,7 +55,7 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
                 boardsId.Remove(id);
             }
             else
-                Console.WriteLine("no such board exist in your boards list");
+                throw new ArgumentException("no such board exist in your boards list");
 
         }
         public Board getBoardByName(string name)

@@ -45,11 +45,8 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
         }
         private string checkExistance(string email)
         {
-            while (users.Exists(x => x.email == email))
-            {
-                Console.WriteLine("this email is already registerd, try another email");
-                email = Console.ReadLine();
-            }
+            if (users.Exists(x => x.email == email))
+                throw new ArgumentException("this email is already registerd");
             return email;
         }
 
