@@ -12,18 +12,21 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
         public List<Board> boards;
         private List<string> boardsId;
         private List<string> boardsName;
+        private int id;
         //constructor
         public Boards() {
             boards = new List<Board>();
             boardsId = new List<string>();
             boardsName = new List<string>();
+            id = 0;
         }
         //methods
-        public void addboard(Board board, string name, string id)
+        public void addboard(Board board, string name)
         {
             boards.Add(board);
             boardsName.Add(name);
-            boardsId.Add(id);
+            boardsId.Add(""+id);
+            id++;
         }
         public Boolean checkValidation(List<string> list, string check)
         {
@@ -34,15 +37,7 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
             }
             return true;
         }
-        public string getValidateId(string id)
-        {
-            while (!checkValidation(boardsId, id))
-            {
-                Console.WriteLine("This board id already exist, choose a diffrent id");
-                id = Console.ReadLine();
-            }
-            return id;
-        }
+        
         public string getValidatename(string name)
         {
             while (!checkValidation(boardsName, name))
