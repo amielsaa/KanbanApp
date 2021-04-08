@@ -10,13 +10,13 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
     {
         //fields
         public List<Board> boards;
-        private List<string> boardsId;
+        private List<int> boardsId;
         private List<string> boardsName;
         public int id;
         //constructor
         public Boards() {
             boards = new List<Board>();
-            boardsId = new List<string>();
+            boardsId = new List<int>();
             boardsName = new List<string>();
             id = 0;
         }
@@ -25,7 +25,7 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
         {
             boards.Add(board);
             boardsName.Add(name);
-            boardsId.Add(""+id);
+            boardsId.Add(id);
             id++;
         }
         public Boolean checkValidation(List<string> list, string check)
@@ -49,7 +49,7 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
             if (boards.Exists(x=>x.id==board.id))
             {
                 String name = board.name;
-                String id = board.id;
+                int id = board.id;
                 boards.Remove(board);
                 boardsName.Remove(name);
                 boardsId.Remove(id);
