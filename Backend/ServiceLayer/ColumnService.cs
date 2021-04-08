@@ -4,6 +4,10 @@ using System.Collections.Generic;
 using System.Collections;
 using System.Linq;
 using System.Text;
+using log4net;
+using System.Reflection;
+using log4net.Config;
+using System.IO;
 
 namespace IntroSE.Kanban.Backend.ServiceLayer
 {
@@ -11,10 +15,16 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
     {
         //fields
         UserController userController;
+        private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+
         //constructor
         public ColumnService()
         {
             userController = new UserController();
+
+            var logRepository = LogManager.GetRepository(Assembly.GetEntryAssembly());
+            XmlConfigurator.Configure(logRepository, new FileInfo("log4net.config"));
+            log.Info("Starting Log!");
         }
 
         //methods

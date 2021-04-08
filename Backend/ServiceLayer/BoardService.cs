@@ -1,8 +1,12 @@
 ﻿
 
 using introSE.KanbanBoard.Backend.BuisnessLayer;
+using log4net;
+using log4net.Config;
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Reflection;
 
 namespace IntroSE.Kanban.Backend.ServiceLayer
 {
@@ -10,10 +14,15 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
     {
 
         UserController userController;
+        private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
         public BoardService()
         {
             userController = new UserController();
+
+            var logRepository = LogManager.GetRepository(Assembly.GetEntryAssembly());
+            XmlConfigurator.Configure(logRepository, new FileInfo("log4net.config"));
+            log.Info("Starting Log!");
         }
         
 
