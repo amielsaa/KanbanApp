@@ -32,7 +32,7 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
             }
             else
             {
-                if (password.Equals(user.getpassword()))
+                if (password.Equals(user.Password))
                     user.login = true;
                 else
                     throw new ArgumentException("Password is incorrect");

@@ -46,8 +46,7 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
             if (columns[columnIndex].getTasks().Contains(toDelete))
                 columns[columnIndex].getTasks().Remove(toDelete);
             else
-                Console.WriteLine("The list of tasks doesnt contains this task");
-
+                throw new ArgumentException("The list of tasks doesnt contains this task");
         }
         public void moveTask(Task toMove, int column_of_the_task)
         {

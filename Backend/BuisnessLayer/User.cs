@@ -12,7 +12,7 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
     {
         // feilds
         private string password;
-        private string Password { get { return password; } set { if (validatePasswordRules(value)) password = value; } }
+        public string Password { get { return password; } set { if (validatePasswordRules(value)) password = value; } }
         private List<string> oldPassword;
         public string email;
         private Boards boards;
@@ -95,10 +95,7 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
                 throw new ArgumentException("the password doesn't stand in the password rules");
             return newPassword;
         }
-        public string getpassword()
-        {
-            return password;
-        }
+        
         public List<Task> getAllInProgressTasks()
         {
             List<Task> list = new List<Task>();

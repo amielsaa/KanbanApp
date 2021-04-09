@@ -31,6 +31,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             try
             {
                 userController.register(email, password);
+                log.Info("User registered successfully");
                 return new Response();
 
             } catch(Exception e)
