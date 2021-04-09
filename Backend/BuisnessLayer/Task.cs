@@ -14,6 +14,7 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
         private int TITLE_MAX_LENGTH = 50;
         private int DESCRIPTION_MAX_LENGTH = 300;
         private string description;
+        
         //constructor
         public Task(DateTime due_time, string title, string description,int id)
         {
