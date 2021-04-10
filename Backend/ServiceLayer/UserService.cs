@@ -28,6 +28,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 
         public Response Register(string email, string password)
         {
+            
             try
             {
                 userController.register(email, password);
@@ -36,6 +37,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 
             } catch(Exception e)
             {
+                
                 return new Response(e.Message);
             }
             
@@ -52,9 +54,11 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             {
                 //var user = new introSE.KanbanBoard.Backend.BuisnessLayer.User(email, password);
                 var user = userController.login(email, password);
+                log.Info("User logged in successfully");
                 return Response<User>.FromValue(new User(email));
             } catch(Exception e)
             {
+                log.Error("Something went wrong during login attempt");
                 return Response<User>.FromError(e.Message);
             }
         }

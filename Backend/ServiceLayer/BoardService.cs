@@ -93,13 +93,15 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         /// <returns>A response object. The response should contain a error message in case of an error</returns>
         public Response AddBoard(string email, string name)
         {
-            throw new NotImplementedException("");
-            /*try
+            
+            try 
             {
                 var user = userController.getUser(email);
                 if (user.login)
                 {
-                    user.newBoard(name,)//id?
+                    user.newBoard(name);
+                    log.Info("Board created successfully");
+                    return new Response();
                 }
                 else
                     throw new ArgumentException("You must be logged in");
@@ -107,7 +109,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             catch (Exception e)
             {
                 return new Response(e.Message);
-            }*/
+            }
         }
         /// <summary>
         /// Removes a board to the specific user.

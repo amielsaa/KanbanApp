@@ -41,11 +41,11 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
         }
         public User getUser(string email)
         {
-            return users.Find(x => x.email == email);
+            return users.Find(x => x.email.Equals(email));
         }
         private string checkExistance(string email)
         {
-            if (users.Exists(x => x.email == email))
+            if (users.Exists(x => x.email.Equals(email)))
                 throw new ArgumentException("this email is already registerd");
             return email;
         }

@@ -29,8 +29,7 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
         {
             bool goodTitle = title.Length >= 1 & title.Length <= TITLE_MAX_LENGTH;
             if (!goodTitle)
-                throw new ArgumentException("Enter new title that answer the requierments");
-            
+                throw new ArgumentException("Enter new title that answer the requierments");     
             this.title = title;
         }
         public void setDescription(string description)
