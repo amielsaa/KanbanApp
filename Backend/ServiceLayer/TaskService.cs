@@ -10,15 +10,15 @@ using System.Text;
 
 namespace IntroSE.Kanban.Backend.ServiceLayer
 {
-    public class TaskService
+    public class TaskService 
     {
         //fields
         UserController userController;
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
-        public TaskService()
+        public TaskService(UserService userService)
         {
-            userController = new UserController();
+            this.userController = userService.userController;
 
             var logRepository = LogManager.GetRepository(Assembly.GetEntryAssembly());
             XmlConfigurator.Configure(logRepository, new FileInfo("log4net.config"));

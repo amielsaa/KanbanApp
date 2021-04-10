@@ -13,7 +13,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 {
     public class UserService
     {
-        UserController userController;
+        public UserController userController;
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
         

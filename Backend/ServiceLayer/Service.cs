@@ -15,9 +15,6 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         public Service()
         {
             userService = new UserService();
-            taskService = new TaskService();
-            boardService = new BoardService();
-            columnService = new ColumnService();
         }
         ///<summary>This method loads the data from the persistance.
         ///         You should call this function when the program starts. </summary>
@@ -71,6 +68,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         /// <returns>A response object. The response should contain a error message in case of an error</returns>
         public Response LimitColumn(string email, string boardName, int columnOrdinal, int limit)
         {
+            columnService = new ColumnService(userService);
             return columnService.LimitColumn(email, boardName, columnOrdinal, limit);
         }
 
@@ -83,6 +81,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         /// <returns>The limit of the column.</returns>
         public Response<int> GetColumnLimit(string email, string boardName, int columnOrdinal)
         {
+            columnService = new ColumnService(userService);
             return columnService.GetColumnLimit(email, boardName, columnOrdinal);
         }
 
@@ -95,6 +94,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         /// <returns>The name of the column.</returns>
         public Response<string> GetColumnName(string email, string boardName, int columnOrdinal)
         {
+            columnService = new ColumnService(userService);
             return columnService.GetColumnName(email, boardName, columnOrdinal);
         }
 
@@ -109,6 +109,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         /// <returns>A response object with a value set to the Task, instead the response should contain a error message in case of an error</returns>
         public Response<Task> AddTask(string email, string boardName, string title, string description, DateTime dueDate)
         {
+            boardService = new BoardService(userService);
             return boardService.AddTask(email, boardName, title, description, dueDate);
         }
         /// <summary>
@@ -122,6 +123,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         /// <returns>A response object. The response should contain a error message in case of an error</returns>
         public Response UpdateTaskDueDate(string email, string boardName, int columnOrdinal, int taskId, DateTime dueDate)
         {
+            taskService = new TaskService(userService);
             return taskService.UpdateTaskDueDate(email, boardName, columnOrdinal, taskId, dueDate);
         }
         /// <summary>
@@ -135,6 +137,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         /// <returns>A response object. The response should contain a error message in case of an error</returns>
         public Response UpdateTaskTitle(string email, string boardName, int columnOrdinal, int taskId, string title)
         {
+            taskService = new TaskService(userService);
             return taskService.UpdateTaskTitle(email, boardName, columnOrdinal, taskId, title);
         }
         /// <summary>
@@ -148,6 +151,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         /// <returns>A response object. The response should contain a error message in case of an error</returns>
         public Response UpdateTaskDescription(string email, string boardName, int columnOrdinal, int taskId, string description)
         {
+            taskService = new TaskService(userService);
             return taskService.UpdateTaskDescription(email, boardName, columnOrdinal, taskId, description);
         }
         /// <summary>
@@ -160,6 +164,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         /// <returns>A response object. The response should contain a error message in case of an error</returns>
         public Response AdvanceTask(string email, string boardName, int columnOrdinal, int taskId)
         {
+            boardService = new BoardService(userService);
             return boardService.AdvanceTask(email, boardName, columnOrdinal, taskId);
         }
         /// <summary>
@@ -171,6 +176,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         /// <returns>A response object with a value set to the Column, The response should contain a error message in case of an error</returns>
         public Response<IList<Task>> GetColumn(string email, string boardName, int columnOrdinal)
         {
+            columnService = new ColumnService(userService);
             return columnService.GetColumn(email, boardName, columnOrdinal);
         }
         /// <summary>
@@ -181,6 +187,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         /// <returns>A response object. The response should contain a error message in case of an error</returns>
         public Response AddBoard(string email, string name)
         {
+            boardService = new BoardService(userService);
             return boardService.AddBoard(email, name);
         }
         /// <summary>
@@ -191,6 +198,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         /// <returns>A response object. The response should contain a error message in case of an error</returns>
         public Response RemoveBoard(string email, string name)
         {
+            boardService = new BoardService(userService);
             return boardService.RemoveBoard(email, name);
         }
         /// <summary>
@@ -200,6 +208,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         /// <returns>A response object with a value set to the list of tasks, The response should contain a error message in case of an error</returns>
         public Response<IList<Task>> InProgressTasks(string email)
         {
+            boardService = new BoardService(userService);
             return boardService.InProgressTasks(email);
         }
     }
