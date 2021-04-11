@@ -56,6 +56,8 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
             Boolean checkNum = false;
             Boolean checkCapital = false;
             Boolean checkSmall = false;
+            if (pw == null)
+                return false;
             if (pw.Length < passMinLen | pw.Length > passMaxLen)
                 return checkNum;
 
@@ -95,8 +97,7 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
         public string validatePasswod(string newPassword)
         {
             if (!(validatePasswordMatch(newPassword) & validatePasswordRules(newPassword)))
-                throw new ArgumentException("the password doesn't stand in the password rules or it was already used" +
-                    "");
+                throw new ArgumentException("the password doesn't stand in the password rules or it was already used" );
             return newPassword;
         }
         public string validateEmail(string email)

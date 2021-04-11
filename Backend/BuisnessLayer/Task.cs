@@ -25,26 +25,7 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
             taskId = id;
         }
         //methods
-        public void setTitle(string title)
-        {
-            bool goodTitle = title.Length >= 1 & title.Length <= TITLE_MAX_LENGTH;
-            if (!goodTitle)
-                throw new ArgumentException("Enter new title that answer the requierments");     
-            this.title = title;
-        }
-        public void setDescription(string description)
-        {
-            bool goodDescription = description.Length <= DESCRIPTION_MAX_LENGTH;
-            if (!goodDescription)
-                throw new ArgumentException("Enter new description that answer the requierments");
-
-            this.description = description;
-        }
-        public void setDueTime(DateTime dueTime)
-        {
-            this.due_time = dueTime;
-        }
-
+        
         public DateTime getCreationTime()
         {
             return creation_time;
@@ -62,6 +43,29 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
         {
             return description;
         }
+        public void setTitle(string title)
+        {
+            bool goodTitle = title != null && (title.Length >= 1 & title.Length <= TITLE_MAX_LENGTH);
+            if (!goodTitle)
+                throw new ArgumentException("Enter new title that answer the requierments");
+            this.title = title;
+        }
+        public void setDescription(string description)
+        {
+            bool goodDescription = description != null && description.Length <= DESCRIPTION_MAX_LENGTH;
+            if (!goodDescription)
+                throw new ArgumentException("Enter new description that answer the requierments");
+
+            this.description = description;
+        }
+        public void setDueTime(DateTime DueTime)
+        {
+            if (DueTime.CompareTo(DateTime.Now) >= 0)
+                this.due_time = DueTime;
+            else
+                throw new ArgumentException("The due time not possible");
+        }
+
 
 
     }
