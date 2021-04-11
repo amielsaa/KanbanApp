@@ -31,7 +31,7 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
             if (columns[0].checkLimit())
             {
                 Task task = new Task(dueDate, title, description, taskId);
-                columns[0].getTasks().Add(task);
+                columns[0].addTask(task);
                 taskId++;
                 return task;
             }

@@ -10,11 +10,12 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
         private string title;
         private int limit_task_num = -1;
         protected List<Task> tasks;
+        
         //constructor
         public Column(string title)
         {
             this.title = title;
-            LinkedList<Task> tasks = new LinkedList<Task>();
+            tasks = new List<Task>();
 
         }
         //methods
@@ -25,7 +26,8 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
 
         public bool checkLimit()
         {
-            return tasks.Count < limit_task_num | limit_task_num == -1;
+          
+            return limit_task_num == -1 || tasks.Count < limit_task_num ;
         }
 
         public List<Task> getTasks()
@@ -45,6 +47,11 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
         public Task getTaskById(int id)
         {
             return tasks[id];
+        }
+
+        public void addTask(Task task)
+        {
+            tasks.Add(task);
         }
 
     }
