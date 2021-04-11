@@ -12,7 +12,7 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
     {
         // feilds
         private string password;
-        public string Password { get { return password; } set { if (validatePasswordRules(value)) password = value; } }
+        public string Password { get { return password; } set {  } }
         private List<string> oldPassword;
         public string email;
         private Boards boards;
@@ -22,9 +22,11 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
         //constructor
         public User(string em, string pw)
         {
-            email = em;
-            password = pw;
+            email =validateEmail(em);
             oldPassword = new List<string>();
+            if (!validatePasswordRules(pw))
+                throw new ArgumentException("this password does'nt stand in the password rules");   
+            password = pw;
             boards = new Boards();
             login = false;
         }
@@ -93,8 +95,16 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
         public string validatePasswod(string newPassword)
         {
             if (!(validatePasswordMatch(newPassword) & validatePasswordRules(newPassword)))
-                throw new ArgumentException("the password doesn't stand in the password rules");
+                throw new ArgumentException("the password doesn't stand in the password rules or it was already used" +
+                    "");
             return newPassword;
+        }
+        public string validateEmail(string email)
+        {
+            var mail = new System.Net.Mail.MailAddress(email);
+            if (mail.Address != email)
+                throw new ArgumentException("email address isn't legal");
+            return email;
         }
         
         public List<Task> getAllInProgressTasks()
