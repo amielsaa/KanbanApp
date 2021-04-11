@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Text.RegularExpressions;
 
 namespace introSE.KanbanBoard.Backend.BuisnessLayer
 {
@@ -102,12 +103,13 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
         }
         public string validateEmail(string email)
         {
-            var mail = new System.Net.Mail.MailAddress(email);
-            if (mail.Address != email)
-                throw new ArgumentException("email address isn't legal");
-            return email;
+            string expression = "\\w+([-+.']\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*";
+
+            if (Regex.IsMatch(email, expression))
+                return email;
+            else
+                throw new ArgumentException("email isn't valid");
         }
-        
         public List<Task> getAllInProgressTasks()
         {
             List<Task> list = new List<Task>();

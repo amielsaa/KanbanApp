@@ -17,7 +17,7 @@ namespace IntroSE.Kanban.Frontend
         }
         public void runTests()
         {
-            Response res3 = userService.Register("guy@gmail.com", "aA1235");
+            Response res3 = userService.Register("guy@gmail.com", "aA1235");//working!!
             if (res3.ErrorOccured)
             {
                 Console.WriteLine(res3.ErrorMessage);
@@ -26,7 +26,7 @@ namespace IntroSE.Kanban.Frontend
             {
                 Console.WriteLine("Created user successfully");
             }
-            Response res6 = userService.Register("guy2@gmail.c", "aB1235@");
+            Response res6 = userService.Register("guy2@gmail", "aB1235@");//working!!
             if (res6.ErrorOccured)
             {
                 Console.WriteLine(res6.ErrorMessage);
@@ -36,7 +36,7 @@ namespace IntroSE.Kanban.Frontend
                 Console.WriteLine("Created user successfully");
             }
 
-            Response res4 = userService.Register(null, "1235");
+            Response res4 = userService.Register(null, "1235");// working!!
             if (res4.ErrorOccured)
             {
                 Console.WriteLine(res4.ErrorMessage);
@@ -54,6 +54,15 @@ namespace IntroSE.Kanban.Frontend
             else
             {
                 Console.WriteLine("Logged in successfully");
+            }
+            Response res17 = userService.Register("guy@gmail.com", "aA1235");
+            if (res17.ErrorOccured)
+            {
+                Console.WriteLine(res17.ErrorMessage);
+            }
+            else
+            {
+                Console.WriteLine("reggister regected sucssesfully");
             }
         }
 
