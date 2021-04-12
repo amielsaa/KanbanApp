@@ -46,7 +46,8 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
 
         public Task getTaskById(int id)
         {
-            return tasks[id];
+            Task task = tasks.Find(x => x.taskId.Equals(id));
+            return task;
         }
 
         public void addTask(Task task)

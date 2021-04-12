@@ -96,6 +96,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         {
             try
             {
+                
                 var user = userController.getUser(email);
                 if (user.login)
                 {

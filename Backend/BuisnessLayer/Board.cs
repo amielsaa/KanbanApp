@@ -30,7 +30,7 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
         {
             if (columns[0].checkLimit())
             {
-                Task task = new Task(dueDate, title, description, taskId);
+                Task task = new Task(dueDate, title, description, taskId,0);
                 columns[0].addTask(task);
                 taskId++;
                 return task;
@@ -54,6 +54,7 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
             {
                 columns[column_of_the_task + 1].getTasks().Add(toMove);
                 deleteTask(toMove, column_of_the_task);
+                toMove.columnOrdinal = toMove.columnOrdinal + 1;
             }
         }
         public List<Task> getInProgressTasks()

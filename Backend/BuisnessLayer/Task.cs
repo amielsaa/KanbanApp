@@ -7,6 +7,7 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
     public class Task
     {
         //fields
+        public int columnOrdinal;
         public int taskId;
         private DateTime creation_time;
         private DateTime due_time;
@@ -16,16 +17,22 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
         private string description;
         
         //constructor
-        public Task(DateTime due_time, string title, string description,int id)
+        public Task(DateTime due_time, string title, string description,int id, int columnOrdinal)
         {
             creation_time = DateTime.Now;
             this.due_time = due_time;
             setTitle(title);
             setDescription(description);
             taskId = id;
+            this.columnOrdinal = columnOrdinal;
         }
         //methods
         
+        public Boolean isChangable()
+        {
+            return columnOrdinal != 2;
+        }
+
         public DateTime getCreationTime()
         {
             return creation_time;
@@ -45,13 +52,18 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
         }
         public void setTitle(string title)
         {
+            if (!isChangable())
+                throw new ArgumentException("Task that is done cannot be changed.");
             bool goodTitle = title != null && (title.Length >= 1 & title.Length <= TITLE_MAX_LENGTH);
             if (!goodTitle)
                 throw new ArgumentException("Enter new title that answer the requierments");
+
             this.title = title;
         }
         public void setDescription(string description)
         {
+            if (!isChangable())
+                throw new ArgumentException("Task that is done cannot be changed.");
             bool goodDescription = description != null && description.Length <= DESCRIPTION_MAX_LENGTH;
             if (!goodDescription)
                 throw new ArgumentException("Enter new description that answer the requierments");
@@ -60,6 +72,8 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
         }
         public void setDueTime(DateTime DueTime)
         {
+            if (!isChangable())
+                throw new ArgumentException("Task that is done cannot be changed.");
             if (DueTime.CompareTo(DateTime.Now) >= 0)
                 this.due_time = DueTime;
             else

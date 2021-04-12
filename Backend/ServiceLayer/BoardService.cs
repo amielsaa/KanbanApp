@@ -44,6 +44,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
                 {
                     Board board = user.getBoardByName(boardName);
                     var task = board.addTask(dueDate,title,description);
+                    log.Info("Task created successfully");
                     return Response<Task>.FromValue(new Task(task.taskId, task.getCreationTime(), task.getTitle(), task.getDescription(), task.getDueTime()));
                 }
                 else
@@ -51,6 +52,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             }
             catch (Exception e)
             {
+                log.Error("Task creation attempt failed");
                 return Response<Task>.FromError(e.Message);
             }
         }
@@ -74,6 +76,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
                     Board board = user.getBoardByName(boardName);
                     var task = board.getColumn(columnOrdinal).getTaskById(taskId);
                     board.moveTask(task, columnOrdinal);
+                    log.Info("Task advanced successfully");
                     return new Response();
                 }
                 else
@@ -81,6 +84,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             }
             catch (Exception e)
             {
+                log.Error("Task advance attempt failed");
                 return new Response(e.Message);
             }
         }
@@ -108,6 +112,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             }
             catch (Exception e)
             {
+                log.Error("Board creation attempt failed");
                 return new Response(e.Message);
             }
         }
@@ -122,10 +127,19 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             try
             {
                 var user = userController.getUser(email);
-                user.removeBoard(user.getBoardByName(name));
-                return new Response();
-            }catch(Exception e)
+                if (user.login) {
+                    user.removeBoard(user.getBoardByName(name));
+                    log.Info("Board removed successfully");
+                    return new Response();
+                }
+                else
+                {
+                    throw new ArgumentException("User must be logged in.");
+                }
+            }
+            catch(Exception e)
             {
+                log.Error("Task removal attempt failed");
                 return new Response(e.Message);
             }
         }
@@ -139,12 +153,18 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             try
             {
                 var user = userController.getUser(email);
-                IList<Task> tasks = new List<Task>();
-                foreach(var task in user.getAllInProgressTasks())
-                {
-                    tasks.Add(new Task(task.taskId, task.getCreationTime(), task.getTitle(), task.getDescription(), task.getDueTime()));
+                if (user.login) { 
+                    IList<Task> tasks = new List<Task>();
+                    foreach(var task in user.getAllInProgressTasks())
+                        {
+                            tasks.Add(new Task(task.taskId, task.getCreationTime(), task.getTitle(), task.getDescription(), task.getDueTime()));
+                        }
+                    return Response<IList<Task>>.FromValue(tasks);
                 }
-                return Response<IList<Task>>.FromValue(tasks);
+                else
+                {
+                    throw new ArgumentException("User must be logged in.");
+                }
             }
             catch (Exception e)
             {
