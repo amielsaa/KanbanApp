@@ -64,6 +64,24 @@ namespace IntroSE.Kanban.Frontend
             {
                 Console.WriteLine("reggister regected sucssesfully");
             }
+            Response res16 = userService.Register("guy2@gmail..xo.xo", "aB1235@");
+            if (res6.ErrorOccured)
+            {
+                Console.WriteLine(res16.ErrorMessage);
+            }
+            else
+            {
+                Console.WriteLine("Created user successfully");
+            }
+            Response res18 = userService.Register("guy2@gmail.!xo.xo", "aB1235@");
+            if (res6.ErrorOccured)
+            {
+                Console.WriteLine(res18.ErrorMessage);
+            }
+            else
+            {
+                Console.WriteLine("Created user successfully");
+            }
         }
 
     }

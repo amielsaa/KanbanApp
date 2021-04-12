@@ -103,8 +103,11 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
         }
         public string validateEmail(string email)
         {
-            string expression = "\\w+([-+.']\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*";
-
+            string expression = @"^[\w!#$%&'*+\-/=?\^_`{|}~]+(\.[\w!#$%&'*+\-/=?\^_`{|}~]+)*"
+            + "@"
+            + @"((([\-\w]+\.)+[a-zA-Z]{2,4})|(([0-9]{1,3}\.){3}[0-9]{1,3}))$";
+            if (email!=null&&email[email.Length-1]<65)
+                throw new ArgumentException("email isn't valid");
             if (Regex.IsMatch(email, expression))
                 return email;
             else
