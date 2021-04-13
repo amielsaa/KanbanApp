@@ -50,12 +50,15 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
         }
         public void moveTask(Task toMove, int column_of_the_task)
         {
+
             if (column_of_the_task == 0 | column_of_the_task == 1)
             {
                 columns[column_of_the_task + 1].getTasks().Add(toMove);
                 deleteTask(toMove, column_of_the_task);
                 toMove.columnOrdinal = toMove.columnOrdinal + 1;
             }
+            if (column_of_the_task >= 2)
+                throw new ArgumentException("Cannot advance task to a column past Done");
         }
         public List<Task> getInProgressTasks()
         {

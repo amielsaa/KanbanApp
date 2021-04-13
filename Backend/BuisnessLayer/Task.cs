@@ -74,7 +74,7 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
         {
             if (!isChangable())
                 throw new ArgumentException("Task that is done cannot be changed.");
-            if (DueTime.CompareTo(DateTime.Now) >= 0)
+            if (DueTime>DateTime.Now)
                 this.due_time = DueTime;
             else
                 throw new ArgumentException("The due time not possible");
