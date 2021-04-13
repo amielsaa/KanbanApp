@@ -106,7 +106,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
                 {
                     Board board = user.getBoardByName(boardName);
                     Column column = board.getColumn(columnOrdinal);
-                    log.Info("Column name retrieved successfully")''
+                    log.Info("Column name retrieved successfully");
                     return Response<string>.FromValue(column.getColumnTitle());
                 }
                 else
