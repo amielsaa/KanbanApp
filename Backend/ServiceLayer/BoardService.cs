@@ -22,7 +22,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 
             var logRepository = LogManager.GetRepository(Assembly.GetEntryAssembly());
             XmlConfigurator.Configure(logRepository, new FileInfo("log4net.config"));
-            log.Info("Starting Log!");
+            log.Info("BoardService initialized.");
         }
         
 
@@ -159,6 +159,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
                         {
                             tasks.Add(new Task(task.taskId, task.getCreationTime(), task.getTitle(), task.getDescription(), task.getDueTime()));
                         }
+                    log.Info("InProgress tasks retrieved successfully");
                     return Response<IList<Task>>.FromValue(tasks);
                 }
                 else
@@ -168,6 +169,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             }
             catch (Exception e)
             {
+                log.Error("InProgress tasks couldnt be reached");
                 return Response<IList<Task>>.FromError(e.Message);
             }
         }

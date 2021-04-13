@@ -24,7 +24,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 
             var logRepository = LogManager.GetRepository(Assembly.GetEntryAssembly());
             XmlConfigurator.Configure(logRepository, new FileInfo("log4net.config"));
-            log.Info("Starting Log!");
+            log.Info("ColumnService initialized");
         }
 
         //methods
@@ -47,6 +47,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
                     Board board = user.getBoardByName(boardName);
                     Column column = board.getColumn(columnOrdinal);
                     column.changeLimit(limit);
+                    log.Info("Column limited successfully");
                     return new Response();
                 }
                 else
@@ -54,6 +55,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 
             }catch(Exception e)
             {
+                log.Error("Column limitation failed");
                 return new Response(e.Message);
             }
         }
@@ -74,6 +76,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
                 {
                     Board board = user.getBoardByName(boardName);
                     Column column = board.getColumn(columnOrdinal);
+                    log.Info("Column limit retrieved successfully");
                     return Response<int>.FromValue(column.getColumnLimit());
                 }
                 else
@@ -82,6 +85,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             }
             catch (Exception e)
             {
+                log.Error("Column limitation failed");
                 return Response<int>.FromError(e.Message);
             }
         }
@@ -102,6 +106,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
                 {
                     Board board = user.getBoardByName(boardName);
                     Column column = board.getColumn(columnOrdinal);
+                    log.Info("Column name retrieved successfully")''
                     return Response<string>.FromValue(column.getColumnTitle());
                 }
                 else
@@ -110,6 +115,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             }
             catch (Exception e)
             {
+                log.Error("Coulnt reach the requested column name");
                 return Response<string>.FromError(e.Message);
             }
         }
@@ -136,6 +142,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
                     {
                         taskList.Add(new Task(task.taskId, task.getCreationTime(), task.getTitle(), task.getDescription(), task.getDueTime()));
                     }
+                    log.Info("Column retrieved successfully");
                     return Response<IList<Task>>.FromValue(taskList);
                 }
                 else
@@ -144,6 +151,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             }
             catch (Exception e)
             {
+                log.Error("Couldnt reach the requested coulmn");
                 return Response<IList<Task>>.FromError(e.Message);
             }
         }

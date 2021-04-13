@@ -73,9 +73,11 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             {   
                 var user = userController.getUser(email);
                 user.logout();
+                log.Info("User logged out successfully");
                 return new Response();
             }catch(Exception e)
             {
+                log.Error("An error occurd during logout");
                 return new Response(e.Message);
             }
         }

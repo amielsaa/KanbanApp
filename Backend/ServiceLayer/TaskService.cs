@@ -22,7 +22,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 
             var logRepository = LogManager.GetRepository(Assembly.GetEntryAssembly());
             XmlConfigurator.Configure(logRepository, new FileInfo("log4net.config"));
-            log.Info("Starting log!");
+            log.Info("TaskService initialized.");
         }
         /// <summary>
         /// Update the due date of a task
@@ -43,6 +43,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
                     Board board = user.getBoardByName(boardName);
                     Column column = board.getColumn(columnOrdinal);
                     column.getTaskById(taskId).setDueTime(dueDate);
+                    log.Info("Task due date updated successfully");
                     return new Response();
                 }
                 else
@@ -50,6 +51,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             }
             catch(Exception e)
             {
+                log.Error("Couldnt update task due date");
                 return new Response(e.Message);
             }
             
@@ -73,6 +75,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
                     Board board = user.getBoardByName(boardName);
                     Column column = board.getColumn(columnOrdinal);
                     column.getTaskById(taskId).setTitle(title);
+                    log.Info("Task title updated successfully");
                     return new Response();
                 }
                 else
@@ -80,6 +83,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             }
             catch (Exception e)
             {
+                log.Error("Couldnt update task title");
                 return new Response(e.Message);
             }
         }
@@ -103,6 +107,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
                     Board board = user.getBoardByName(boardName);
                     Column column = board.getColumn(columnOrdinal);
                     column.getTaskById(taskId).setDescription(description);
+                    log.Info("Task description updated successfully");
                     return new Response();
                 }
                 else
@@ -110,6 +115,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             }
             catch (Exception e)
             {
+                log.Error("Couldnt updated task description");
                 return new Response(e.Message);
             }
         }
