@@ -20,8 +20,6 @@ namespace IntroSE.Kanban.Frontend
         {
             userService.Register("guy@gmail.com", "Aa123456");
             var res = userService.Login("guy@gmail.com", "Aa123456");
-            if (res.ErrorOccured)
-                Console.WriteLine(res.ErrorMessage);
             Response addBoard = userService.AddBoard("guy@gmail.com", "testBoard");
             if (addBoard.ErrorOccured)
             {
@@ -32,16 +30,16 @@ namespace IntroSE.Kanban.Frontend
                 Console.WriteLine("Added board");
             }
 
-            Response addTask = userService.AddTask("guy@gmail.com", "testBoard", "TestTask", "DescriptionTest", DateTime.Now);
-            if (addTask.ErrorOccured)
+            Response removeBoard = userService.RemoveBoard("guy@gmail.com", "testBoard");
+            if (removeBoard.ErrorOccured)
             {
-                Console.WriteLine(addTask.ErrorMessage);
+                Console.WriteLine(addBoard.ErrorMessage);
             }
             else
             {
-                Console.WriteLine("Added task");
+                Console.WriteLine("removed board");
             }
-
+            
             Response GetColumnName = userService.GetColumnName("guy@gmail.com", "testBoard", 0);
             if (GetColumnName.ErrorOccured)
             {
@@ -51,7 +49,7 @@ namespace IntroSE.Kanban.Frontend
             {
                 Console.WriteLine("GetColumnName DONE");
             }
-
+            
             Response GetColumn = userService.GetColumn("guy@gmail.com", "testBoard", 0);
             if (GetColumn.ErrorOccured)
             {
