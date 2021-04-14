@@ -38,6 +38,9 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             try
             {
                 var user = userController.getUser(email);
+                if (user == null)
+                    throw new ArgumentException("User doesnt exists!");
+
                 if (user.login)
                 {
                     Board board = user.getBoardByName(boardName);
@@ -70,6 +73,9 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             try
             {
                 var user = userController.getUser(email);
+                if (user == null)
+                    throw new ArgumentException("User doesnt exists!");
+
                 if (user.login)
                 {
                     Board board = user.getBoardByName(boardName);
@@ -102,6 +108,9 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             {
                 
                 var user = userController.getUser(email);
+                if (user == null)
+                    throw new ArgumentException("User doesnt exists!");
+
                 if (user.login)
                 {
                     Board board = user.getBoardByName(boardName);

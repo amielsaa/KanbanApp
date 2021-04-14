@@ -52,8 +52,10 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         {
             try
             {
-                //var user = new introSE.KanbanBoard.Backend.BuisnessLayer.User(email, password);
                 var user = userController.login(email, password);
+                if (user == null)
+                    throw new ArgumentException("User doesnt exists!");
+
                 log.Info("User logged in successfully");
                 return Response<User>.FromValue(new User(email));
             } catch(Exception e)
@@ -72,6 +74,9 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             try
             {   
                 var user = userController.getUser(email);
+                if (user == null)
+                    throw new ArgumentException("User doesnt exists!");
+
                 user.logout();
                 log.Info("User logged out successfully");
                 return new Response();

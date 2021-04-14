@@ -30,7 +30,11 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
         
         public Boolean isChangable()
         {
-            return columnOrdinal != 2;
+            if (columnOrdinal == 2)
+                throw new ArgumentException("A task that is done cannot be changed.");
+            else
+                return true;
+            //return columnOrdinal != 2;
         }
 
         public DateTime getCreationTime()

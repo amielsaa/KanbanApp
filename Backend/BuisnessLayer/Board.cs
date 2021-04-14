@@ -62,6 +62,8 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
         }
         public List<Task> getInProgressTasks()
         {
+            if (columns[1] == null)
+                throw new ArgumentException("There're no InProgress tasks");
             return columns[1].getTasks();
         }
 

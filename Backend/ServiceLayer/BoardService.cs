@@ -40,6 +40,9 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             try
             {
                 var user = userController.getUser(email);
+                if (user == null)
+                    throw new ArgumentException("User doesnt exists!");
+
                 if (user.login)
                 {
                     Board board = user.getBoardByName(boardName);
@@ -70,6 +73,9 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             try
             {
                 var user = userController.getUser(email);
+                if (user == null)
+                    throw new ArgumentException("User doesnt exists!");
+
                 if (user.login)
                 {
                     
@@ -101,6 +107,9 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             try 
             {
                 var user = userController.getUser(email);
+                if (user == null)
+                    throw new ArgumentException("User doesnt exists!");
+
                 if (user.login)
                 {
                     user.newBoard(name);
@@ -127,6 +136,9 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             try
             {
                 var user = userController.getUser(email);
+                if (user == null)
+                    throw new ArgumentException("User doesnt exists!");
+
                 if (user.login) {
                     user.removeBoard(user.getBoardByName(name));
                     log.Info("Board removed successfully");
@@ -153,6 +165,9 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             try
             {
                 var user = userController.getUser(email);
+                if (user == null)
+                    throw new ArgumentException("User doesnt exists!");
+
                 if (user.login) { 
                     IList<Task> tasks = new List<Task>();
                     foreach(var task in user.getAllInProgressTasks())
