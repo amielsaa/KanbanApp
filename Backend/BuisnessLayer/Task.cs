@@ -27,7 +27,11 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
             this.columnOrdinal = columnOrdinal;
         }
         //methods
-        
+
+        /// <summary>
+        /// checks if chsnges can be made in the task - if it's not it the "done" column
+        /// </summary>
+        /// <returns>A boolean variable, true if it can be changed or error message otherwise. </returns>
         public Boolean isChangable()
         {
             if (columnOrdinal == 2)

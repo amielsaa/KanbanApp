@@ -17,12 +17,26 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
             users = new List<User>(); 
         }
         //methods
+
+        /// <summary>
+        /// create a new user in the user's list of the site 
+        /// </summary>
+        /// <param name="email">Email of user. must not be used before or it'll return an error</param>
+        /// <param name="password"> password for the new user</param>
+        /// <returns>It rerurns nothing but creates a new user account in the users list </returns>
         public void register(string email, string password)
         {
             email = checkExistance(email);
             User user = new User(email, password);
             users.Add(user);
-        }
+        } 
+
+        /// <summary>
+        /// loggin the user to his account 
+        /// </summary>
+        /// <param name="email">Email of user. there must be a user with this email</param>
+        /// <param name="password"> password that matchs the email for the user</param>
+        /// <returns>A user and change its loggin status to logged in, if one of the fields is incorrect it throws an error</returns>
         public User login(string email, string password)
         {
             User user = getUser(email);
@@ -39,10 +53,22 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
             }
             return user;
         }
+
+        /// <summary>
+        /// get a user 
+        /// </summary>
+        /// <param name="email">Email of user. to check if i exist</param>
+        /// <returns>A user if it exist in the users list, returns null otherwise</returns>
         public User getUser(string email)
         {
             return users.Find(x => x.email.Equals(email));
         }
+
+        /// <summary>
+        /// check existance of a user in the users list 
+        /// </summary>
+        /// <param name="email">Email of user.</param>
+        /// <returns>A string of the email it was given if it didn't find it in the users list. it'll return error if it does find</returns>
         private string checkExistance(string email)
         {
             if (users.Exists(x => x.email.Equals(email)))
