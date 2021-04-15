@@ -28,7 +28,9 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
         public void changeLimit(int new_limit_task_num)
         {
             if (new_limit_task_num < 0&&new_limit_task_num!=-1)
-                throw new ArgumentException("limit can't be negative ");
+                throw new ArgumentException("limit can't be negative");
+            if (new_limit_task_num < tasks.Count)
+                throw new ArgumentException("the are already more tasks in this column");
             limit_task_num = new_limit_task_num;
         }
 
@@ -64,6 +66,8 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
 
         public void addTask(Task task)
         {
+            if (!checkLimit())
+                throw new ArgumentException("there's not enough space in this column");
             tasks.Add(task);
         }
 

@@ -20,7 +20,10 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
         public Task(DateTime due_time, string title, string description,int id, int columnOrdinal)
         {
             creation_time = DateTime.Now;
-            this.due_time = due_time;
+            if (due_time > DateTime.Now)
+                this.due_time = due_time;
+            else
+                throw new ArgumentException("The due time  is not possible");
             setTitle(title);
             setDescription(description);
             taskId = id;
@@ -85,7 +88,7 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
             if (DueTime>DateTime.Now)
                 this.due_time = DueTime;
             else
-                throw new ArgumentException("The due time not possible");
+                throw new ArgumentException("The due time  is not possible");
         }
 
 
