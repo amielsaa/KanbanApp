@@ -27,14 +27,17 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         {
             throw new NotImplementedException();
         }
-        ///<summary>This method registers a new user to the system.</summary>
-        ///<param name="email">the user e-mail address, used as the username for logging the system.</param>
-        ///<param name="password">the user password.</param>
-        ///<returns cref="Response">The response of the action</returns>
-        public Response Register(string email, string password)
+        /// <summary>
+        /// Registers a new user.
+        /// </summary>
+        /// <param name="userEmail">The email address of the user to register</param>
+        /// <param name="password">The password of the user to register</param>
+        /// <returns>A response object. The response should contain a error message in case of an error<returns>
+        public Response Register(string userEmail, string password)
         {
-            return userService.Register(email, password);
+            return userService.Register(userEmail, password);
         }
+        
         /// <summary>
         /// Log in an existing user
         /// </summary>
@@ -210,6 +213,41 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         {
             boardService = new BoardService(userService);
             return boardService.InProgressTasks(email);
+        }
+        /// <summary>
+        /// Adds a board created by another user to the logged-in user. 
+        /// </summary>
+        /// <param name="userEmail">Email of the current user. Must be logged in</param>
+        /// <param name="creatorEmail">Email of the board creator</param>
+        /// <param name="boardName">The name of the new board</param>
+        /// <returns>A response object. The response should contain a error message in case of an error</returns>
+        public Response JoinBoard(string userEmail, string creatorEmail, string boardName)
+        {
+            throw new NotImplementedException();
+        }
+        /// <summary>
+        /// Assigns a task to a user
+        /// </summary>
+        /// <param name="userEmail">Email of the current user. Must be logged in</param>
+        /// <param name="creatorEmail">Email of the board creator</param>
+        /// <param name="boardName">The name of the board</param>
+        /// <param name="columnOrdinal">The column ID. The first column is identified by 0, the ID increases by 1 for each column</param>
+        /// <param name="taskId">The task to be updated identified task ID</param>        
+        /// <param name="emailAssignee">Email of the user to assign to task to</param>
+        /// <returns>A response object. The response should contain a error message in case of an error</returns>
+        public Response AssignTask(string userEmail, string creatorEmail, string boardName, int columnOrdinal, int taskId, string emailAssignee)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Returns the list of board of a user. The user must be logged-in. The function returns all the board names the user created or joined.
+        /// </summary>
+        /// <param name="userEmail">The email of the user. Must be logged-in.</param>
+        /// <returns>A response object with a value set to the board, instead the response should contain a error message in case of an error</returns>
+        public Response<IList<String>> GetBoardNames(string userEmail)
+        {
+            throw new NotImplementedException();
         }
     }
 }
