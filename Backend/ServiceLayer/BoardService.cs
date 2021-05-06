@@ -24,7 +24,37 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             XmlConfigurator.Configure(logRepository, new FileInfo("log4net.config"));
             log.Info("BoardService initialized.");
         }
-        
+
+
+        /// <summary>
+        /// Assigns a task to a user
+        /// </summary>
+        /// <param name="userEmail">Email of the current user. Must be logged in</param>
+        /// <param name="creatorEmail">Email of the board creator</param>
+        /// <param name="boardName">The name of the board</param>
+        /// <param name="columnOrdinal">The column ID. The first column is identified by 0, the ID increases by 1 for each column</param>
+        /// <param name="taskId">The task to be updated identified task ID</param>        
+        /// <param name="emailAssignee">Email of the user to assign to task to</param>
+        /// <returns>A response object. The response should contain a error message in case of an error</returns>
+        public Response AssignTask(string userEmail, string creatorEmail, string boardName, int columnOrdinal, int taskId, string emailAssignee)
+        {
+            try
+            {
+                var currUser = userController.getUser(userEmail);
+                var creatorUser = userController.getUser(creatorEmail);
+                if (currUser == null | creatorUser == null)
+                    throw new Exception("User doesnt exist");
+                Board board = creatorUser.getBoardByName(boardName);
+                Column column = board.getColumn(columnOrdinal);
+                var task = column.getTaskById(taskId);
+                task.changeAssignee(userController.getUser(emailAssignee));
+                return new Response();
+
+            } catch(Exception e)
+            {
+                return new Response(e.Message);
+            }
+        }
 
         /// <summary>
         /// Add a new task.

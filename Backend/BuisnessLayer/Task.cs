@@ -15,9 +15,9 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
         private int TITLE_MAX_LENGTH = 50;
         private int DESCRIPTION_MAX_LENGTH = 300;
         private string description;
-        
+        public User assignee;
         //constructor
-        public Task(DateTime due_time, string title, string description,int id, int columnOrdinal)
+        public Task(DateTime due_time, string title, string description,int id, int columnOrdinal, User assignee)
         {
             creation_time = DateTime.Now;
             if (due_time > DateTime.Now)
@@ -28,6 +28,7 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
             setDescription(description);
             taskId = id;
             this.columnOrdinal = columnOrdinal;
+            this.assignee = assignee;
         }
         //methods
 
@@ -91,7 +92,13 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
                 throw new ArgumentException("The due time  is not possible");
         }
 
+        public void changeAssignee(User assignee)
+        {
+            if(assignee==null||!this.assignee.login)
+                throw new Exception("Null or Not Login");
+            this.assignee = assignee;
 
+        }
 
     }
 }

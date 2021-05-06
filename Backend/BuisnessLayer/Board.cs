@@ -38,7 +38,7 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
         {
             if (columns[0].checkLimit())
             {
-                Task task = new Task(dueDate, title, description, taskId,0);
+                Task task = new Task(dueDate, title, description, taskId,0,creator);
                 columns[0].addTask(task);
                 taskId++;
                 return task;
