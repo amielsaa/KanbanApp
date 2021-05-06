@@ -6,7 +6,15 @@ using System.Threading.Tasks;
 
 namespace IntroSE.Kanban.Backend.DataAccessLayer.DalObjects
 {
-    class DTO
+    internal abstract class DTO
     {
+        public const string EmailColumnName = "email";
+        protected DalController _controller;
+        public string Email { get; set; } = "";
+        protected DTO(DalController controller)
+        {
+            _controller = controller;
+        }
+
     }
 }

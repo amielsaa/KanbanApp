@@ -1,4 +1,5 @@
-﻿using System;
+﻿using IntroSE.Kanban.Backend.DataAccessLayer.DalObjects;
+using System;
 using System.Collections.Generic;
 using System.Data.SQLite;
 using System.Linq;
@@ -9,23 +10,25 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
 {
     class DTask : DalController
     {
-        private const string MessageTableName = "Forum";
+        private const string TaskTableName = "Tasks";
 
-        public DTask() : base(MessageTableName)
+        public DTask() : base(TaskTableName)
         {
 
         }
 
+
+        /*
 
         public List<ForumDTO> SelectAllForums()
         {
             List<ForumDTO> result = Select().Cast<ForumDTO>().ToList();
 
             return result;
-        }
+        }*/
 
 
-
+        /*
         public bool Insert(ForumDTO forum)
         {
 
@@ -60,10 +63,11 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
                 return res > 0;
             }
         }
-
+        */
         protected override DTO ConvertReaderToObject(SQLiteDataReader reader)
         {
-            ForumDTO result = new ForumDTO((long)reader.GetValue(0), reader.GetString(1));
+            TaskDTO result = new TaskDTO(reader.GetString(1),reader.GetInt32(1),reader.GetInt32(2),reader.GetString(3),reader.GetInt32(4),
+                                         reader.GetString(5), reader.GetString(6), reader.GetString(7), reader.GetString(8));
             return result;
 
         }
