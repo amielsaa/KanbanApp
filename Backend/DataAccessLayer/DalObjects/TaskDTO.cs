@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace IntroSE.Kanban.Backend.DataAccessLayer.DalObjects
 {
-    class TaskDTO : DTO
+    public class TaskDTO : DTO
     {
         //ColumnNames in db
         public const string BoardIdColumnName = "boardId";

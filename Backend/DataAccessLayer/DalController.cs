@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace IntroSE.Kanban.Backend.DataAccessLayer
 {
-    internal abstract class DalController
+    public abstract class DalController
     {
         protected readonly string _connectionString;
         private readonly string _tableName;
@@ -59,11 +59,12 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
                 SQLiteCommand command = new SQLiteCommand
                 {
                     Connection = connection,
-                    CommandText = $"update {_tableName} set [{attributeName}]=@{attributeName} where email={email}"
+                    CommandText = $"update {_tableName} set {attributeName}=@attVal where email=@emailVal"
                 };
                 try
                 {
-                    command.Parameters.Add(new SQLiteParameter(attributeName, attributeValue));
+                    command.Parameters.Add(new SQLiteParameter(@"attVal", attributeValue));
+                    command.Parameters.Add(new SQLiteParameter(@"emailVal", email));
                     connection.Open();
                     command.ExecuteNonQuery();
                 }
