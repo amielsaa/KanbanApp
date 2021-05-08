@@ -11,9 +11,11 @@ namespace UI
     {
         public static void Main(string[] args)
         {
-            DBoardsController boardsController = new DBoardsController();
-            boardsController.Update("email@jss", 5, BoardsDTO.BoardNameColumnName, "HAKA");
-            //Console.WriteLine(list.Count);
+            string userTable = "Users";
+            DUserController userController = new DUserController();
+            //string command = $"select * from {userTable} where email = 'amiel'";
+            List<UserDTO> list = userController.SelectAllUsersEmails();
+            Console.WriteLine(list.Count);
             /*
             boardsController.Update("email@jss", BoardsDTO.BoardIdColumnName, 5);
             

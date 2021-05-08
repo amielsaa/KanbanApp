@@ -4,16 +4,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using IntroSE.Kanban.Backend.DataAccessLayer;
+using IntroSE.Kanban.Backend.DataAccessLayer.DalObjects;
 
 namespace introSE.KanbanBoard.Backend.BuisnessLayer
 {
     public class UserController
     {
         //fields
+        public List<string> usersEmail;
         public List<User> users;
+        private DUserController;
+        private UserDTO;
         //constructor
         public UserController()
         {
+            usersEmail = new List<string>();
             users = new List<User>(); 
         }
         //methods
@@ -29,6 +35,13 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
             email = checkExistance(email);
             User user = new User(email, password);
             users.Add(user);
+            UserDTO newuser = new UserDTO(email, password);
+            DUserController Dusercontrol = new DUserController();
+            bool check = Dusercontrol.Insert(newuser);
+            if (!check)
+            {
+                throw new ArgumentException("insertion to dataBase failed");
+            }
         } 
 
         /// <summary>

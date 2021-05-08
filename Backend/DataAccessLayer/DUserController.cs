@@ -18,10 +18,10 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
         }
 
 
-        public List<UserDTO> SelectAllUsersEmails()
+        public List<string> SelectAllUser()
         {
-            List<UserDTO> result = Select().Cast<UserDTO>().ToList();
-
+            string command = $"SELECT * FROM {UserTableName}";
+            List<string> result = SelectString(command);
             return result;
         }
 
@@ -68,6 +68,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
             return result;
 
         }
+
 
 
     }

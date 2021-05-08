@@ -118,7 +118,42 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
             }
             return results;
         }
-        
+
+        public List<string> SelectString(string commandTxt)
+        {
+            List<string> results = new List<string>();
+            using (var connection = new SQLiteConnection(_connectionString))
+            {
+                SQLiteCommand command = new SQLiteCommand(null, connection);
+                command.CommandText = commandTxt;
+                SQLiteDataReader dataReader = null;
+                try
+                {
+                    connection.Open();
+                    dataReader = command.ExecuteReader();
+
+                    while (dataReader.Read())
+                    {
+                        results.Add(Convert.ToString(dataReader));
+                    }
+                }
+                finally
+                {
+                    if (dataReader != null)
+                    {
+                        dataReader.Close();
+                    }
+
+                    command.Dispose();
+                    connection.Close();
+                }
+            }
+            return results;
+        }
+
+
+
+
         protected abstract DTO ConvertReaderToObject(SQLiteDataReader reader);
 
 
