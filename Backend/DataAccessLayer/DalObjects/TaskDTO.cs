@@ -8,6 +8,8 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer.DalObjects
 {
     public class TaskDTO : DTO
     {
+        
+
         //ColumnNames in db
         public const string BoardIdColumnName = "boardId";
         public const string TaskIdColumnName = "taskId";
@@ -19,6 +21,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer.DalObjects
         public const string DueDateColumnName = "dueDate";
 
         //fields
+        private bool persisted = false;
         private int _boardId;
         private int _taskId;
         private string _assignee;
@@ -27,7 +30,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer.DalObjects
         private string _description;
         private string _title;
         private string _dueDate;
-
+        
         //getters-setters
         public int BoardId { get => _boardId; set { _boardId = value; _controller.Update(Email, BoardIdColumnName, value); } }
         public int TaskId { get => _taskId; set { _taskId = value; _controller.Update(Email, TaskIdColumnName, value); } }
@@ -40,15 +43,16 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer.DalObjects
 
         public TaskDTO(string email, int boardid, int taskid, string assignee, int column, string creationtime, string description, string title, string duedate) : base(new DTask())
         {
+            
             Email = email;
-            BoardId = boardid;
-            TaskId = taskid;
-            Assignee = assignee;
-            Column = column;
-            CreationTime = creationtime;
-            Description = description;
-            Title = title;
-            DueDate = duedate;
+            _boardId = boardid;
+            _taskId = taskid;
+            _assignee = assignee;
+            _column = column;
+            _creationTime = creationtime;
+            _description = description;
+            _title = title;
+            _dueDate = duedate;
         }
 
     }

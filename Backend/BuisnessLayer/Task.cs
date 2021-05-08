@@ -1,4 +1,5 @@
-﻿using System;
+﻿using IntroSE.Kanban.Backend.DataAccessLayer;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -7,6 +8,8 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
     public class Task
     {
         //fields
+        public string email;
+        public int boardId;
         public int columnOrdinal;
         public int taskId;
         private DateTime creation_time;
@@ -17,7 +20,7 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
         private string description;
         public User assignee;
         //constructor
-        public Task(DateTime due_time, string title, string description,int id, int columnOrdinal, User assignee)
+        public Task(DateTime due_time, string title, string description,int id, int columnOrdinal, User assignee,string email,int boardId)
         {
             creation_time = DateTime.Now;
             if (due_time > DateTime.Now)
@@ -29,6 +32,8 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
             taskId = id;
             this.columnOrdinal = columnOrdinal;
             this.assignee = assignee;
+            this.email = email;
+            this.boardId = boardId;
         }
         //methods
 
@@ -62,6 +67,16 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
         {
             return description;
         }
+
+        public User getAssignee()
+        {
+            return assignee;
+        }
+        
+        public int getColumn()
+        {
+            return columnOrdinal;
+        }
         public void setTitle(string title)
         {
             if (!isChangable())
@@ -71,6 +86,7 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
                 throw new ArgumentException("Enter new title that answer the requierments");
 
             this.title = title;
+            //new DTask().Update()
         }
         public void setDescription(string description)
         {
@@ -96,9 +112,13 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
         {
             if(assignee==null||!this.assignee.login)
                 throw new Exception("Null or Not Login");
+            
+            //this.assignee.myAssignments.Remove(this);
             this.assignee = assignee;
-
+            //assignee.myAssignments.Add(this);
+            //
         }
+
 
     }
 }

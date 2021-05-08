@@ -8,15 +8,107 @@ using System.Threading.Tasks;
 
 namespace IntroSE.Kanban.Backend.DataAccessLayer
 {
-    class DTask : DalController
+    public class DTask : DalController
     {
         private const string TaskTableName = "Tasks";
 
         public DTask() : base(TaskTableName)
-        {
-
+        {   
         }
 
+        public List<TaskDTO> SelectAllTaskByEmail(string email)
+        {
+                List<TaskDTO> results = new List<TaskDTO>();
+                using (var connection = new SQLiteConnection(_connectionString))
+                {
+                    SQLiteCommand command = new SQLiteCommand(null, connection);
+                    command.CommandText = $"select * from {TaskTableName} WHERE email = @emailVal;";
+                    
+                    SQLiteDataReader dataReader = null;
+                    try
+                    {
+
+                        command.Parameters.Add(new SQLiteParameter(@"emailVal", email));
+                        connection.Open();
+                        dataReader = command.ExecuteReader();
+                        while (dataReader.Read())
+                            results.Add((TaskDTO)ConvertReaderToObject(dataReader));
+                    }
+                    finally
+                    {
+                        if (dataReader != null)
+                        {
+                            dataReader.Close();
+                        }
+
+                        command.Dispose();
+                        connection.Close();
+                    }
+
+                }
+                return results;
+        }
+
+        public bool Update(string email, int boardId, int taskId, string attributeName, string attributeValue)
+        {
+            int res = -1;
+            using (var connection = new SQLiteConnection(_connectionString))
+            {
+                SQLiteCommand command = new SQLiteCommand
+                {
+                    Connection = connection,
+                    CommandText = $"update {TaskTableName} set [{attributeName}]={attributeValue} where email={email} and boardId = {boardId} and taskId = {taskId}"
+                };
+                try
+                {
+
+                   
+                    connection.Open();
+                    res = command.ExecuteNonQuery();
+                }
+                catch
+                {
+                    //log
+                }
+                finally
+                {
+                    command.Dispose();
+                    connection.Close();
+                }
+
+            }
+            return res > 0;
+        }
+        public bool Update(string email, int boardId, int taskId, string attributeName, int attributeValue)
+        {
+            int res = -1;
+            using (var connection = new SQLiteConnection(_connectionString))
+            {
+                SQLiteCommand command = new SQLiteCommand
+                {
+                    Connection = connection,
+                    CommandText = $"update {TaskTableName} set [{attributeName}]={attributeValue} where email={email} and boardId = {boardId} and taskId = {taskId}"
+                };
+                try
+                {
+
+                    //command.Parameters.Add(new SQLiteParameter(attributeName, attributeValue));
+                    connection.Open();
+                    res = command.ExecuteNonQuery();
+                }
+                catch
+                {
+                    //log
+                }
+                finally
+                {
+                    command.Dispose();
+                    connection.Close();
+                }
+
+            }
+            return res > 0;
+        }
 
         /*
 
@@ -28,8 +120,8 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
         }*/
 
 
-        /*
-        public bool Insert(ForumDTO forum)
+
+        public bool Insert(TaskDTO task)
         {
 
             using (var connection = new SQLiteConnection(_connectionString))
@@ -39,14 +131,29 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
                 try
                 {
                     connection.Open();
-                    command.CommandText = $"INSERT INTO {MessageTableName} ({DTO.IDColumnName} ,{ForumDTO.ForumNameColumnName}) " +
-                        $"VALUES (@idVal,@nameVal);";
+                    command.CommandText = $"INSERT INTO {TaskTableName} ({TaskDTO.EmailColumnName} ,{TaskDTO.BoardIdColumnName}, {TaskDTO.TaskIdColumnName},{TaskDTO.AssigneeColumnName},{TaskDTO.ColumnColumnName},{TaskDTO.CreationTimeColumnName},{TaskDTO.DescriptionColumnName},{TaskDTO.TitleColumnName},{TaskDTO.DueDateColumnName}) " +
+                        $"VALUES (@taskEmail,@boardId,@taskId,@assignee,@column,@creationTime,@description,@title,@dueDate); ";
 
-                    SQLiteParameter idParam = new SQLiteParameter(@"idVal", forum.Id);
-                    SQLiteParameter titleParam = new SQLiteParameter(@"nameVal", forum.Name);
+                    SQLiteParameter newEmail = new SQLiteParameter(@"taskEmail", task.Email);
+                    SQLiteParameter newBoardId = new SQLiteParameter(@"boardId", task.BoardId);
+                    SQLiteParameter newTaskId = new SQLiteParameter(@"taskId", task.TaskId);
+                    SQLiteParameter newAssignee = new SQLiteParameter(@"assignee", task.Assignee);
+                    SQLiteParameter newColumn = new SQLiteParameter(@"column", task.Column);
+                    SQLiteParameter newCreationTime = new SQLiteParameter(@"creationTime", task.CreationTime);
+                    SQLiteParameter newDescrption = new SQLiteParameter(@"description", task.Description);
+                    SQLiteParameter newTitle = new SQLiteParameter(@"title", task.Title);
+                    SQLiteParameter newDueDate = new SQLiteParameter(@"dueDate", task.DueDate);
 
-                    command.Parameters.Add(idParam);
-                    command.Parameters.Add(titleParam);
+                    command.Parameters.Add(newEmail);
+                    command.Parameters.Add(newBoardId);    
+                    command.Parameters.Add(newTaskId);
+                    command.Parameters.Add(newAssignee);
+                    command.Parameters.Add(newColumn);
+                    command.Parameters.Add(newCreationTime);
+                    command.Parameters.Add(newDescrption);
+                    command.Parameters.Add(newTitle);
+                    command.Parameters.Add(newDueDate);
+
                     command.Prepare();
 
                     res = command.ExecuteNonQuery();
@@ -63,13 +170,14 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
                 return res > 0;
             }
         }
-        */
+        
         protected override DTO ConvertReaderToObject(SQLiteDataReader reader)
         {
-            TaskDTO result = new TaskDTO(reader.GetString(1),reader.GetInt32(1),reader.GetInt32(2),reader.GetString(3),reader.GetInt32(4),
+            TaskDTO result = new TaskDTO(reader.GetString(0),reader.GetInt32(1),reader.GetInt32(2),reader.GetString(3),reader.GetInt32(4),
                                          reader.GetString(5), reader.GetString(6), reader.GetString(7), reader.GetString(8));
             return result;
 
         }
+       
     }
 }
