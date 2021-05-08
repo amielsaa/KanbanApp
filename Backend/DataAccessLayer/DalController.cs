@@ -78,14 +78,20 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
             }
             return res > 0;
         }
+
+        public List<DTO> Select()
+        {
+            string CommandText = $"select * from {_tableName};";
+            return Select(CommandText);
+        }
         
-        protected List<DTO> Select()
+        public List<DTO> Select(string commandTxt)
         {
             List<DTO> results = new List<DTO>();
             using (var connection = new SQLiteConnection(_connectionString))
             {
                 SQLiteCommand command = new SQLiteCommand(null, connection);
-                command.CommandText = $"select * from {_tableName};";
+                command.CommandText = commandTxt;
                 SQLiteDataReader dataReader = null;
                 try
                 {

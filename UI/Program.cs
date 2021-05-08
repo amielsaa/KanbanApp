@@ -3,6 +3,7 @@ using IntroSE.Kanban.Backend.ServiceLayer;
 using IntroSE.Kanban.Backend.DataAccessLayer;
 using IntroSE.Kanban.Frontend;
 using IntroSE.Kanban.Backend.DataAccessLayer.DalObjects;
+using System.Collections.Generic;
 
 namespace UI
 {
@@ -10,12 +11,11 @@ namespace UI
     {
         public static void Main(string[] args)
         {
-            
-            DBoardsController boardsController = new DBoardsController();
-            
-            BoardsDTO board = new BoardsDTO("email@jss",8,"afsas",2);
-            bool ans = boardsController.Insert(board);
-            Console.WriteLine(ans);
+            string userTable = "Users";
+            DUserController userController = new DUserController();
+            string command = $"select * from {userTable} where email = 'amiel'";
+            List<DTO> list = userController.Select(command);
+            Console.WriteLine(((UserDTO)list[0]).Password);
             /*
             boardsController.Update("email@jss", BoardsDTO.BoardIdColumnName, 5);
             

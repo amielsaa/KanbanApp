@@ -8,28 +8,25 @@ using System.Threading.Tasks;
 
 namespace IntroSE.Kanban.Backend.DataAccessLayer
 {
-    class DTask : DalController
+   public class DUserController : DalController
     {
-        private const string TaskTableName = "Tasks";
 
-        public DTask() : base(TaskTableName)
+        private const string UserTableName = "Users";
+
+        public DUserController() : base(UserTableName)
         {
-
         }
 
 
-        /*
-
-        public List<ForumDTO> SelectAllForums()
+        public List<UserDTO> SelectAllUsersEmails()
         {
-            List<ForumDTO> result = Select().Cast<ForumDTO>().ToList();
+            List<UserDTO> result = Select().Cast<UserDTO>().ToList();
 
             return result;
-        }*/
+        }
 
 
-        /*
-        public bool Insert(ForumDTO forum)
+        public bool Insert(UserDTO user)
         {
 
             using (var connection = new SQLiteConnection(_connectionString))
@@ -39,14 +36,14 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
                 try
                 {
                     connection.Open();
-                    command.CommandText = $"INSERT INTO {MessageTableName} ({DTO.IDColumnName} ,{ForumDTO.ForumNameColumnName}) " +
-                        $"VALUES (@idVal,@nameVal);";
+                    command.CommandText = $"INSERT INTO {UserTableName} ({DTO.EmailColumnName} ,{UserDTO.passwordColumnName}) " +
+                        $"VALUES (@emailVal,@passwordVal);";
 
-                    SQLiteParameter idParam = new SQLiteParameter(@"idVal", forum.Id);
-                    SQLiteParameter titleParam = new SQLiteParameter(@"nameVal", forum.Name);
+                    SQLiteParameter emailParam = new SQLiteParameter(@"emailVal", user.Email);
+                    SQLiteParameter passwordParam = new SQLiteParameter(@"passwordVal", user.Password);
 
-                    command.Parameters.Add(idParam);
-                    command.Parameters.Add(titleParam);
+                    command.Parameters.Add(emailParam);
+                    command.Parameters.Add(passwordParam);
                     command.Prepare();
 
                     res = command.ExecuteNonQuery();
@@ -63,13 +60,15 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
                 return res > 0;
             }
         }
-        */
+
+
         protected override DTO ConvertReaderToObject(SQLiteDataReader reader)
         {
-            TaskDTO result = new TaskDTO(reader.GetString(0),reader.GetInt32(1),reader.GetInt32(2),reader.GetString(3),reader.GetInt32(4),
-                                         reader.GetString(5), reader.GetString(6), reader.GetString(7), reader.GetString(8));
+            UserDTO result = new UserDTO(reader.GetString(0), reader.GetString(1));
             return result;
 
         }
+
+
     }
 }
