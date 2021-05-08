@@ -13,9 +13,9 @@ namespace UI
         {
             string userTable = "Users";
             DUserController userController = new DUserController();
-            string command = $"select * from {userTable} where email = 'amiel'";
-            List<DTO> list = userController.Select(command);
-            Console.WriteLine(((UserDTO)list[0]).Password);
+            //string command = $"select * from {userTable} where email = 'amiel'";
+            List<UserDTO> list = userController.SelectAllUsersEmails();
+            Console.WriteLine(list.Count);
             /*
             boardsController.Update("email@jss", BoardsDTO.BoardIdColumnName, 5);
             

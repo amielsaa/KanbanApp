@@ -15,6 +15,7 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
         private string password;
         public string Password { get { return password; } set {  } }
         private List<string> oldPassword;
+        public List<Task> myAssignments;
         public string email;
         private Boards boards;
         public Boolean login;
@@ -172,6 +173,13 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
         public Board getBoardByName(string name)
         {
             return boards.getBoardByName(name);
+        }
+
+        public void joinBoard(User otherUser , string boardName)
+        {
+            Board board = otherUser.getBoardByName(boardName);
+            //board.BoardUsers().add(this)
+
         }
 
     }
