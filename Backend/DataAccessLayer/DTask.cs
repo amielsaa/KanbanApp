@@ -57,12 +57,17 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
                 SQLiteCommand command = new SQLiteCommand
                 {
                     Connection = connection,
-                    CommandText = $"update {TaskTableName} set [{attributeName}]={attributeValue} where email={email} and boardId = {boardId} and taskId = {taskId}"
+                    CommandText = $"update {TaskTableName} set [{attributeName}]=@attVal where email=@emailVal and boardId =@boardIdVal and taskId =@taskIdVal"
                 };
                 try
                 {
 
-                   
+
+                    command.Parameters.Add(new SQLiteParameter(@"attVal", attributeValue));
+                    command.Parameters.Add(new SQLiteParameter(@"boardIdVal", boardId));
+                    command.Parameters.Add(new SQLiteParameter(@"emailVal", email));
+                    command.Parameters.Add(new SQLiteParameter(@"taskIdVal", taskId));
+
                     connection.Open();
                     res = command.ExecuteNonQuery();
                 }
