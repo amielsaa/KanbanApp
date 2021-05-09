@@ -15,7 +15,7 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
         public List<string> usersEmail;
         public List<User> users;
         private DUserController dUserController;
-        private UserDTO userDTO;
+        private UserDTO newUser;
         //constructor
         public UserController()
         {
@@ -35,9 +35,9 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
             email = checkExistance(email);
             User user = new User(email, password);
             users.Add(user);
-            UserDTO newuser = new UserDTO(email, password);
-            DUserController Dusercontrol = new DUserController();
-            bool check = Dusercontrol.Insert(newuser);
+            newUser = new UserDTO(email, password);
+            dUserController = new DUserController();
+            bool check = dUserController.Insert(newUser);
             if (!check)
             {
                 throw new ArgumentException("insertion to dataBase failed");
