@@ -43,7 +43,7 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
         {
             name = boards.getValidatename(name);
             Board board = new Board(name, this,boards.id, new Column("backlog"), new Column("in progress"), new Column("done"));
-            boards.addboard(board, name);
+            boards.addboard(email, board, name);
             return board;
         }
         /// <summary>
@@ -156,12 +156,7 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
         /// <returns>A list of al the tasks in "inProgress", it can return null there aren't any.</returns>
         public List<Task> getAllInProgressTasks()
         {
-            List<Task> list = new List<Task>();
-            foreach (Board i in boards.boards)
-            {
-                List<Task> listToAdd = i.getInProgressTasks();
-                list.AddRange(listToAdd);
-            }
+            List<Task> list = boards.getAllInProgressTasks();
             return list;
         }
 
@@ -178,7 +173,8 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
         public void joinBoard(User otherUser , string boardName)
         {
             Board board = otherUser.getBoardByName(boardName);
-            //board.BoardUsers().add(this)
+            board.boardUsers.Add(this);
+            boards.addboard(otherUser.email, board, boardName);
 
         }
 
