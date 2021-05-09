@@ -167,7 +167,7 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
         /// <returns>A board if there is a board with this name or null if there is no board with this name</returns>
         public Board getBoardByName(string name)
         {
-            return boards.getBoardByName(name);
+            return boards.getBoardByName(email, name);
         }
 
         public void joinBoard(User otherUser , string boardName)

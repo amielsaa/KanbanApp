@@ -14,8 +14,8 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
         //fields
         public List<string> usersEmail;
         public List<User> users;
-        private DUserController;
-        private UserDTO;
+        private DUserController dUserController;
+        private UserDTO userDTO;
         //constructor
         public UserController()
         {

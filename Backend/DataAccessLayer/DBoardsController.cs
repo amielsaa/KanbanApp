@@ -11,6 +11,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
     public class DBoardsController : DalController
     {
         private const string BoardsTableName = "Boards";
+        
 
         public DBoardsController() : base(BoardsTableName)
         {
