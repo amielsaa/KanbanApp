@@ -1,4 +1,6 @@
 ﻿using introSE.KanbanBoard.Backend.BuisnessLayer;
+using IntroSE.Kanban.Backend.DataAccessLayer;
+using IntroSE.Kanban.Backend.DataAccessLayer.DalObjects;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -40,10 +42,15 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
         {
             if (columns[0].checkLimit())
             {
-                Task task = new Task(dueDate, title, description, taskId,0,creator);
+                Task task = new Task(dueDate, title, description, taskId,0,creator,creator.email,id);
                 columns[0].addTask(task);
                 taskId++;
+                TaskDTO taskdto =new TaskDTO(creator.email, id, taskId, task.getAssignee().email, task.getColumn(),
+                    task.getCreationTime().ToString(), task.getDescription(), task.getTitle(), task.getDueTime().ToString());
+                DTask dtask = new DTask();
+                dtask.Insert(taskdto);
                 return task;
+
             }
 
             else

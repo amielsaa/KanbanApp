@@ -1,6 +1,8 @@
-﻿using System;
+﻿using IntroSE.Kanban.Backend.DataAccessLayer.DalObjects;
+using System;
 using System.Collections.Generic;
 using System.Text;
+
 
 namespace introSE.KanbanBoard.Backend.BuisnessLayer
 {
@@ -16,7 +18,6 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
         {
             this.title = title;
             tasks = new List<Task>();
-
         }
         //methods
 
@@ -69,6 +70,7 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
             if (!checkLimit())
                 throw new ArgumentException("there's not enough space in this column");
             tasks.Add(task);
+            
         }
 
 

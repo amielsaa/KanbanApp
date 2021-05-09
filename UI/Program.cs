@@ -1,8 +1,10 @@
 ﻿using System;
 using IntroSE.Kanban.Backend.ServiceLayer;
 using IntroSE.Kanban.Backend.DataAccessLayer;
-using IntroSE.Kanban.Frontend;
 using IntroSE.Kanban.Backend.DataAccessLayer.DalObjects;
+using System.Collections.Generic;
+
+using IntroSE.Kanban.Frontend;
 using System.Collections.Generic;
 
 namespace UI
@@ -11,11 +13,12 @@ namespace UI
     {
         public static void Main(string[] args)
         {
-            string userTable = "Users";
-            DUserController userController = new DUserController();
+            //string userTable = "Users";
+            //DUserController userController = new DUserController();
             //string command = $"select * from {userTable} where email = 'amiel'";
-            List<UserDTO> list = userController.SelectAllUsersEmails();
-            Console.WriteLine(list.Count);
+
+            //List<UserDTO> list = userController.SelectAllUsersEmails();
+            //Console.WriteLine(list.Count);
             /*
             boardsController.Update("email@jss", BoardsDTO.BoardIdColumnName, 5);
             
@@ -40,6 +43,9 @@ namespace UI
             UserTests test = new UserTests(new Service());
             test.runTests();
             */
+            DTask dtask = new DTask();
+            dtask.Update("ido", 2, 5, "description", "sharmota");
+
         }
 
     }
