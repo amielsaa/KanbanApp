@@ -11,11 +11,11 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
     {
         //fields
         public string name;
-        public List<User> BoardUsers;
-        private User creator;
+        public User creator;
         public int id;
         private Column[] columns;
         public int taskId;
+        public List<User> boardUsers;
         //constructor
         public Board(string name, User creator,int id, Column backlog, Column inProgress, Column done)
         {
@@ -27,7 +27,7 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
             columns[0] = backlog;
             columns[1] = inProgress;
             columns[2] = done;
-            BoardUsers = new List<User>();
+            boardUsers = new List<User>();
         }
         //methods
 

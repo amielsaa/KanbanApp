@@ -17,6 +17,66 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
 
         }
 
+        public bool Update(string email,int boardId, string attributeName, string attributeValue)
+        {
+            int res = -1;
+            using (var connection = new SQLiteConnection(_connectionString))
+            {
+                SQLiteCommand command = new SQLiteCommand
+                {
+                    Connection = connection,
+                    CommandText = $"update {BoardsTableName} set {attributeName}=@attVal where email=@emailVal and boardId=@boardIdVal"
+                };
+                try
+                {
+                    command.Parameters.Add(new SQLiteParameter(@"attVal", attributeValue));
+                    command.Parameters.Add(new SQLiteParameter(@"boardIdVal", boardId));
+                    command.Parameters.Add(new SQLiteParameter(@"emailVal", email));
+                    connection.Open();
+                    command.ExecuteNonQuery();
+                }
+                catch
+                {
+                    //log
+                }
+                finally
+                {
+                    command.Dispose();
+                    connection.Close();
+                }
+
+            }
+            return res > 0;
+        }
+
+        public bool Update(string email, int boardId, string attributeName, int attributeValue)
+        {
+            int res = -1;
+            using (var connection = new SQLiteConnection(_connectionString))
+            {
+                SQLiteCommand command = new SQLiteCommand
+                {
+                    Connection = connection,
+                    CommandText = $"update {BoardsTableName} set {attributeName}=@attVal where email=@emailVal and boardId=@boardIdVal"
+                };
+                try
+                {
+                    command.Parameters.Add(new SQLiteParameter(@"attVal", attributeValue));
+                    command.Parameters.Add(new SQLiteParameter(@"boardIdVal", boardId));
+                    command.Parameters.Add(new SQLiteParameter(@"emailVal", email));
+                    connection.Open();
+                    command.ExecuteNonQuery();
+                }
+                finally
+                {
+                    command.Dispose();
+                    connection.Close();
+
+                }
+
+            }
+            return res > 0;
+        }
 
         /*
 
@@ -27,6 +87,17 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
             return result;
         }*/
 
+        public List<UserDTO> SelectAllBoardUsers(int boardId)
+        {
+            string command = $"select * from {BoardsTableName} where boardId = '{boardId}'";
+            return Select(command).Cast<UserDTO>().ToList();
+        }
+
+        public List<BoardsDTO> SelectAllBoardsByEmail(string email)
+        {
+            string command = $"select * from {BoardsTableName} where email = '{email}'";
+            return Select(command).Cast<BoardsDTO>().ToList();
+        }
 
         
         public bool Insert(BoardsDTO board)

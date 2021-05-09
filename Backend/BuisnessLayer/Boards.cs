@@ -9,13 +9,13 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
     class Boards
     {
         //fields
-        public List<Board> boards;
+        public List<(string email,Board board)> boards;
         private List<int> boardsId;
         private List<string> boardsName;
         public int id;
         //constructor
         public Boards() {
-            boards = new List<Board>();
+            boards = new List<(string ,Board )>();
             boardsId = new List<int>();
             boardsName = new List<string>();
             id = 0;
@@ -28,9 +28,10 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
         /// <param name="board">the board that should be added to the boards list</param>
         /// <param name="name">the name of the board</param>
         /// <returns>Doesn't return anything. </returns>
-        public void addboard(Board board, string name)
+        public void addboard(string email ,Board board, string name)
         {
-            boards.Add(board);
+
+            boards.Add((email, board));
             boardsName.Add(name);
             boardsId.Add(id);
             id++;
@@ -71,11 +72,11 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
         /// <returns>Doesn't return anything, it returns an error if it can't find the board</returns>
         public void removeBoard(Board board)
         {
-            if (boards.Exists(x=>x.id==board.id))
+            if (boards.Exists(x=>x.board.id==board.id))
             {
                 String name = board.name;
                 int id = board.id;
-                boards.Remove(board);
+                boards.Remove((board.creator.email, board));
                 boardsName.Remove(name);
                 boardsId.Remove(id);
             }
@@ -92,7 +93,21 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
         public Board getBoardByName(string name)
         {
             int index = boardsName.IndexOf(name);
-            return boards[index];
+            return boards[index].board;
+        }
+        /// <summary>
+        /// get all the tasks in "inProgress" column from all the boards of the user
+        /// </summary>
+        /// <returns>A list of al the tasks in "inProgress", it can return null there aren't any.</returns>
+        public List<Task> getAllInProgressTasks()
+        {
+            List<Task> list = new List<Task>();
+            foreach ((string,Board) i in boards)
+            {
+                List<Task> listToAdd = i.Item2.getInProgressTasks();
+                list.AddRange(listToAdd);
+            }
+            return list;
         }
     }
 }
