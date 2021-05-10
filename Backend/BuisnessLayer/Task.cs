@@ -1,4 +1,5 @@
 ﻿using IntroSE.Kanban.Backend.DataAccessLayer;
+using IntroSE.Kanban.Backend.DataAccessLayer.DalObjects;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -34,6 +35,7 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
             this.assignee = assignee;
             this.email = email;
             this.boardId = boardId;
+            (new DTask()).Insert(toDalObject());
         }
         //methods
 
@@ -84,9 +86,8 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
             bool goodTitle = title != null && (title.Length >= 1 & title.Length <= TITLE_MAX_LENGTH);
             if (!goodTitle)
                 throw new ArgumentException("Enter new title that answer the requierments");
-
             this.title = title;
-            //new DTask().Update()
+            new DTask().Update(email, boardId, taskId, TaskDTO.TitleColumnName, title);
         }
         public void setDescription(string description)
         {
@@ -97,6 +98,7 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
                 throw new ArgumentException("Enter new description that answer the requierments");
 
             this.description = description;
+            new DTask().Update(email, boardId, taskId, TaskDTO.DescriptionColumnName, description);
         }
         public void setDueTime(DateTime DueTime)
         {
@@ -106,6 +108,8 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
                 this.due_time = DueTime;
             else
                 throw new ArgumentException("The due time  is not possible");
+            new DTask().Update(email, boardId, taskId, TaskDTO.DueDateColumnName, DueTime.ToString());
+
         }
 
         public void changeAssignee(User assignee)
@@ -117,9 +121,15 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
             this.assignee = assignee;
             //assignee.myAssignments.Add(this);
             //
+            new DTask().Update(email, boardId, taskId, TaskDTO.AssigneeColumnName, assignee.email);
+
         }
 
 
+        private TaskDTO toDalObject()
+        {
+            return new TaskDTO(email, boardId, taskId, assignee.email, columnOrdinal, creation_time.ToString(), description, title, due_time.ToString());
+        }
     }
 }
 

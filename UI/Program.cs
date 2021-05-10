@@ -1,6 +1,7 @@
 ﻿using System;
-using IntroSE.Kanban.Backend.ServiceLayer;
+//using IntroSE.Kanban.Backend.ServiceLayer;
 using IntroSE.Kanban.Backend.DataAccessLayer;
+using introSE.KanbanBoard.Backend.BuisnessLayer;
 using IntroSE.Kanban.Backend.DataAccessLayer.DalObjects;
 using System.Collections.Generic;
 
@@ -43,8 +44,10 @@ namespace UI
             UserTests test = new UserTests(new Service());
             test.runTests();
             */
+            Task newTask = new Task(new DateTime(2021,5,15,15,15,15),"milestone2","finish it", 4,0,new User("shapiraido123@gmail.com","ido1Ido1"),"amiel",5);
             DTask dtask = new DTask();
-            dtask.Update("ido", 2, 5, "description", "sharmota");
+            newTask.setTitle("newmileso");
+            dtask.Update("ido", 2, 5, "dueDate", "okg");
 
         }
 
