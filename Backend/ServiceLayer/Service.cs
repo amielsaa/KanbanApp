@@ -7,6 +7,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 {
     public class Service
     {
+        UserController userController;
         UserService userService;
         TaskService taskService;
         BoardService boardService;
@@ -14,19 +15,25 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 
         public Service()
         {
+            //userController = new UserController();
             userService = new UserService();
         }
+        
         ///<summary>This method loads the data from the persistance.
         ///         You should call this function when the program starts. </summary>
         public Response LoadData()
         {
             throw new NotImplementedException();
+            //userController.importUsers()
+            //taskService = new TaskService(userController);
+            //
         }
         ///<summary>Removes all persistent data.</summary>
         public Response DeleteData()
         {
             throw new NotImplementedException();
         }
+
         /// <summary>
         /// Registers a new user.
         /// </summary>
