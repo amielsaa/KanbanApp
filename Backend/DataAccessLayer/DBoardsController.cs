@@ -88,10 +88,12 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
             return result;
         }*/
 
-        public List<UserDTO> SelectAllBoardUsers(int boardId)
+
+        public List<string> SelectAllBoardUsers(string creatorEmail,int boardId)
         {
-            string command = $"select * from {BoardsTableName} where boardId = '{boardId}'";
-            return Select(command).Cast<UserDTO>().ToList();
+            string command = $"select * from {BoardsTableName} where boardId = {boardId} and email = '{creatorEmail}'";
+            List<BoardsDTO> list = Select(command).Cast<BoardsDTO>().ToList();
+            return list[0].UsersEmail.Split(',').ToList();
         }
 
         public List<BoardsDTO> SelectAllBoardsByEmail(string email)
@@ -111,19 +113,21 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
                 try
                 {
                     connection.Open();
-                    command.CommandText = $"INSERT INTO {BoardsTableName} ({DTO.EmailColumnName} ,{BoardsDTO.BoardIdColumnName},{BoardsDTO.BoardNameColumnName},{BoardsDTO.TaskIdColumnName}) " +
-                        $"VALUES (@emailVal,@boardIdVal,@boardNameVal,@taskIdVal);";
+                    command.CommandText = $"INSERT INTO {BoardsTableName} ({DTO.EmailColumnName} ,{BoardsDTO.BoardIdColumnName},{BoardsDTO.BoardNameColumnName},{BoardsDTO.TaskIdColumnName},{BoardsDTO.UsersEmailColumnName}) " +
+                        $"VALUES (@emailVal,@boardIdVal,@boardNameVal,@taskIdVal,@usersEmailVal);";
                     
                     SQLiteParameter emailParam = new SQLiteParameter(@"emailVal", board.Email);
                     SQLiteParameter boardIdParam = new SQLiteParameter(@"boardIdVal", board.BoardId);
                     SQLiteParameter boardNameParam = new SQLiteParameter(@"boardNameVal", board.BoardName);
                     SQLiteParameter taskIdParam = new SQLiteParameter(@"taskIdVal", board.TaskId);
-
+                    SQLiteParameter usersEmailParam = new SQLiteParameter(@"usersEmailVal", board.UsersEmail);
 
                     command.Parameters.Add(emailParam);
                     command.Parameters.Add(boardIdParam);
                     command.Parameters.Add(boardNameParam);
                     command.Parameters.Add(taskIdParam);
+                    command.Parameters.Add(usersEmailParam);
+
                     command.Prepare();
 
                     res = command.ExecuteNonQuery();
@@ -143,7 +147,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
         
         protected override DTO ConvertReaderToObject(SQLiteDataReader reader)
         {
-            BoardsDTO result = new BoardsDTO(reader.GetString(0), reader.GetInt32(1),reader.GetString(2),reader.GetInt32(3));
+            BoardsDTO result = new BoardsDTO(reader.GetString(0), reader.GetInt32(1),reader.GetString(2),reader.GetInt32(3),reader.GetString(4));
             return result;
 
         }
