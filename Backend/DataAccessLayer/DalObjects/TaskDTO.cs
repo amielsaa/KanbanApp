@@ -54,6 +54,12 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer.DalObjects
             _title = title;
             _dueDate = duedate;
         }
+        public Task pushTaskFromDal()
+        {
+
+            Task task = new Task(Email, BoardId, TaskId, Assignee, Column, Convert.ToDateTime(CreationTime), Description, Title, Convert.ToDateTime(DueDate));
+            return task;
+        }
 
 
     }
