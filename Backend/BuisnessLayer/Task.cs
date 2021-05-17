@@ -20,6 +20,7 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
         private int DESCRIPTION_MAX_LENGTH = 300;
         private string description;
         public User assignee;
+        public string assigneeEmail;
         //constructor
         public Task(DateTime due_time, string title, string description,int id, int columnOrdinal, User assignee,string email,int boardId)
         {
@@ -36,6 +37,17 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
             this.email = email;
             this.boardId = boardId;
             (new DTask()).Insert(toDalObject());
+        }
+        //task from dal
+        public Task(string email, int boardid, int taskid, string assignee, int column, DateTime creationtime, string description, string title, DateTime duedate)
+        {
+            creation_time = creationtime;
+            setTitle(title);
+            setDescription(description);
+            columnOrdinal = column;
+            this.email = email;
+            boardId = boardid;
+            assigneeEmail = assignee;
         }
         //methods
 
@@ -130,6 +142,7 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
         {
             return new TaskDTO(email, boardId, taskId, assignee.email, columnOrdinal, creation_time.ToString(), description, title, due_time.ToString());
         }
+        
     }
 }
 

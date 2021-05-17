@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using introSE.KanbanBoard.Backend.BuisnessLayer;
 
 namespace IntroSE.Kanban.Backend.DataAccessLayer.DalObjects
 {
@@ -30,7 +31,6 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer.DalObjects
         private string _description;
         private string _title;
         private string _dueDate;
-        
         //getters-setters
         public int BoardId { get => _boardId; set { _boardId = value; _controller.Update(Email, BoardIdColumnName, value); } }
         public int TaskId { get => _taskId; set { _taskId = value; _controller.Update(Email, TaskIdColumnName, value); } }
@@ -54,10 +54,10 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer.DalObjects
             _title = title;
             _dueDate = duedate;
         }
-        public Task pushTaskFromDal()
+        public introSE.KanbanBoard.Backend.BuisnessLayer.Task pushTaskFromDal()
         {
 
-            Task task = new Task(Email, BoardId, TaskId, Assignee, Column, Convert.ToDateTime(CreationTime), Description, Title, Convert.ToDateTime(DueDate));
+            introSE.KanbanBoard.Backend.BuisnessLayer.Task task = new introSE.KanbanBoard.Backend.BuisnessLayer.Task(Email, BoardId, TaskId, Assignee, Column, Convert.ToDateTime(CreationTime), Description, Title, Convert.ToDateTime(DueDate));
             return task;
         }
 

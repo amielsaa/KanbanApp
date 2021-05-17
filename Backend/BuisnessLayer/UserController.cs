@@ -88,6 +88,18 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
                 throw new ArgumentException("this email is already registerd");
             return email;
         }
+        public void pullAllUsers()
+        {
+            List<UserDTO> userDtoList = dUserController.SelectAllUser();
+            foreach (UserDTO userDTO in userDtoList)
+            {
+                User user = new User(userDTO.Email, userDTO.Password, userDTO.getOldPasswords());
+                string email = userDTO.Email;
+                users.Add(user);
+                usersEmail.Add(email);
+            }
+
+        }
 
     }
 }

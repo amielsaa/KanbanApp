@@ -32,6 +32,13 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
             boards = new Boards();
             login = false;
         }
+        public User(string em, string pw, List<string> oldPw)
+        {
+            email = em;
+            password = pw;
+            oldPassword = oldPw;
+            login = false;
+        }
         //methods
 
         /// <summary>

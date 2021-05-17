@@ -10,7 +10,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
 {
    public class DUserController : DalController
     {
-
+        private const string oldPasswordsTableName = "OldPassword";
         private const string UserTableName = "Users";
 
         public DUserController() : base(UserTableName)
@@ -18,11 +18,35 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
         }
 
 
-        public List<string> SelectAllUser()
+        public List<UserDTO> SelectAllUser()
         {
-            string command = $"SELECT * FROM {UserTableName}";
-            List<string> result = SelectString(command);
-            return result;
+            List<UserDTO> results = new List<UserDTO>();
+            using (var connection = new SQLiteConnection(_connectionString))
+            {
+                SQLiteCommand command = new SQLiteCommand(null, connection);
+                command.CommandText = $"SELECT * FROM {UserTableName}";
+
+                SQLiteDataReader dataReader = null;
+                try
+                {
+                    connection.Open();
+                    dataReader = command.ExecuteReader();
+                    while (dataReader.Read())
+                        results.Add((UserDTO)ConvertReaderToObject(dataReader));
+                }
+                finally
+                {
+                    if (dataReader != null)
+                    {
+                        dataReader.Close();
+                    }
+
+                    command.Dispose();
+                    connection.Close();
+                }
+
+            }
+            return results;
         }
 
 
