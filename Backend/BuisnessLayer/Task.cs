@@ -22,7 +22,7 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
         public User assignee;
         public string assigneeEmail;
         //constructor
-        public Task(DateTime due_time, string title, string description,int id, int columnOrdinal, User assignee,string email,int boardId)
+        public Task(DateTime due_time, string title, string description,int id, int columnOrdinal, string assignee,string email,int boardId)
         {
             creation_time = DateTime.Now;
             if (due_time > DateTime.Now)
@@ -33,15 +33,16 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
             setDescription(description);
             taskId = id;
             this.columnOrdinal = columnOrdinal;
-            this.assignee = assignee;
             this.email = email;
             this.boardId = boardId;
+            assigneeEmail = assignee;
             (new DTask()).Insert(toDalObject());
         }
         //task from dal
         public Task(string email, int boardid, int taskid, string assignee, int column, DateTime creationtime, string description, string title, DateTime duedate)
         {
             creation_time = creationtime;
+            this.due_time = duedate;
             setTitle(title);
             setDescription(description);
             columnOrdinal = column;
@@ -124,7 +125,7 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
 
         }
 
-        public void changeAssignee(User assignee)
+       /* public void changeAssignee(User assignee)
         {
             if(assignee==null||!this.assignee.login)
                 throw new Exception("Null or Not Login");
@@ -136,11 +137,12 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
             new DTask().Update(email, boardId, taskId, TaskDTO.AssigneeColumnName, assignee.email);
 
         }
+       */
 
 
         private TaskDTO toDalObject()
         {
-            return new TaskDTO(email, boardId, taskId, assignee.email, columnOrdinal, creation_time.ToString(), description, title, due_time.ToString());
+            return new TaskDTO(email, boardId, taskId, assigneeEmail, columnOrdinal, creation_time.ToString(), description, title, due_time.ToString());
         }
         
     }

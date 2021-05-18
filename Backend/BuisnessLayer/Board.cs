@@ -1,9 +1,7 @@
-﻿using introSE.KanbanBoard.Backend.BuisnessLayer;
-using IntroSE.Kanban.Backend.DataAccessLayer;
+﻿using IntroSE.Kanban.Backend.DataAccessLayer;
 using IntroSE.Kanban.Backend.DataAccessLayer.DalObjects;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace introSE.KanbanBoard.Backend.BuisnessLayer
 {
@@ -11,23 +9,34 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
     {
         //fields
         public string name;
-        public User creator;
+        public string creatorEmail;
         public int id;
         private Column[] columns;
         public int taskId;
-        public List<User> boardUsers;
+        public List<string> boardUsers;
         //constructor
-        public Board(string name, User creator,int id, Column backlog, Column inProgress, Column done)
+        public Board(string name, string creator,int id, Column backlog, Column inProgress, Column done)
         {
             this.name = name;
-            this.creator = creator;
+            this.creatorEmail = creator;
             this.id =id;
             taskId = 0;
             columns = new Column[3];
             columns[0] = backlog;
             columns[1] = inProgress;
             columns[2] = done;
-            boardUsers = new List<User>();
+            boardUsers = new List<string>();
+        }
+        public Board(string name, string creator, int id,int taskId, List<Task> backlog, List<Task> inProgress, List<Task> done , List<string> bUsers)
+        {
+            this.name = name;
+            creatorEmail = creator;
+            this.id = id;
+            columns[0] = new Column("backlog", backlog);
+            columns[1] = new Column("inProgress", inProgress);
+            columns[2] = new Column("done", done);
+            boardUsers = bUsers;
+            this.taskId = taskId;
         }
         //methods
 
@@ -42,10 +51,10 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
         {
             if (columns[0].checkLimit())
             {
-                Task task = new Task(dueDate, title, description, taskId,0,creator,creator.email,id);
+                Task task = new Task(dueDate, title, description, taskId,0,creatorEmail,creatorEmail,id);
                 columns[0].addTask(task);
                 taskId++;
-                TaskDTO taskdto =new TaskDTO(creator.email, id, taskId, task.getAssignee().email, task.getColumn(),
+                TaskDTO taskdto =new TaskDTO(creatorEmail, id, taskId, task.getAssignee().email, task.getColumn(),
                     task.getCreationTime().ToString(), task.getDescription(), task.getTitle(), task.getDueTime().ToString());
                 DTask dtask = new DTask();
                 dtask.Insert(taskdto);
@@ -107,6 +116,10 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
             if (index > 2| index<0)
                 throw new IndexOutOfRangeException("there is no column in this range");
             return columns[index];
+        }
+        public bool searchForUser(string email)
+        {
+           return boardUsers.Exists(x=>x==email);
         }
 
     }

@@ -5,6 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Text.RegularExpressions;
+using IntroSE.Kanban.Backend.DataAccessLayer.DalObjects;
+using IntroSE.Kanban.Backend.BuisnessLayer;
+using IntroSE.Kanban.Backend.DataAccessLayer;
 
 namespace introSE.KanbanBoard.Backend.BuisnessLayer
 {
@@ -19,25 +22,31 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
         public string email;
         private Boards boards;
         public Boolean login;
+        public UserDTO dtoUser;
         public readonly int passMinLen = 4;
         public readonly int passMaxLen = 20;
+        public BoardController boardController;
         //constructor
-        public User(string em, string pw)
+        public User(string em, string pw, BoardController bController)
         {
             email =validateEmail(em);
             oldPassword = new List<string>();
             if (!validatePasswordRules(pw))
                 throw new ArgumentException("this password does'nt stand in the password rules");   
             password = pw;
-            boards = new Boards();
+            boards = new Boards(bController,em,0);
             login = false;
+            boardController = bController;
         }
-        public User(string em, string pw, List<string> oldPw)
+        public User(string em, string pw, List<string> oldPw, List<Task> myAssignments, int boardsId, BoardController boardController)
         {
             email = em;
             password = pw;
             oldPassword = oldPw;
+            this.myAssignments = myAssignments;
+            boards = new Boards(boardController, em, boardsId);
             login = false;
+            //boards.load()
         }
         //methods
 
@@ -49,8 +58,11 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
         public Board newBoard(string name)
         {
             name = boards.getValidatename(name);
-            Board board = new Board(name, this,boards.id, new Column("backlog"), new Column("in progress"), new Column("done"));
+            Board board = new Board(name, email,boards.id, new Column("backlog"), new Column("in progress"), new Column("done"));
             boards.addboard(email, board, name);
+            boardController.allBoards.Add((email, board, name));
+            DUserController dUser = new DUserController();
+            dUser.updateBoardsIdNum(email, boards.id + 1);
             return board;
         }
         /// <summary>
@@ -76,6 +88,7 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
             newPassword = validatePasswod(newPassword);
             oldPassword.Add(password);
             password = newPassword;
+            dtoUser.Password = newPassword;
         }
         /// <summary>
         /// checking password validity to the rules
@@ -180,7 +193,7 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
         public void joinBoard(User otherUser , string boardName)
         {
             Board board = otherUser.getBoardByName(boardName);
-            board.boardUsers.Add(this);
+            board.boardUsers.Add(email);
             boards.addboard(otherUser.email, board, boardName);
 
         }

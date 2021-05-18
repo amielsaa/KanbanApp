@@ -1,4 +1,5 @@
-﻿using System;
+﻿using introSE.KanbanBoard.Backend.BuisnessLayer;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,34 +11,34 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer.DalObjects
     {
         //ColumnNames in db
         public const string passwordColumnName = "password";
+        public const string boardsIdColumnName = "boardsId";
 
         //fields
         private string _password;
+        private int _boardsId;
         private DUserController DUserControl = new DUserController();
 
         //getters-setters
         public string Password { get => _password; set { _password = value; _controller.Update(Email, passwordColumnName, value); } }
-
-        public UserDTO(string email, string password) : base(new DUserController())
+        public int BoardsId { get => _boardsId; set { _controller.Update(Email, boardsIdColumnName, value); } }
+        public UserDTO(string email, string password, int boardId) : base(new DUserController())
         {
             Email = email;
+            _boardsId = boardId;
             _password = password;
         }
 
-        public List<BoardsDTO> getAllBoards()
+        public List<Board> getAllBoards()
         {
-            string command = $"SELECT * FROM Boards WHERE email = '{Email}'";
-            List<BoardsDTO> result = DUserControl.Select(command).Cast<BoardsDTO>().ToList();
-
-            return result;
+            DBoardsController dBoards = new DBoardsController();
+            return dBoards.SelectAllBoardsByEmail(Email);
         }
 
-        public List<TaskDTO> getMyAssignments()
+        public List<introSE.KanbanBoard.Backend.BuisnessLayer.Task> getMyAssignments()
         {
-            string command = $"SELECT * FROM Tasks WHERE assignee = '{Email}'";
-            List<TaskDTO> result = DUserControl.Select(command).Cast<TaskDTO>().ToList();
-
-            return result;
+            DTask dTask = new DTask();
+            List<TaskDTO> list =dTask.getMyAssignments(Email);
+            return dTask.convertTasksToBL(list);
         }
         public List<string> getOldPasswords()
         {

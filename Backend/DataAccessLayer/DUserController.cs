@@ -1,4 +1,5 @@
-﻿using IntroSE.Kanban.Backend.DataAccessLayer.DalObjects;
+﻿using introSE.KanbanBoard.Backend.BuisnessLayer;
+using IntroSE.Kanban.Backend.DataAccessLayer.DalObjects;
 using System;
 using System.Collections.Generic;
 using System.Data.SQLite;
@@ -48,6 +49,36 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
             }
             return results;
         }
+        public UserDTO SelectUser(string email)
+        {
+            UserDTO result = null;
+            using (var connection = new SQLiteConnection(_connectionString))
+            {
+                SQLiteCommand command = new SQLiteCommand(null, connection);
+                command.CommandText = $"SELECT * FROM {UserTableName} WHERE email = '{email}'";
+
+                SQLiteDataReader dataReader = null;
+                try
+                {
+                    connection.Open();
+                    dataReader = command.ExecuteReader();
+                    if (dataReader.Read())
+                        result = (UserDTO)ConvertReaderToObject(dataReader);
+                }
+                finally
+                {
+                    if (dataReader != null)
+                    {
+                        dataReader.Close();
+                    }
+
+                    command.Dispose();
+                    connection.Close();
+                }
+
+            }
+            return result;
+        }
 
 
         public bool Insert(UserDTO user)
@@ -60,14 +91,15 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
                 try
                 {
                     connection.Open();
-                    command.CommandText = $"INSERT INTO {UserTableName} ({DTO.EmailColumnName} ,{UserDTO.passwordColumnName}) " +
-                        $"VALUES (@emailVal,@passwordVal);";
+                    command.CommandText = $"INSERT INTO {UserTableName} ({DTO.EmailColumnName} ,{UserDTO.passwordColumnName}, {UserDTO.boardsIdColumnName}) " +
+                        $"VALUES (@emailVal,@passwordVal,@boardsIdVal);";
 
                     SQLiteParameter emailParam = new SQLiteParameter(@"emailVal", user.Email);
                     SQLiteParameter passwordParam = new SQLiteParameter(@"passwordVal", user.Password);
-
+                    SQLiteParameter boardsIdParam = new SQLiteParameter(@"boardsIdVal", user.BoardsId);
                     command.Parameters.Add(emailParam);
                     command.Parameters.Add(passwordParam);
+                    command.Parameters.Add(boardsIdParam);
                     command.Prepare();
 
                     res = command.ExecuteNonQuery();
@@ -84,11 +116,17 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
                 return res > 0;
             }
         }
+        public void updateBoardsIdNum(string email, int boardId)
+        {
+            UserDTO user = SelectUser(email);
+            user.BoardsId = boardId;
+            
+        }
 
 
         protected override DTO ConvertReaderToObject(SQLiteDataReader reader)
         {
-            UserDTO result = new UserDTO(reader.GetString(0), reader.GetString(1));
+            UserDTO result = new UserDTO(reader.GetString(0), reader.GetString(1), reader.GetInt32(2));
             return result;
 
         }

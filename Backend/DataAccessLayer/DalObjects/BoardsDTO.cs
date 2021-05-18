@@ -1,4 +1,5 @@
-﻿using System;
+﻿using introSE.KanbanBoard.Backend.BuisnessLayer;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -32,6 +33,20 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer.DalObjects
             _boardId = boardId;
             _taskId = taskId;
             _usersEmail = usersEmail;
+        }
+        public Board convertToBLBoard()
+        {
+            DTask dTask = new DTask();
+            DBoardsController dBoards = new DBoardsController();
+            List<TaskDTO> backlogDTO = dTask.SelectAllTaskByEmailAndColumn(_usersEmail, 0);
+            List<TaskDTO> inProgressDTO = dTask.SelectAllTaskByEmailAndColumn(_usersEmail, 1);
+            List<TaskDTO> doneDTO = dTask.SelectAllTaskByEmailAndColumn(_usersEmail, 2);
+            List<introSE.KanbanBoard.Backend.BuisnessLayer.Task> backlog = dTask.convertTasksToBL(backlogDTO);
+            List<introSE.KanbanBoard.Backend.BuisnessLayer.Task> inProgress = dTask.convertTasksToBL(inProgressDTO);
+            List<introSE.KanbanBoard.Backend.BuisnessLayer.Task> done = dTask.convertTasksToBL(doneDTO);
+            List<string> boardUsers = dBoards.SelectAllBoardUsers(_usersEmail, _boardId);
+            Board board = new Board(_boardName, _usersEmail, _boardId, _taskId, backlog, inProgress, done, boardUsers);
+            return board;
         }
 
 

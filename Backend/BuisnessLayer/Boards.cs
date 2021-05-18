@@ -1,4 +1,6 @@
-﻿using System;
+﻿
+using IntroSE.Kanban.Backend.BuisnessLayer;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,19 +8,21 @@ using System.Threading.Tasks;
 
 namespace introSE.KanbanBoard.Backend.BuisnessLayer
 {
-    class Boards
+    class Boards : BoardController
     {
         //fields
         public List<(string email,Board board, string boardName)> boards;
         private List<int> boardsId;
         private List<string> boardsName;
         public int id;
+        private BoardController BC;
         //constructor
-        public Boards() {
-            boards = new List<(string ,Board, string )>();
+        public Boards(BoardController bc,string email, int id) {
+            boards = bc.getAllUserBoards(email);
             boardsId = new List<int>();
             boardsName = new List<string>();
-            id = 0;
+            BC = bc;
+            this.id= id;
         }
         //methods
 
@@ -77,7 +81,7 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
             {
                 String name = board.name;
                 int id = board.id;
-                boards.Remove((board.creator.email, board, board.name));
+                boards.Remove((board.creatorEmail, board, board.name));
                 boardsName.Remove(name);
                 boardsId.Remove(id);
             }
@@ -115,5 +119,6 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
             }
             return list;
         }
+        
     }
 }
