@@ -27,14 +27,14 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
             columns[2] = done;
             boardUsers = new List<string>();
         }
-        public Board(string name, string creator, int id,int taskId, List<Task> backlog, List<Task> inProgress, List<Task> done , List<string> bUsers)
+        public Board(string name, string creator, int id,int taskId, Column backlog, Column inProgress, Column done , List<string> bUsers)
         {
             this.name = name;
             creatorEmail = creator;
             this.id = id;
-            columns[0] = new Column("backlog", backlog);
-            columns[1] = new Column("inProgress", inProgress);
-            columns[2] = new Column("done", done);
+            columns[0] = backlog;
+            columns[1] = inProgress;
+            columns[2] = done;
             boardUsers = bUsers;
             this.taskId = taskId;
         }

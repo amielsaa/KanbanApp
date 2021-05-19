@@ -19,10 +19,11 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
             this.title = title;
             tasks = new List<Task>();
         }
-        public Column(string title, List<Task> tasks)
+        public Column(string title, List<Task> tasks , int limit)
         {
             this.title = title;
             this.tasks = tasks;
+            limit_task_num = limit;
         }
         //methods
 

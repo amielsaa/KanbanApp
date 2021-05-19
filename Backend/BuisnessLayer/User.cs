@@ -60,7 +60,7 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
             name = boards.getValidatename(name);
             Board board = new Board(name, email,boards.id, new Column("backlog"), new Column("in progress"), new Column("done"));
             boards.addboard(email, board, name);
-            boardController.allBoards.Add((email, board, name));
+            boardController.addBoard(board);
             DUserController dUser = new DUserController();
             dUser.updateBoardsIdNum(email, boards.id + 1);
             return board;
@@ -195,6 +195,7 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
             Board board = otherUser.getBoardByName(boardName);
             board.boardUsers.Add(email);
             boards.addboard(otherUser.email, board, boardName);
+            boardController.addBoard(board);
 
         }
 

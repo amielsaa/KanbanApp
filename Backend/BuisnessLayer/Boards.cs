@@ -82,6 +82,7 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
                 String name = board.name;
                 int id = board.id;
                 boards.Remove((board.creatorEmail, board, board.name));
+                
                 boardsName.Remove(name);
                 boardsId.Remove(id);
             }

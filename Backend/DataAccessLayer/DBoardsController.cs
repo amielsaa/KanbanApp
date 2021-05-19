@@ -112,9 +112,10 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
 
 
 
-        public bool Insert(BoardsDTO board)
+        public bool Insert(Board board)
         {
-
+            string boardUsers = string.Join(",", board.boardUsers);
+            BoardsDTO boardsDTO = new BoardsDTO(board.creatorEmail, board.id, board.name, board.taskId, boardUsers);
             using (var connection = new SQLiteConnection(_connectionString))
             {
                 int res = -1;
@@ -125,11 +126,11 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
                     command.CommandText = $"INSERT INTO {BoardsTableName} ({DTO.EmailColumnName} ,{BoardsDTO.BoardIdColumnName},{BoardsDTO.BoardNameColumnName},{BoardsDTO.TaskIdColumnName},{BoardsDTO.UsersEmailColumnName}) " +
                         $"VALUES (@emailVal,@boardIdVal,@boardNameVal,@taskIdVal,@usersEmailVal);";
                     
-                    SQLiteParameter emailParam = new SQLiteParameter(@"emailVal", board.Email);
-                    SQLiteParameter boardIdParam = new SQLiteParameter(@"boardIdVal", board.BoardId);
-                    SQLiteParameter boardNameParam = new SQLiteParameter(@"boardNameVal", board.BoardName);
-                    SQLiteParameter taskIdParam = new SQLiteParameter(@"taskIdVal", board.TaskId);
-                    SQLiteParameter usersEmailParam = new SQLiteParameter(@"usersEmailVal", board.UsersEmail);
+                    SQLiteParameter emailParam = new SQLiteParameter(@"emailVal", boardsDTO.Email);
+                    SQLiteParameter boardIdParam = new SQLiteParameter(@"boardIdVal", boardsDTO.BoardId);
+                    SQLiteParameter boardNameParam = new SQLiteParameter(@"boardNameVal", boardsDTO.BoardName);
+                    SQLiteParameter taskIdParam = new SQLiteParameter(@"taskIdVal", boardsDTO.TaskId);
+                    SQLiteParameter usersEmailParam = new SQLiteParameter(@"usersEmailVal", boardsDTO.UsersEmail);
 
                     command.Parameters.Add(emailParam);
                     command.Parameters.Add(boardIdParam);

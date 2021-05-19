@@ -10,7 +10,7 @@ namespace IntroSE.Kanban.Backend.BuisnessLayer
 {
     public class BoardController
     {
-        public List<(string email, Board board, string boardName)> allBoards;
+        private List<(string email, Board board, string boardName)> allBoards;
         private DBoardsController dBoardController;
 
         public BoardController()
@@ -32,6 +32,11 @@ namespace IntroSE.Kanban.Backend.BuisnessLayer
                     list.Add(b);
             }
             return list;
+        }
+        public void addBoard(Board board)
+        {
+            allBoards.Add((board.creatorEmail, board, board.name));
+            dBoardController.Insert(board);
         }
 
     }
