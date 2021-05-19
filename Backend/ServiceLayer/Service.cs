@@ -21,6 +21,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         ///         You should call this function when the program starts. </summary>
         public Response LoadData()
         {
+            //userServicer.userController.pullAllUsers();
             return userService.LoadData();
         }
         ///<summary>Removes all persistent data.</summary>
