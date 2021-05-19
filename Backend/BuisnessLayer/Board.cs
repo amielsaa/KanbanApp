@@ -121,7 +121,13 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
         {
            return boardUsers.Exists(x=>x==email);
         }
-        
+        public void deleteAllTasks()
+        {
+            for (int i = 0; i < columns.Length; i++)
+            {
+                columns[i].deleteAllTasks();
+            }   
+        }
 
     }
 }
