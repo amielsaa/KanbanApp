@@ -121,6 +121,7 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
         {
            return boardUsers.Exists(x=>x==email);
         }
+        
 
     }
 }

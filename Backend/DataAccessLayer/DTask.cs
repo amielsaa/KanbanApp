@@ -189,7 +189,11 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
                 return res > 0;
             }
         }
-        
+        public bool DeleteBoardTasks(BoardsDTO boardsDTO)
+        {
+            return DeleteWithBoardId(boardsDTO);
+        }
+
         protected override DTO ConvertReaderToObject(SQLiteDataReader reader)
         {
             TaskDTO result = new TaskDTO(reader.GetString(0),reader.GetInt32(1),reader.GetInt32(2),reader.GetString(3),reader.GetInt32(4),
@@ -206,6 +210,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
             }
             return TaskList;
         }
+        
        
     }
 }

@@ -34,7 +34,9 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
             if (!validatePasswordRules(pw))
                 throw new ArgumentException("this password does'nt stand in the password rules");   
             password = pw;
-            boards = new Boards(bController,em,0);
+            List<Board> boardList  = boardController.getAllUserBoards(email);
+            boards = new Boards(boardList ,em,0);
+            this.boardController.AddBoardsToBC(email, boards);
             login = false;
             boardController = bController;
         }
@@ -44,9 +46,10 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
             password = pw;
             oldPassword = oldPw;
             this.myAssignments = myAssignments;
-            boards = new Boards(boardController, em, boardsId);
+            List<Board> boardList = boardController.getAllUserBoards(email);
+            this.boards = new Boards(boardList, em, boardsId);
+            this.boardController.AddBoardsToBC(email, boards);
             login = false;
-            //boards.load()
         }
         //methods
 
@@ -59,7 +62,7 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
         {
             name = boards.getValidatename(name);
             Board board = new Board(name, email,boards.id, new Column("backlog"), new Column("in progress"), new Column("done"));
-            boards.addboard(email, board, name);
+            boards.addboard( board);
             boardController.addBoard(board);
             DUserController dUser = new DUserController();
             dUser.updateBoardsIdNum(email, boards.id + 1);
@@ -73,6 +76,7 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
         public void removeBoard(Board board)
         {
             boards.removeBoard(board);
+            boardController.deleteBoard(board);
         }
         public void logout()
         {
@@ -194,8 +198,16 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
         {
             Board board = otherUser.getBoardByName(boardName);
             board.boardUsers.Add(email);
-            boards.addboard(otherUser.email, board, boardName);
+            boards.addboard( board);
             boardController.addBoard(board);
+
+        }
+        public void changeAssignee(User assignee, Task task)
+        {
+            myAssignments.Remove(task);
+            task.assigneeEmail = assignee.email;
+            assignee.myAssignments.Add(task);
+            new DTask().Update(email, task.boardId, task.taskId, TaskDTO.AssigneeColumnName, assignee.email);
 
         }
 
