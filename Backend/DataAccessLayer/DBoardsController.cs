@@ -1,4 +1,5 @@
-﻿using IntroSE.Kanban.Backend.DataAccessLayer.DalObjects;
+﻿using introSE.KanbanBoard.Backend.BuisnessLayer;
+using IntroSE.Kanban.Backend.DataAccessLayer.DalObjects;
 using System;
 using System.Collections.Generic;
 using System.Data.SQLite;
@@ -95,17 +96,26 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
             List<BoardsDTO> list = Select(command).Cast<BoardsDTO>().ToList();
             return list[0].UsersEmail.Split(',').ToList();
         }
-
-        public List<BoardsDTO> SelectAllBoardsByEmail(string email)
+        public List<Board> SelectAllBoards()
         {
-            string command = $"select * from {BoardsTableName} where email = '{email}'";
-            return Select(command).Cast<BoardsDTO>().ToList();
+            string command = $"select * from {BoardsTableName}";
+            List<BoardsDTO> list = Select(command).Cast<BoardsDTO>().ToList();
+            return convertDALlistToBL(list);
+        }
+        public List<Board> SelectAllBoardsByEmail(string email)
+        {
+            string command = $"select * from {BoardsTableName} where email = {email}";
+            List<BoardsDTO> list = Select(command).Cast<BoardsDTO>().ToList();
+            return convertDALlistToBL(list);
         }
 
-        
-        public bool Insert(BoardsDTO board)
-        {
 
+
+
+        public bool Insert(Board board)
+        {
+            string boardUsers = string.Join(",", board.boardUsers);
+            BoardsDTO boardsDTO = new BoardsDTO(board.creatorEmail, board.id, board.name, board.taskId, boardUsers);
             using (var connection = new SQLiteConnection(_connectionString))
             {
                 int res = -1;
@@ -116,11 +126,11 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
                     command.CommandText = $"INSERT INTO {BoardsTableName} ({DTO.EmailColumnName} ,{BoardsDTO.BoardIdColumnName},{BoardsDTO.BoardNameColumnName},{BoardsDTO.TaskIdColumnName},{BoardsDTO.UsersEmailColumnName}) " +
                         $"VALUES (@emailVal,@boardIdVal,@boardNameVal,@taskIdVal,@usersEmailVal);";
                     
-                    SQLiteParameter emailParam = new SQLiteParameter(@"emailVal", board.Email);
-                    SQLiteParameter boardIdParam = new SQLiteParameter(@"boardIdVal", board.BoardId);
-                    SQLiteParameter boardNameParam = new SQLiteParameter(@"boardNameVal", board.BoardName);
-                    SQLiteParameter taskIdParam = new SQLiteParameter(@"taskIdVal", board.TaskId);
-                    SQLiteParameter usersEmailParam = new SQLiteParameter(@"usersEmailVal", board.UsersEmail);
+                    SQLiteParameter emailParam = new SQLiteParameter(@"emailVal", boardsDTO.Email);
+                    SQLiteParameter boardIdParam = new SQLiteParameter(@"boardIdVal", boardsDTO.BoardId);
+                    SQLiteParameter boardNameParam = new SQLiteParameter(@"boardNameVal", boardsDTO.BoardName);
+                    SQLiteParameter taskIdParam = new SQLiteParameter(@"taskIdVal", boardsDTO.TaskId);
+                    SQLiteParameter usersEmailParam = new SQLiteParameter(@"usersEmailVal", boardsDTO.UsersEmail);
 
                     command.Parameters.Add(emailParam);
                     command.Parameters.Add(boardIdParam);
@@ -150,6 +160,15 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
             BoardsDTO result = new BoardsDTO(reader.GetString(0), reader.GetInt32(1),reader.GetString(2),reader.GetInt32(3),reader.GetString(4));
             return result;
 
+        }
+        private List<Board> convertDALlistToBL(List<BoardsDTO> list)
+        {
+            List<Board> BLlist = new List<Board>();
+            foreach (BoardsDTO boards in list)
+            {
+                BLlist.Add(boards.convertToBLBoard());
+            }
+            return BLlist;
         }
     }
 }

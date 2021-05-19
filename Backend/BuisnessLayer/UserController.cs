@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using IntroSE.Kanban.Backend.DataAccessLayer;
 using IntroSE.Kanban.Backend.DataAccessLayer.DalObjects;
+using IntroSE.Kanban.Backend.BuisnessLayer;
 
 namespace introSE.KanbanBoard.Backend.BuisnessLayer
 {
@@ -16,13 +17,18 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
         public List<User> users;
         private DUserController dUserController;
         private UserDTO newUser;
+        public BoardController boardsController { get; set; }
+
         //constructor
         public UserController()
         {
             usersEmail = new List<string>();
-            users = new List<User>(); 
+            users = new List<User>();
+            boardsController = new BoardController();
+
         }
         //methods
+
 
         /// <summary>
         /// create a new user in the user's list of the site 
@@ -33,9 +39,10 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
         public void register(string email, string password)
         {
             email = checkExistance(email);
-            User user = new User(email, password);
+            User user = new User(email, password,boardsController);
             users.Add(user);
-            newUser = new UserDTO(email, password);
+            newUser = new UserDTO(email, password,0);
+            user.dtoUser = newUser;
             dUserController = new DUserController();
             bool check = dUserController.Insert(newUser);
             if (!check)
@@ -93,13 +100,14 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
             List<UserDTO> userDtoList = dUserController.SelectAllUser();
             foreach (UserDTO userDTO in userDtoList)
             {
-                User user = new User(userDTO.Email, userDTO.Password, userDTO.getOldPasswords());
+                User user = new User(userDTO.Email, userDTO.Password, userDTO.getOldPasswords(), userDTO.getMyAssignments(), userDTO.BoardsId,boardsController);
                 string email = userDTO.Email;
                 users.Add(user);
                 usersEmail.Add(email);
             }
 
         }
+
 
     }
 }

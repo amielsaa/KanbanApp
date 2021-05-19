@@ -16,19 +16,20 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
         {   
         }
 
-        public List<TaskDTO> SelectAllTaskByEmail(string email)
+        public List<TaskDTO> SelectAllTaskByEmailAndColumn(string email, int column)
         {
                 List<TaskDTO> results = new List<TaskDTO>();
                 using (var connection = new SQLiteConnection(_connectionString))
                 {
                     SQLiteCommand command = new SQLiteCommand(null, connection);
-                    command.CommandText = $"select * from {TaskTableName} WHERE email = @emailVal;";
+                    command.CommandText = $"select * from {TaskTableName} WHERE email = @emailVal and column = @columnVal;";
                     
                     SQLiteDataReader dataReader = null;
                     try
                     {
 
                         command.Parameters.Add(new SQLiteParameter(@"emailVal", email));
+                        command.Parameters.Add(new SQLiteParameter(@"columnVal", column));
                         connection.Open();
                         dataReader = command.ExecuteReader();
                         while (dataReader.Read())
@@ -120,6 +121,13 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
             }
             return res > 0;
         }
+        public List<TaskDTO> getMyAssignments(string Email)
+        {
+            string command = $"SELECT * FROM Tasks WHERE assignee = '{Email}'";
+            List<TaskDTO> result = Select(command).Cast<TaskDTO>().ToList();
+
+            return result;
+        }
 
         /*
 
@@ -188,6 +196,15 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
                                          reader.GetString(5), reader.GetString(6), reader.GetString(7), reader.GetString(8));
             return result;
 
+        }
+        public List<introSE.KanbanBoard.Backend.BuisnessLayer.Task> convertTasksToBL(List<TaskDTO> taskDTOs)
+        {
+            List<introSE.KanbanBoard.Backend.BuisnessLayer.Task> TaskList = new List<introSE.KanbanBoard.Backend.BuisnessLayer.Task>();
+            foreach (TaskDTO task in taskDTOs)
+            {
+                TaskList.Add(task.convertToBLTask());
+            }
+            return TaskList;
         }
        
     }
