@@ -226,6 +226,7 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
         }
         public void ChangeColumnLimit(Column column, Board board, int newLimit)
         {
+            checkIfLogedIn();
             if (board.creatorEmail == email && board.columns.Exists(x => x == column))
             {
                 column.changeLimit(newLimit, email, board.id, board.columns.IndexOf(column));
