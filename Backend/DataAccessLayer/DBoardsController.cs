@@ -37,9 +37,9 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
                     connection.Open();
                     command.ExecuteNonQuery();
                 }
-                catch
+                catch (Exception e)
                 {
-                    //log
+                    throw new ArgumentException("update in database failed: -update board (string)-");
                 }
                 finally
                 {
@@ -68,6 +68,10 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
                     command.Parameters.Add(new SQLiteParameter(@"emailVal", email));
                     connection.Open();
                     command.ExecuteNonQuery();
+                }
+                catch (Exception e)
+                {
+                    throw new ArgumentException("update in database failed: -update board (int)-");
                 }
                 finally
                 {
@@ -142,9 +146,9 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
 
                     res = command.ExecuteNonQuery();
                 }
-                catch
+                catch (Exception e)
                 {
-                    //log error
+                    throw new ArgumentException("insertion to database failed: -insert Board-");
                 }
                 finally
                 {

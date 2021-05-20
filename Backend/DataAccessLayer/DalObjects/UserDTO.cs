@@ -46,7 +46,5 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer.DalObjects
             List<string> list = DUserControl.SelectString(command);
             return null;
         }
-
-
     }
 }

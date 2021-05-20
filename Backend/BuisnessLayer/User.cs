@@ -96,10 +96,13 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
         private void changePassword(string newPassword)
         {
             checkIfLogedIn();
+            DUserController dUser = new DUserController();
+            dUser.InsertOldPassword(password,email);
             newPassword = validatePasswod(newPassword);
             oldPassword.Add(password);
             password = newPassword;
             dtoUser.Password = newPassword;
+            
         }
         /// <summary>
         /// checking password validity to the rules
