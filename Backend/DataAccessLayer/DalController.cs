@@ -37,9 +37,9 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
                     connection.Open();
                     res = command.ExecuteNonQuery();
                 }
-                catch
+                catch (Exception e)
                 {
-                    //log
+                    throw new ArgumentException("insertion to database failed");
                 }
                 finally
                 {
@@ -67,6 +67,10 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
                     command.Parameters.Add(new SQLiteParameter(@"emailVal", email));
                     connection.Open();
                     command.ExecuteNonQuery();
+                }
+                catch (Exception e)
+                {
+                    throw new ArgumentException("update in database failed");
                 }
                 finally
                 {
@@ -104,6 +108,10 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
 
                     }
                 }
+                catch (Exception e)
+                {
+                    throw new ArgumentException("selection of list of objects from database failed");
+                }
                 finally
                 {
                     if (dataReader != null)
@@ -136,6 +144,10 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
                     {
                         results.Add(Convert.ToString(dataReader));
                     }
+                }
+                catch (Exception e)
+                {
+                    throw new ArgumentException("selection of list of string from database failed");
                 }
                 finally
                 {
@@ -173,6 +185,10 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
                     connection.Open();
                     res = command.ExecuteNonQuery();
                 }
+                catch (Exception e)
+                {
+                    throw new ArgumentException("deletion in database failed");
+                }
                 finally
                 {
                     command.Dispose();
@@ -197,6 +213,10 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
                 {
                     connection.Open();
                     res = command.ExecuteNonQuery();
+                }
+                catch (Exception e)
+                {
+                    throw new ArgumentException("deletion with boardId in database failed");
                 }
                 finally
                 {

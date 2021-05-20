@@ -31,6 +31,10 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
                     if (dataReader.Read())
                         result = (ColumnDTO)ConvertReaderToObject(dataReader);
                 }
+                catch (Exception e)
+                {
+                    throw new ArgumentException("selection from database failed: -select column-");
+                }
                 finally
                 {
                     if (dataReader != null)
@@ -81,9 +85,9 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
 
                     res = command.ExecuteNonQuery();
                 }
-                catch
+                catch (Exception e)
                 {
-                    //log error
+                    throw new ArgumentException("insertion to database failed: -insert column-");
                 }
                 finally
                 {

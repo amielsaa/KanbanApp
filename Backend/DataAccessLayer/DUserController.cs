@@ -35,6 +35,10 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
                     while (dataReader.Read())
                         results.Add((UserDTO)ConvertReaderToObject(dataReader));
                 }
+                catch (Exception e)
+                {
+                    throw new ArgumentException("selection from database failed: -select all users-");
+                }
                 finally
                 {
                     if (dataReader != null)
@@ -64,6 +68,10 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
                     dataReader = command.ExecuteReader();
                     if (dataReader.Read())
                         result = (UserDTO)ConvertReaderToObject(dataReader);
+                }
+                catch (Exception e)
+                {
+                    throw new ArgumentException("selection from database failed: -select user-");
                 }
                 finally
                 {
@@ -104,9 +112,9 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
 
                     res = command.ExecuteNonQuery();
                 }
-                catch
+                catch (Exception e)
                 {
-                    //log error
+                    throw new ArgumentException("insertion to database failed: -insert user-");
                 }
                 finally
                 {
@@ -130,6 +138,34 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
             return result;
 
         }
+        public bool InsertOldPassword(string oldPassword, string email)
+        {
+
+            using (var connection = new SQLiteConnection(_connectionString))
+            {
+                int res = -1;
+                SQLiteCommand command = new SQLiteCommand(null, connection);
+                try
+                {
+                    connection.Open();
+                    command.CommandText = $"INSERT INTO OldPassword (email, password) VALUES ({email},{oldPassword})";
+                    command.Prepare();
+
+                    res = command.ExecuteNonQuery();
+                }
+                catch (Exception e)
+                {
+                    throw new ArgumentException("insertion to database failed: -insert oldPassword-");
+                }
+                finally
+                {
+                    command.Dispose();
+                    connection.Close();
+                }
+                return res > 0;
+            }
+        }
+
 
 
 

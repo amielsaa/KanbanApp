@@ -35,6 +35,10 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
                         while (dataReader.Read())
                             results.Add((TaskDTO)ConvertReaderToObject(dataReader));
                     }
+                    catch (Exception e)
+                    {
+                         throw new ArgumentException("selection from database failed: -select all task from column-");
+                    }
                     finally
                     {
                         if (dataReader != null)
@@ -72,9 +76,9 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
                     connection.Open();
                     res = command.ExecuteNonQuery();
                 }
-                catch
+                catch (Exception e)
                 {
-                    //log
+                    throw new ArgumentException("update in database failed: -update task (string)-");
                 }
                 finally
                 {
@@ -108,9 +112,9 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
                     connection.Open();
                     res = command.ExecuteNonQuery();
                 }
-                catch
+                catch (Exception e)
                 {
-                    //log
+                    throw new ArgumentException("update in database failed: -update task (int)-");
                 }
                 finally
                 {
@@ -177,9 +181,9 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
 
                     res = command.ExecuteNonQuery();
                 }
-                catch
+                catch (Exception e)
                 {
-                    //log error
+                    throw new ArgumentException("insertion to database failed: -insert task-");
                 }
                 finally
                 {
