@@ -217,7 +217,7 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
             new DTask().Update(email, task.boardId, task.taskId, TaskDTO.AssigneeColumnName, assignee.email);
 
         }
-        private void checkIfLogedIn()
+        public void checkIfLogedIn()
         {
             if (!login)
                 throw new ArgumentException("you can't do this action if the user is'nt log in");

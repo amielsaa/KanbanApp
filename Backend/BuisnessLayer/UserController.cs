@@ -90,7 +90,10 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
         /// <returns>A user if it exist in the users list, returns null otherwise</returns>
         public User getUser(string email)
         {
-            return users.Find(x => x.email.Equals(email));
+            var user = users.Find(x => x.email.Equals(email));
+            if (user == null)
+                throw new ArgumentException("User not found.");
+            return user;
         }
 
         /// <summary>

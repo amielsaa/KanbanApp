@@ -49,7 +49,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
                 {
                     Board board = user.getBoardByName(boardName);
                     Column column = board.getColumn(columnOrdinal);
-                    column.changeLimit(limit);
+                    //column.changeLimit(limit);
                     log.Info("Column limited successfully");
                     return new Response();
                 }
@@ -70,7 +70,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         /// <param name="boardName">The name of the board</param>
         /// <param name="columnOrdinal">The column ID. The first column is identified by 0, the ID increases by 1 for each column</param>
         /// <returns>The limit of the column.</returns>
-        public Response<int> GetColumnLimit(string email, string boardName, int columnOrdinal)
+        /*public Response<int> GetColumnLimit(string email, string boardName, int columnOrdinal)
         {
             try
             {
@@ -83,7 +83,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
                     Board board = user.getBoardByName(boardName);
                     Column column = board.getColumn(columnOrdinal);
                     log.Info("Column limit retrieved successfully");
-                    return Response<int>.FromValue(column.getColumnLimit());
+                    //return Response<int>.FromValue(column.getColumnLimit());
                 }
                 else
                     throw new ArgumentException("You must be logged in");
@@ -94,7 +94,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
                 log.Error("Column limitation failed");
                 return Response<int>.FromError(e.Message);
             }
-        }
+        }*/
 
         /// <summary>
         /// Get the name of a specific column
@@ -103,7 +103,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         /// <param name="boardName">The name of the board</param>
         /// <param name="columnOrdinal">The column ID. The first column is identified by 0, the ID increases by 1 for each column</param>
         /// <returns>The name of the column.</returns>
-        public Response<string> GetColumnName(string email, string boardName, int columnOrdinal)
+        /*public Response<string> GetColumnName(string email, string boardName, int columnOrdinal)
         {
             try
             {
@@ -128,7 +128,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
                 return Response<string>.FromError(e.Message);
             }
         }
-
+        */
         /// <summary>
         /// Returns a column given it's name
         /// </summary>
