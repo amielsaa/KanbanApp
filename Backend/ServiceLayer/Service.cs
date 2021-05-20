@@ -11,17 +11,19 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
     public class Service
     {
         UserService userService;
-
+        BoardService boardService;
 
         public Service()
         {
             userService = new UserService();
+            boardService = new BoardService();
+
         }
         ///<summary>This method loads the data from the persistance.
         ///         You should call this function when the program starts. </summary>
         public Response LoadData()
         {
-            //userServicer.userController.pullAllUsers();
+            userService.userController.pullAllUsers();
             return userService.LoadData();
         }
         ///<summary>Removes all persistent data.</summary>
@@ -101,7 +103,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         /// <returns>A response object with a value set to the Task, instead the response should contain a error message in case of an error</returns>
         public Response<Task> AddTask(string userEmail, string creatorEmail, string boardName, string title, string description, DateTime dueDate)
         {
-            throw new NotImplementedException();
+            return boardService.AddTask(userEmail, creatorEmail, boardName, title, description, dueDate);
         }
         /// <summary>
         /// Update the due date of a task
@@ -156,7 +158,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         /// <returns>A response object. The response should contain a error message in case of an error</returns>
         public Response AdvanceTask(string userEmail, string creatorEmail, string boardName, int columnOrdinal, int taskId)
         {
-            throw new NotImplementedException();
+            return boardService.AdvanceTask(userEmail, creatorEmail, boardName, columnOrdinal, taskId);
         }
         /// <summary>
         /// Returns a column given it's name
@@ -180,7 +182,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         /// <returns>A response object. The response should contain a error message in case of an error</returns>
         public Response AddBoard(string userEmail, string boardName)
         {
-            throw new NotImplementedException();
+            return boardService.AddBoard(userEmail, boardName);
         }
 
         /// <summary>

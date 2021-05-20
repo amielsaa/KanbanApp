@@ -1,6 +1,7 @@
 ﻿
 
 using introSE.KanbanBoard.Backend.BuisnessLayer;
+using IntroSE.Kanban.Backend.BuisnessLayer;
 using log4net;
 using log4net.Config;
 using System;
@@ -13,17 +14,143 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
     public class BoardService
     {
 
-        UserController userController;
+        public BoardController boardController;
+        public UserController userController;
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
-        public BoardService(UserService userService)
+        public BoardService()
         {
-            this.userController = userService.userController;
+            boardController = BoardController.getInstance();
+            userController = UserController.getInstance();
 
             var logRepository = LogManager.GetRepository(Assembly.GetEntryAssembly());
             XmlConfigurator.Configure(logRepository, new FileInfo("log4net.config"));
             log.Info("BoardService initialized.");
         }
+
+        
+
+        /// <summary>
+        /// Get the limit of a specific column
+        /// </summary>
+        /// <param name="userEmail">Email of the current user. Must be logged in</param>
+        /// <param name="creatorEmail">Email of the board creator</param>
+        /// <param name="boardName">The name of the board</param>
+        /// <param name="columnOrdinal">The column ID. The first column is identified by 0, the ID increases by 1 for each column</param>
+        /// <returns>The limit of the column.</returns>
+        public Response<int> GetColumnLimit(string userEmail, string creatorEmail, string boardName, int columnOrdinal)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Get the name of a specific column
+        /// </summary>
+        /// <param name="userEmail">Email of the current user. Must be logged in</param>
+        /// <param name="creatorEmail">Email of the board creator</param>
+        /// <param name="boardName">The name of the board</param>
+        /// <param name="columnOrdinal">The column ID. The first column is identified by 0, the ID increases by 1 for each column</param>
+        /// <returns>The name of the column.</returns>
+        public Response<string> GetColumnName(string userEmail, string creatorEmail, string boardName, int columnOrdinal)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Limit the number of tasks in a specific column
+        /// </summary>
+        /// <param name="userEmail">Email of the current user. Must be logged in</param>
+        /// <param name="creatorEmail">Email of the board creator</param>
+        /// <param name="boardName">The name of the board</param>
+        /// <param name="columnOrdinal">The column ID. The first column is identified by 0, the ID increases by 1 for each column</param>
+        /// <param name="limit">The new limit value. A value of -1 indicates no limit.</param>
+        /// <returns>A response object. The response should contain a error message in case of an error</returns>
+        /*public Response LimitColumn(string userEmail, string creatorEmail, string boardName, int columnOrdinal, int limit)
+        {
+            try
+            {
+                var user = userController.getUser(userEmail);
+                var creator = userController.getUser(creatorEmail);
+                Board board = boardController.getBoard(creatorEmail, boardName);
+                Column column = board.getColumn(columnOrdinal);
+                creator.
+                .getColumn(columnOrdinal).Limit = limit;
+            }catch(Exception e)
+            {
+
+            }
+        }*/
+
+        /// <summary>
+        /// Creates a new board for the logged-in user.
+        /// </summary>
+        /// <param name="userEmail">Email of the current user. Must be logged in</param>
+        /// <param name="boardName">The name of the new board</param>
+        /// <returns>A response object. The response should contain a error message in case of an error</returns>
+        public Response AddBoard(string userEmail, string boardName)
+        {
+            try
+            {
+                var user = userController.getUser(userEmail);
+                user.newBoard(boardName);
+                return new Response();
+            }catch(Exception e)
+            {
+                return new Response(e.Message);
+            }
+        }
+
+        /// <summary>
+        /// Add a new task.
+        /// </summary>
+		/// <param name="userEmail">Email of the current user. Must be logged in</param>
+        /// <param name="creatorEmail">Email of the board creator</param>
+        /// <param name="boardName">The name of the board</param>
+        /// <param name="title">Title of the new task</param>
+        /// <param name="description">Description of the new task</param>
+        /// <param name="dueDate">The due date if the new task</param>
+        /// <returns>A response object with a value set to the Task, instead the response should contain a error message in case of an error</returns>
+        public Response<Task> AddTask(string userEmail, string creatorEmail, string boardName, string title, string description, DateTime dueDate)
+        {
+            try
+            {
+                userController.getUser(userEmail).checkIfLogedIn();
+                Board board = boardController.getBoard(creatorEmail, boardName);
+                var task = board.addTask(dueDate, title, description);
+                return Response<Task>.FromValue(new Task(task.taskId, task.getCreationTime(), task.getTitle(), task.getDescription(), task.getDueTime()));
+            }catch(Exception e)
+            {
+                return Response<Task>.FromError(e.Message);
+            }
+        }
+
+        /// <summary>
+        /// Advance a task to the next column
+        /// </summary>
+        /// <param name="userEmail">Email of the current user. Must be logged in</param>
+        /// <param name="creatorEmail">Email of the board creator</param>
+        /// <param name="boardName">The name of the board</param>
+        /// <param name="columnOrdinal">The column ID. The first column is identified by 0, the ID increases by 1 for each column</param>
+        /// <param name="taskId">The task to be updated identified task ID</param>
+        /// <returns>A response object. The response should contain a error message in case of an error</returns>
+        public Response AdvanceTask(string userEmail, string creatorEmail, string boardName, int columnOrdinal, int taskId)
+        {
+            try
+            {
+                userController.getUser(userEmail).checkIfLogedIn();
+                Board board = boardController.getBoard(creatorEmail, boardName);
+                Column column = board.getColumn(columnOrdinal);
+                board.moveTask(column.getTaskById(taskId), columnOrdinal);
+                return new Response();
+            }catch(Exception e)
+            {
+                return new Response(e.Message);
+            }
+        }
+
+
+
+        /*
 
 
         /// <summary>
@@ -217,7 +344,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
                 log.Error("InProgress tasks couldnt be reached");
                 return Response<IList<Task>>.FromError(e.Message);
             }
-        }
+        }*/
     }
 
 }
