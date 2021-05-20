@@ -112,6 +112,9 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
                 throw new ArgumentException("this email is already registerd");
             return email;
         }
+        /// <summary>
+        /// pull all users from the database
+        /// </summary>
         public void pullAllUsers()
         {
             List<UserDTO> userDtoList = dUserController.SelectAllUser();

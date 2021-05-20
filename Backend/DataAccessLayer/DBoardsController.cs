@@ -11,14 +11,17 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
 {
     public class DBoardsController : DalController
     {
+        //field
         private const string BoardsTableName = "Boards";
         
 
+        //constructor
         public DBoardsController() : base(BoardsTableName)
         {
 
         }
 
+//-------------------------------------------Update methods-------------------------------------------------------------------------------
         public bool Update(string email,int boardId, string attributeName, string attributeValue)
         {
             int res = -1;
@@ -84,28 +87,21 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
             return res > 0;
         }
 
-        /*
+//-----------------------------------------------Select methods-------------------------------------------------------------------------------
 
-        public List<ForumDTO> SelectAllForums()
-        {
-            List<ForumDTO> result = Select().Cast<ForumDTO>().ToList();
-
-            return result;
-        }*/
-
-
-        public List<string> SelectAllBoardUsers(string creatorEmail,int boardId)
-        {
-            string command = $"select * from {BoardsTableName} where boardId = {boardId} and email = '{creatorEmail}'";
-            List<BoardsDTO> list = Select(command).Cast<BoardsDTO>().ToList();
-            return list[0].UsersEmail.Split(',').ToList();
-        }
         public List<Board> SelectAllBoards()
         {
             string command = $"select * from {BoardsTableName}";
             List<BoardsDTO> list = Select(command).Cast<BoardsDTO>().ToList();
             return convertDALlistToBL(list);
         }
+        public List<string> SelectAllBoardUsers(string creatorEmail,int boardId)
+        {
+            string command = $"select * from {BoardsTableName} where boardId = {boardId} and email = '{creatorEmail}'";
+            List<BoardsDTO> list = Select(command).Cast<BoardsDTO>().ToList();
+            return list[0].UsersEmail.Split(',').ToList();
+        }
+        
         public List<Board> SelectAllBoardsByEmail(string email)
         {
             string command = $"select * from {BoardsTableName} where email = {email}";
@@ -114,7 +110,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
         }
 
 
-
+//-------------------------------------------Insert & Delete methods-------------------------------------------------------------------------------
 
         public bool Insert(Board board)
         {
@@ -167,6 +163,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
             return DeleteWithBoardId(boardsDTO);
         }
 
+//-------------------------------------------Convert methods-------------------------------------------------------------------------------
         protected override DTO ConvertReaderToObject(SQLiteDataReader reader)
         {
             BoardsDTO result = new BoardsDTO(reader.GetString(0), reader.GetInt32(1),reader.GetString(2),reader.GetInt32(3),reader.GetString(4));

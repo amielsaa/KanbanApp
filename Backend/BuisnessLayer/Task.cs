@@ -22,6 +22,8 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
         public User assignee;
         public string assigneeEmail;
         //constructor
+
+        // create new task constructor
         public Task(DateTime due_time, string title, string description, int id, int columnOrdinal, string assignee, string email, int boardId)
         {
             creation_time = DateTime.Now;
@@ -38,7 +40,7 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
             assigneeEmail = assignee;
             (new DTask()).Insert(toDalObject());
         }
-        //task from dal
+        //pull task from database constructor
         public Task(string email, int boardid, int taskid, string assignee, int column, DateTime creationtime, string description, string title, DateTime duedate)
         {
             creation_time = creationtime;

@@ -11,14 +11,18 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
 {
    public class DUserController : DalController
     {
+        //fields
         private const string oldPasswordsTableName = "OldPassword";
         private const string UserTableName = "Users";
 
+        //constructor
         public DUserController() : base(UserTableName)
         {
         }
 
-
+//---------------------------------------------------methods--------------------------------------------------------------------------------
+    
+//------------------------------------------------Select methods---------------------------------------------------------------------------
         public List<UserDTO> SelectAllUser()
         {
             List<UserDTO> results = new List<UserDTO>();
@@ -88,7 +92,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
             return result;
         }
 
-
+//-------------------------------------------------Insert methods---------------------------------------------------------------------------
         public bool Insert(UserDTO user)
         {
 
@@ -124,20 +128,6 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
                 return res > 0;
             }
         }
-        public void updateBoardsIdNum(string email, int boardId)
-        {
-            UserDTO user = SelectUser(email);
-            user.BoardsId = boardId;
-            
-        }
-
-
-        protected override DTO ConvertReaderToObject(SQLiteDataReader reader)
-        {
-            UserDTO result = new UserDTO(reader.GetString(0), reader.GetString(1), reader.GetInt32(2));
-            return result;
-
-        }
         public bool InsertOldPassword(string oldPassword, string email)
         {
 
@@ -165,6 +155,22 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
                 return res > 0;
             }
         }
+//------------------------------------------------Update methods------------------------------------------------------------------------------
+        public void updateBoardsIdNum(string email, int boardId)
+        {
+            UserDTO user = SelectUser(email);
+            user.BoardsId = boardId;
+            
+        }
+
+//-------------------------------------------------Convert methods----------------------------------------------------------------------------
+        protected override DTO ConvertReaderToObject(SQLiteDataReader reader)
+        {
+            UserDTO result = new UserDTO(reader.GetString(0), reader.GetString(1), reader.GetInt32(2));
+            return result;
+
+        }
+       
 
 
 

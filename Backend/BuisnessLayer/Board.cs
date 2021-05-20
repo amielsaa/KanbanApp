@@ -14,7 +14,10 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
         public List<Column> columns;
         public int taskId;
         public List<string> boardUsers;
+        
         //constructor
+
+        //creating new board constructor
         public Board(string name, string creator,int id)
         {
             this.name = name;
@@ -28,9 +31,11 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
             columns.Add(backlog);
             columns.Add(inProggress);
             columns.Add(done);
-            insertColumsToDal(columns);
+            InsertColumsToDal(columns);
             boardUsers = new List<string>();
         }
+
+        //pull board from database constructor
         public Board(string name, string creator, int id,int taskId, Column backlog, Column inProgress, Column done , List<string> bUsers)
         {
             this.name = name;
@@ -43,7 +48,20 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
             boardUsers = bUsers;
             this.taskId = taskId;
         }
-        //methods
+//------------------------------------------------------------methods------------------------------------------------------------------------------------
+
+//------------------------------------------------------------User methods------------------------------------------------------------------------------
+        
+        /// <summary>
+        /// check if user is connected to this board
+        /// </summary>
+        /// <param name="email">the email of the user we are looking for </param>
+        /// <returns>returns thrue if  the user is connected and false otherwise</returns>
+        public bool searchForUser(string email)
+        {
+           return boardUsers.Exists(x=>x==email);
+        }
+//---------------------------------------------------------Task methods ---------------------------------------------------------------------------------
 
         /// <summary>
         /// add a task to the board in backlog column
@@ -56,20 +74,17 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
         {
             if (columns[0].checkLimit())
             {
-                Task task = new Task(dueDate, title, description, taskId,0,creatorEmail,creatorEmail,id);
+                Task task = new Task(dueDate, title, description, taskId, 0, creatorEmail, creatorEmail, id);
                 columns[0].addTask(task);
                 taskId++;
-                TaskDTO taskdto =new TaskDTO(creatorEmail, id, taskId, task.getAssignee().email, task.getColumn(),
+                TaskDTO taskdto = new TaskDTO(creatorEmail, id, taskId, task.getAssignee().email, task.getColumn(),
                     task.getCreationTime().ToString(), task.getDescription(), task.getTitle(), task.getDueTime().ToString());
                 DTask dtask = new DTask();
                 dtask.Insert(taskdto);
                 return task;
-
             }
-
             else
                 throw new ArgumentException("There is not enough space in the board");
-
         }
 
         /// <summary>
@@ -104,12 +119,31 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
             if (column_of_the_task >= 2)
                 throw new ArgumentException("Cannot advance task to a column past Done");
         }
+
+        /// <summary>
+        /// gets all the the task in "inProgress" column
+        /// </summary>
+        /// <returns>a list of all the task in "inprogress" column</returns>
         public List<Task> getInProgressTasks()
         {
             if (columns[1] == null)
                 throw new ArgumentException("There're no InProgress tasks");
             return columns[1].getTasks();
         }
+
+        /// <summary>
+        /// delete all the tasks from the board (through column)
+        /// </summary>
+        /// <returns>nothing, only calls all columns to delete its tasks</returns>
+        public void deleteAllTasks()
+        {
+            for (int i = 0; i < columns.Count; i++)
+            {
+                columns[i].deleteAllTasks();
+            }
+        }
+
+//--------------------------------------------------------Column methods------------------------------------------------------------------------------------------
 
         /// <summary>
         /// Advance a task to the next column
@@ -122,18 +156,13 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
                 throw new IndexOutOfRangeException("there is no column in this range");
             return columns[index];
         }
-        public bool searchForUser(string email)
-        {
-           return boardUsers.Exists(x=>x==email);
-        }
-        public void deleteAllTasks()
-        {
-            for (int i = 0; i < columns.Count; i++)
-            {
-                columns[i].deleteAllTasks();
-            }   
-        }
-        private void insertColumsToDal(List<Column> columns)
+
+        /// <summary>
+        /// insert all the board column to database
+        /// </summary>
+        /// <param name="columns">all the column that needed to be added </param>
+        /// <returns>nothing, only insert the column through Dal</returns>
+        private void InsertColumsToDal(List<Column> columns)
         {
             DColumn dColumn = new DColumn();
             foreach (Column i in columns)

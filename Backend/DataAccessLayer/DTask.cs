@@ -10,11 +10,16 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
 {
     public class DTask : DalController
     {
+        //field
         private const string TaskTableName = "Tasks";
 
+        //constructor
         public DTask() : base(TaskTableName)
         {   
         }
+//---------------------------------------------------methods-------------------------------------------------------------------------------
+
+//-------------------------------------------Select/get methods-------------------------------------------------------------------------------
         public List<TaskDTO> SelectAllTaskByEmailAndColumn(string email, int column, int boardId)
         {
                 List<TaskDTO> results = new List<TaskDTO>();
@@ -53,7 +58,14 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
                 }
                 return results;
         }
+        public List<TaskDTO> getMyAssignments(string Email)
+        {
+            string command = $"SELECT * FROM Tasks WHERE assignee = '{Email}'";
+            List<TaskDTO> result = Select(command).Cast<TaskDTO>().ToList();
 
+            return result;
+        }
+//-------------------------------------------Update methods-------------------------------------------------------------------------------
         public bool Update(string email, int boardId, int taskId, string attributeName, string attributeValue)
         {
             int res = -1;
@@ -125,24 +137,8 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
             }
             return res > 0;
         }
-        public List<TaskDTO> getMyAssignments(string Email)
-        {
-            string command = $"SELECT * FROM Tasks WHERE assignee = '{Email}'";
-            List<TaskDTO> result = Select(command).Cast<TaskDTO>().ToList();
 
-            return result;
-        }
-
-        /*
-
-        public List<ForumDTO> SelectAllForums()
-        {
-            List<ForumDTO> result = Select().Cast<ForumDTO>().ToList();
-
-            return result;
-        }*/
-
-
+ //-------------------------------------------Insert & Delete methods-------------------------------------------------------------------------------
 
         public bool Insert(TaskDTO task)
         {
@@ -198,6 +194,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
             return DeleteWithBoardId(boardsDTO);
         }
 
+//-------------------------------------------Convert methods-------------------------------------------------------------------------------
         protected override DTO ConvertReaderToObject(SQLiteDataReader reader)
         {
             TaskDTO result = new TaskDTO(reader.GetString(0),reader.GetInt32(1),reader.GetInt32(2),reader.GetString(3),reader.GetInt32(4),

@@ -11,8 +11,11 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
 {
     public abstract class DalController
     {
+        //fields
         protected readonly string _connectionString;
         private readonly string _tableName;
+
+        //constructor
         public DalController(string tableName)
         {
             string path = Path.GetFullPath(Path.Combine(Directory.GetCurrentDirectory(), "kanban.db"));
@@ -20,6 +23,11 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
             this._tableName = tableName;
         }
 
+//-------------------------------------------------------methods------------------------------------------------------------------------------
+         protected abstract DTO ConvertReaderToObject(SQLiteDataReader reader);
+
+//---------------------------------------------------Update methods------------------------------------------------------------------------------
+       
         public bool Update(string email, string attributeName, string attributeValue)
         {
             int res = -1;
@@ -83,6 +91,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
             return res > 0;
         }
 
+//---------------------------------------------------Select methods------------------------------------------------------------------------------
         public List<DTO> Select()
         {
             string CommandText = $"select * from {_tableName};";
@@ -163,12 +172,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
             return results;
         }
 
-
-
-
-        protected abstract DTO ConvertReaderToObject(SQLiteDataReader reader);
-
-
+//---------------------------------------------------Delete methods------------------------------------------------------------------------------
         public bool Delete(DTO DTOObj)
         {
             int res = -1;

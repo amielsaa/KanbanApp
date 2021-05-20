@@ -18,19 +18,24 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
 
         
         //constructor
+
+        //create new column constructor
         public Column(string title)
         {
             this.title = title;
             tasks = new List<Task>();
         }
+
+        //pull column from database constructor
         public Column(string title, List<Task> tasks , int limit)
         {
             this.title = title;
             this.tasks = tasks;
             limit_task_num = limit;
         }
-        //methods
+        //------------------------------------------------------------methods-------------------------------------------------------------------------------------
 
+        //---------------------------------------------------------Limit methods-----------------------------------------------------------------------------
         /// <summary>
         /// change the limit of tasks number in the cloumn
         /// </summary>
@@ -58,18 +63,27 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
             return limit_task_num == -1 || tasks.Count < limit_task_num ;
         }
 
+//-----------------------------------------------------------------Task methods---------------------------------------------------------------------------
+       
         public List<Task> getTasks()
         {
             return tasks;
         }
 
-
+        /// <summary>
+        /// gets task by its ID
+        /// </summary>
+        /// <returns>return the task with this ID</returns>
         public Task getTaskById(int id)
         {
             Task task = tasks.Find(x => x.taskId.Equals(id));
             return task;
         }
 
+        /// <summary>
+        /// adding the task to this column
+        /// </summary>
+        /// <returns>returns nothing, only checking limit and insert the task</returns>
         public void addTask(Task task)
         {
             if (!checkLimit())
@@ -77,6 +91,10 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
             tasks.Add(task);
             
         }
+        /// <summary>
+        /// deleting all the task from the column
+        /// </summary>
+        /// <returns>returns nothing, for each task in the column it calls task function to delete itself from its assignee</returns>
         public void deleteAllTasks()
         {
             foreach (Task i in tasks)
@@ -85,9 +103,6 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
             }
 
         }
-
-
-
     }
 }
 

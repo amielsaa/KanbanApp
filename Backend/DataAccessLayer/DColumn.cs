@@ -11,10 +11,16 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
 {
     class DColumn : DalController
     {
+        //field
         private const string ColumnTableName = "Column";
+
+        //constructor
         public DColumn() : base(ColumnTableName)
         {
         }
+
+
+//----------------------------------------------------------methods-------------------------------------------------------------------------------
         public ColumnDTO SelectColumn(string email, int boardId, int columnNum)
         {
             ColumnDTO result = null;
@@ -98,7 +104,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
             }
         }
 
-
+//--------------------------------------------------Convert methods-------------------------------------------------------------------------------
         protected override DTO ConvertReaderToObject(SQLiteDataReader reader)
         {
             ColumnDTO result = new ColumnDTO(reader.GetString(0), reader.GetInt32(1), reader.GetInt32(2), reader.GetInt32(3), reader.GetString(4));

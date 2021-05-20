@@ -19,8 +19,9 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
             this.boards = boards;
             this.id= id;
         }
-        //methods
+//------------------------------------------------------------------methods-------------------------------------------------------------------------
 
+//-------------------------------------------------------------boards functionality-----------------------------------------------------------------
         /// <summary>
         /// Advance a task to the next column
         /// </summary>
@@ -32,7 +33,22 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
             boards.Add(board);
             id++;
         }
+        /// <summary>
+        /// delete a board from the boards ,name and id lists 
+        /// </summary>
+        /// <param name="board">the board the user wants to delete</param>
+        /// <returns>Doesn't return anything, it returns an error if it can't find the board</returns>
+        public void removeBoard(Board board)
+        {
+            if (boards.Exists(x => x.id == board.id && x.creatorEmail == board.creatorEmail))
+            {
+                boards.Remove(board);
+            }
+            else
+                throw new ArgumentException("no such board exist in your boards list");
 
+        }
+ //-------------------------------------------------board name validity methods------------------------------------------------------------------------
         /// <summary>
         /// check validity (generic)
         /// </summary>
@@ -63,22 +79,6 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
         }
 
         /// <summary>
-        /// delete a board from the boards ,name and id lists 
-        /// </summary>
-        /// <param name="board">the board the user wants to delete</param>
-        /// <returns>Doesn't return anything, it returns an error if it can't find the board</returns>
-        public void removeBoard(Board board)
-        {
-            if (boards.Exists(x=> x.id==board.id && x.creatorEmail==board.creatorEmail))
-            {
-                boards.Remove(board);  
-            }
-            else
-                throw new ArgumentException("no such board exist in your boards list");
-
-        }
-
-        /// <summary>
         /// find a board by its name
         /// </summary>
         /// <param name="name">the name of the board the user search for</param>
@@ -93,10 +93,13 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
             return null;
             
         }
+
+//-----------------------------------------------------------Tasks methods----------------------------------------------------------------------
         /// <summary>
         /// get all the tasks in "inProgress" column from all the boards of the user
         /// </summary>
         /// <returns>A list of al the tasks in "inProgress", it can return null there aren't any.</returns>
+         
         public List<Task> getAllInProgressTasks()
         {
             List<Task> list = new List<Task>();

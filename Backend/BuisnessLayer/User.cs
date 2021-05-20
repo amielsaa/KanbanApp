@@ -27,6 +27,8 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
         private BoardController boardController;
        
         //constructor
+
+        //create new user constructor
         public User(string em, string pw)
         {
             email =validateEmail(em);
@@ -41,6 +43,8 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
             login = false;
             
         }
+
+        // pull info from dal constructor
         public User(string em, string pw, List<string> oldPw, List<Task> myAssignments, int boardsId)
         {
             email = em;
@@ -53,8 +57,20 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
             boardController.AddBoardsToBC(email, boards);
             login = false;
         }
-        //methods
+//---------------------------------------------------------methods----------------------------------------------------------------------------------------------------------------
+      
+//--------------------------------------------Login methods ----------------------------------------------------------------------------------------------------------------------
 
+         public void logout()
+        {
+            login = false;
+        }
+        public void checkIfLogedIn()
+        {
+            if (!login)
+                throw new ArgumentException("you can't do this action if the user is'nt log in");
+        }
+//--------------------------------------------board methods ----------------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// Add a new board.
         /// </summary>
@@ -84,10 +100,47 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
             boards.removeBoard(board);
             boardController.deleteBoard(board);
         }
-        public void logout()
+
+        /// <summary>
+        /// get one of the user's board by its name
+        /// </summary>
+        /// <param name="name"> the name of the board the user is looking for .</param>
+        /// <returns> returns a board with the defines name.</returns>
+        public Board getBoardByName(string name)
         {
-            login = false;
+            return boards.getBoardByName(email, name);
         }
+
+        /// <summary>
+        /// joining user to other users board
+        /// </summary>
+        /// <param name="boardCreator"> the creator of the board this user wants to join .</param>
+        /// <param name="boardName"> the name of the board the user wants to join to .</param>
+        /// <returns> return nothing, only adding board to boards of this user.</returns>
+        public void joinBoard(User boardCreator, string boardName)
+        {
+            checkIfLogedIn();
+            Board board = boardCreator.getBoardByName(boardName);
+            board.boardUsers.Add(email);
+            boards.addboard(board);
+
+        }
+        /// <summary>
+        /// change the column limit (board parameter is added for dal uses later)
+        /// </summary>
+        /// <param name="column"> the column we want to change its limit .</param>
+        /// <param name="board"> the board where the column is in .</param>
+        /// <param name="newLimit"> the new limit for the column .</param>
+        /// <returns> returns nothing, it checks if the column is in the board and calls columns function.</returns>
+        public void ChangeColumnLimit(Column column, Board board, int newLimit)
+        {
+            if (board.creatorEmail == email && board.columns.Exists(x => x == column))
+            {
+                column.changeLimit(newLimit, email, board.id, board.columns.IndexOf(column));
+            }
+        }
+///--------------------------------------------password and email methods -----------------------------------------------------------------------------------------------------------
+
         /// <summary>
         /// change the user's password.
         /// </summary>
@@ -167,6 +220,8 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
                 throw new ArgumentException("the password doesn't stand in the password rules or it was already used" );
             return newPassword;
         }
+
+
         /// <summary>
         /// checking validity of an email
         /// </summary>
@@ -184,6 +239,22 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
             else
                 throw new ArgumentException("email isn't valid");
         }
+
+        /// <summary>
+        /// check if passwords are the same (to keep password private)
+        /// </summary>
+        /// <param name="password"> the password we compare to the user's password</param>
+        /// <returns>a boolean variable - true if the passwords are equal, and false otherwise </returns>
+        public bool equalPasswords(string password)
+        {
+            if (password.Equals(this.password))
+                return true;
+            else
+                return false;
+        }
+
+///--------------------------------------------Task methods ---------------------------------------------------------------------------------------------------------------------
+
         /// <summary>
         /// get all the tasks in "inProgress" column from all the boards of the user
         /// </summary>
@@ -195,24 +266,12 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
             return list;
         }
 
+
         /// <summary>
         /// get a board by using it's name
         /// </summary>
         /// <param name="name">the name of the board the user search for </param>
-        /// <returns>A board if there is a board with this name or null if there is no board with this name</returns>
-        public Board getBoardByName(string name)
-        {
-            return boards.getBoardByName(email, name);
-        }
-
-        public void joinBoard(User boardCreator , string boardName)
-        {
-            checkIfLogedIn();
-            Board board = boardCreator.getBoardByName(boardName);
-            board.boardUsers.Add(email);
-            boards.addboard( board);
-
-        }
+        /// <returns>A board if there is a board with this name or null if there is no board with this name</returns> 
         public void changeAssignee(User newAssignee, Task task)
         {
             checkIfLogedIn();
@@ -222,25 +281,9 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
             new DTask().Update(email, task.boardId, task.taskId, TaskDTO.AssigneeColumnName, newAssignee.email);
 
         }
-        public void checkIfLogedIn()
-        {
-            if (!login)
-                throw new ArgumentException("you can't do this action if the user is'nt log in");
-        }
-        public void ChangeColumnLimit(Column column, Board board, int newLimit)
-        {
-            if (board.creatorEmail == email && board.columns.Exists(x => x == column))
-            {
-                column.changeLimit(newLimit, email, board.id, board.columns.IndexOf(column));
-            }
-        }
-       public bool equalPasswords(string password)
-        {
-            if (password == this.password)
-                return true;
-            else
-                return false;
-        }
+       
+        
+
 
     }
 }
