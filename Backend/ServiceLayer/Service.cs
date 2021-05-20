@@ -23,13 +23,26 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         ///         You should call this function when the program starts. </summary>
         public Response LoadData()
         {
-            userService.userController.pullAllUsers();
-            return userService.LoadData();
+            try {
+                userService.userController.pullAllUsers();
+                return new Response();
+            } catch(Exception e)
+            {
+                return new Response(e.Message);
+            }
         }
         ///<summary>Removes all persistent data.</summary>
         public Response DeleteData()
         {
-            throw new NotImplementedException();
+            try
+            {
+                boardService.boardController = null;
+                userService.userController = null;
+                return new Response();
+            }catch(Exception e)
+            {
+                return new Response(e.Message);
+            }
         }
 
         /// <summary>
@@ -62,7 +75,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         /// <returns>A response object. The response should contain a error message in case of an error</returns>
         public Response LimitColumn(string userEmail, string creatorEmail, string boardName, int columnOrdinal, int limit)
         {
-            throw new NotImplementedException();
+            return boardService.LimitColumn(userEmail, creatorEmail, boardName, columnOrdinal, limit);
         }
 
         /// <summary>
@@ -75,7 +88,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         /// <returns>The limit of the column.</returns>
         public Response<int> GetColumnLimit(string userEmail, string creatorEmail, string boardName, int columnOrdinal)
         {
-            throw new NotImplementedException();
+            return boardService.GetColumnLimit(userEmail, creatorEmail, boardName, columnOrdinal);
         }
 
         /// <summary>
@@ -88,7 +101,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         /// <returns>The name of the column.</returns>
         public Response<string> GetColumnName(string userEmail, string creatorEmail, string boardName, int columnOrdinal)
         {
-            throw new NotImplementedException();
+            return boardService.GetColumnName(userEmail, creatorEmail, boardName, columnOrdinal);
         }
 
         /// <summary>
@@ -117,7 +130,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         /// <returns>A response object. The response should contain a error message in case of an error</returns>
         public Response UpdateTaskDueDate(string userEmail, string creatorEmail, string boardName, int columnOrdinal, int taskId, DateTime dueDate)
         {
-            throw new NotImplementedException();
+            return boardService.UpdateTaskDueDate(userEmail, creatorEmail, boardName, columnOrdinal, taskId, dueDate);
         }
         /// <summary>
         /// Update task title
@@ -131,7 +144,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         /// <returns>A response object. The response should contain a error message in case of an error</returns>
         public Response UpdateTaskTitle(string userEmail, string creatorEmail, string boardName, int columnOrdinal, int taskId, string title)
         {
-            throw new NotImplementedException();
+            return boardService.UpdateTaskTitle(userEmail, creatorEmail, boardName, columnOrdinal, taskId, title);
         }
         /// <summary>
         /// Update the description of a task
@@ -145,7 +158,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         /// <returns>A response object. The response should contain a error message in case of an error</returns>
         public Response UpdateTaskDescription(string userEmail, string creatorEmail, string boardName, int columnOrdinal, int taskId, string description)
         {
-            throw new NotImplementedException();
+            return boardService.UpdateTaskDescription(userEmail, creatorEmail, boardName, columnOrdinal, taskId, description);
         }
         /// <summary>
         /// Advance a task to the next column
@@ -170,7 +183,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         /// <returns>A response object with a value set to the Column, The response should contain a error message in case of an error</returns>
         public Response<IList<Task>> GetColumn(string userEmail, string creatorEmail, string boardName, int columnOrdinal)
         {
-            throw new NotImplementedException();
+            return boardService.GetColumn(userEmail, creatorEmail, boardName, columnOrdinal);
         }
 
 
@@ -182,7 +195,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         /// <returns>A response object. The response should contain a error message in case of an error</returns>
         public Response AddBoard(string userEmail, string boardName)
         {
-            return boardService.AddBoard(userEmail, boardName);
+            return userService.AddBoard(userEmail, boardName);
         }
 
         /// <summary>
@@ -206,7 +219,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         /// <returns>A response object. The response should contain a error message in case of an error</returns>
         public Response RemoveBoard(string userEmail, string creatorEmail, string boardName)
         {
-            throw new NotImplementedException();
+            return userService.RemoveBoard(userEmail, creatorEmail, boardName);
         }
         /// <summary>
         /// Returns all the in-progress tasks of the logged-in user is assigned to.
@@ -243,7 +256,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         /// <returns>A response object. The response should contain a error message in case of an error</returns>
         public Response AssignTask(string userEmail, string creatorEmail, string boardName, int columnOrdinal, int taskId, string emailAssignee)
         {
-            throw new NotImplementedException();
+            return boardService.AssignTask(userEmail, creatorEmail, boardName, columnOrdinal, taskId, emailAssignee);
         }
 
         /// <summary>

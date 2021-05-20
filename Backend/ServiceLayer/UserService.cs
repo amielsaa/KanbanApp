@@ -1,4 +1,5 @@
 ﻿using introSE.KanbanBoard.Backend.BuisnessLayer;
+using IntroSE.Kanban.Backend.BuisnessLayer;
 using log4net;
 using log4net.Config;
 using System;
@@ -14,37 +15,21 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
     public class UserService
     {
         public UserController userController;
+        public BoardController boardController;
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
 
         public UserService()
         {
             userController = UserController.getInstance();
+            boardController = BoardController.getInstance();
 
             var logRepository = LogManager.GetRepository(Assembly.GetEntryAssembly());
             XmlConfigurator.Configure(logRepository, new FileInfo("log4net.config"));
             log.Info("Starting Log!");
         }
 
-        ///<summary>This method loads the data from the persistance.
-        ///         You should call this function when the program starts. </summary>
-        public Response LoadData()
-        {
-            try
-            {
-                userController.pullAllUsers();
-                log.Info("All users loaded.");
-                return new Response();
-            }catch(Exception e)
-            {
-                return new Response(e.Message);
-            }
-        }
-        ///<summary>Removes all persistent data.</summary>
-        public Response DeleteData()
-        {
-            throw new NotImplementedException();
-        }
+        
 
         /// <summary>
         /// Log in an existing user
@@ -142,6 +127,47 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             }
         }
 
+        /// <summary>
+        /// Creates a new board for the logged-in user.
+        /// </summary>
+        /// <param name="userEmail">Email of the current user. Must be logged in</param>
+        /// <param name="boardName">The name of the new board</param>
+        /// <returns>A response object. The response should contain a error message in case of an error</returns>
+        public Response AddBoard(string userEmail, string boardName)
+        {
+            try
+            {
+                var user = userController.getUser(userEmail);
+                user.newBoard(boardName);
+                return new Response();
+            }
+            catch (Exception e)
+            {
+                return new Response(e.Message);
+            }
+        }
+
+        /// <summary>
+        /// Removes a board.
+        /// </summary>
+        /// <param name="userEmail">Email of the current user. Must be logged in</param>
+        /// <param name="creatorEmail">Email of the board creator. Must be logged in</param>
+        /// <param name="boardName">The name of the board</param>
+        /// <returns>A response object. The response should contain a error message in case of an error</returns>
+        public Response RemoveBoard(string userEmail, string creatorEmail, string boardName)
+        {
+            try
+            {
+                var user = userController.getUser(userEmail);
+                Board board = boardController.getBoard(creatorEmail, boardName);
+                user.removeBoard(board);
+                return new Response();
+            }catch(Exception e)
+            {
+                return new Response(e.Message);
+            }
+        }
+
         public Response<IList<Task>> InProgressTasks(string userEmail)
         {
             try
@@ -166,6 +192,28 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             {
                 log.Error("InProgress tasks couldnt be fetched");
                 return Response<IList<Task>>.FromError(e.Message);
+            }
+        }
+
+        /// <summary>
+        /// Returns the list of board of a user. The user must be logged-in. The function returns all the board names the user created or joined.
+        /// </summary>
+        /// <param name="userEmail">The email of the user. Must be logged-in.</param>
+        /// <returns>A response object with a value set to the board, instead the response should contain a error message in case of an error</returns>
+        public Response<IList<String>> GetBoardNames(string userEmail)
+        {
+            try
+            {
+                IList<String> list = new List<String>();
+                var boards = boardController.getAllUserBoards(userEmail);
+                foreach(var board in boards)
+                {
+                    list.Add(board.name);
+                }
+                return Response<IList<String>>.FromValue(list);
+            }catch(Exception e)
+            {
+                return Response<IList<String>>.FromError(e.Message);
             }
         }
 

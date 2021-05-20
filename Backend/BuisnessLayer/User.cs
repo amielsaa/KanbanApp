@@ -281,9 +281,32 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
             new DTask().Update(email, task.boardId, task.taskId, TaskDTO.AssigneeColumnName, newAssignee.email);
 
         }
+<<<<<<< HEAD
        
         
 
+=======
+        public void checkIfLogedIn()
+        {
+            if (!login)
+                throw new ArgumentException("you can't do this action if the user is'nt log in");
+        }
+        public void ChangeColumnLimit(Column column, Board board, int newLimit)
+        {
+            checkIfLogedIn();
+            if (board.creatorEmail == email && board.columns.Exists(x => x == column))
+            {
+                column.changeLimit(newLimit, email, board.id, board.columns.IndexOf(column));
+            }
+        }
+       public bool equalPasswords(string password)
+        {
+            if (password == this.password)
+                return true;
+            else
+                return false;
+        }
+>>>>>>> 606f87336a72b85c4c9ef92e78d3ff169c91c533
 
     }
 }
