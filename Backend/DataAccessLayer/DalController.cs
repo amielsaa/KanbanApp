@@ -182,6 +182,31 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
             }
             return res > 0;
         }
+        public bool DeleteWithBoardId(DTO DTOObj)
+        {
+            int res = -1;
+
+            using (var connection = new SQLiteConnection(_connectionString))
+            {
+                var command = new SQLiteCommand
+                {
+                    Connection = connection,
+                    CommandText = $"delete from {_tableName} where email={DTOObj.Email} and boardId = {DTOObj.BoardId}"
+                };
+                try
+                {
+                    connection.Open();
+                    res = command.ExecuteNonQuery();
+                }
+                finally
+                {
+                    command.Dispose();
+                    connection.Close();
+                }
+
+            }
+            return res > 0;
+        }
 
     }
 }

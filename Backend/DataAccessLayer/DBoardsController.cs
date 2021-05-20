@@ -154,7 +154,15 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
                 return res > 0;
             }
         }
-        
+        public bool DeleteBoard(Board board)
+        {
+            string boardUsers = string.Join(",", board.boardUsers);
+            BoardsDTO boardsDTO = new BoardsDTO(board.creatorEmail, board.id, board.name, board.taskId, boardUsers);
+            DTask dTask = new DTask();
+            dTask.DeleteBoardTasks(boardsDTO);
+            return DeleteWithBoardId(boardsDTO);
+        }
+
         protected override DTO ConvertReaderToObject(SQLiteDataReader reader)
         {
             BoardsDTO result = new BoardsDTO(reader.GetString(0), reader.GetInt32(1),reader.GetString(2),reader.GetInt32(3),reader.GetString(4));

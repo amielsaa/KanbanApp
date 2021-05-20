@@ -22,7 +22,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer.DalObjects
         private string _columnName;
 
         //getters-setters
-        public int BoardId { get => _boardId; set { _boardId = value; _controller.Update(Email, BoardIdColumnName, value); } }
+        public new int BoardId { get => _boardId; set { _boardId = value; _controller.Update(Email, BoardIdColumnName, value); } }
         public int ColumnNumber { get => _columnNumber; set { _columnNumber = value; _controller.Update(Email, ColumnNumberColumnName, value); } }
         public int TaskLimit { get => _taskLimit; set { _taskLimit = value; _controller.Update(Email, TaskLimitColumnName, value); } }
         public string ColumnName { get => _columnName; set { _columnName = value; _controller.Update(Email, ColumnNameColumnName, value);  }

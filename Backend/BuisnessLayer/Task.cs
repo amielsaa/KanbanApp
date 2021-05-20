@@ -125,19 +125,7 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
 
         }
 
-       /* public void changeAssignee(User assignee)
-        {
-            if(assignee==null||!this.assignee.login)
-                throw new Exception("Null or Not Login");
-            
-            //this.assignee.myAssignments.Remove(this);
-            this.assignee = assignee;
-            //assignee.myAssignments.Add(this);
-            //
-            new DTask().Update(email, boardId, taskId, TaskDTO.AssigneeColumnName, assignee.email);
-
-        }
-       */
+       
 
 
         private TaskDTO toDalObject()

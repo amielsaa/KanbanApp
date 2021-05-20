@@ -47,7 +47,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
                 Board board = creatorUser.getBoardByName(boardName);
                 Column column = board.getColumn(columnOrdinal);
                 var task = column.getTaskById(taskId);
-                task.changeAssignee(userController.getUser(emailAssignee));
+                (userController.getUser(userEmail)).changeAssignee(userController.getUser(emailAssignee), task);
                 return new Response();
 
             } catch(Exception e)
