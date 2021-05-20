@@ -10,11 +10,12 @@ namespace IntroSE.Kanban.Backend.BuisnessLayer
 {
     public class BoardController
     {
+        private static BoardController instance;
         private List<Board> allBoards;
         private List<(string, Boards)> allBoardsLists;
         private DBoardsController dBoardController;
 
-        public BoardController()
+        private BoardController()
         {
             allBoards = new List<Board>();
             dBoardController = new DBoardsController();
@@ -46,6 +47,7 @@ namespace IntroSE.Kanban.Backend.BuisnessLayer
         }
         public void deleteBoard(Board board)
         {
+            board.deleteAllTasks();
             List<string> users = board.boardUsers;
             foreach (string i in users)
             {
@@ -53,6 +55,16 @@ namespace IntroSE.Kanban.Backend.BuisnessLayer
                 boards.removeBoard(board);
             }
             allBoards.Remove(board);
+            dBoardController.DeleteBoard(board);
+        }
+        public static  BoardController getInstance()
+        {
+            if (instance == null)
+            {
+                instance = new BoardController();
+            }
+
+            return instance;
         }
 
 

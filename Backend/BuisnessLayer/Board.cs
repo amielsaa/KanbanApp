@@ -11,20 +11,24 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
         public string name;
         public string creatorEmail;
         public int id;
-        private Column[] columns;
+        public List<Column> columns;
         public int taskId;
         public List<string> boardUsers;
         //constructor
-        public Board(string name, string creator,int id, Column backlog, Column inProgress, Column done)
+        public Board(string name, string creator,int id)
         {
             this.name = name;
             this.creatorEmail = creator;
             this.id =id;
             taskId = 0;
-            columns = new Column[3];
-            columns[0] = backlog;
-            columns[1] = inProgress;
-            columns[2] = done;
+            columns = new List<Column>();
+            Column backlog = new Column("backlog");
+            Column inProggress = new Column("inProggress");
+            Column done = new Column("done");
+            columns.Add(backlog);
+            columns.Add(inProggress);
+            columns.Add(done);
+            insertColumsToDal(columns);
             boardUsers = new List<string>();
         }
         public Board(string name, string creator, int id,int taskId, Column backlog, Column inProgress, Column done , List<string> bUsers)
@@ -32,9 +36,10 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
             this.name = name;
             creatorEmail = creator;
             this.id = id;
-            columns[0] = backlog;
-            columns[1] = inProgress;
-            columns[2] = done;
+            columns = new List<Column>();
+            columns.Add(backlog);
+            columns.Add(inProgress);
+            columns.Add(done);
             boardUsers = bUsers;
             this.taskId = taskId;
         }
@@ -123,10 +128,18 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
         }
         public void deleteAllTasks()
         {
-            for (int i = 0; i < columns.Length; i++)
+            for (int i = 0; i < columns.Count; i++)
             {
                 columns[i].deleteAllTasks();
             }   
+        }
+        private void insertColumsToDal(List<Column> columns)
+        {
+            DColumn dColumn = new DColumn();
+            foreach (Column i in columns)
+            {
+                dColumn.Insert(i, id, columns.IndexOf(i), creatorEmail);
+            }
         }
 
     }

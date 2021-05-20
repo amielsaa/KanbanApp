@@ -22,7 +22,7 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
         public User assignee;
         public string assigneeEmail;
         //constructor
-        public Task(DateTime due_time, string title, string description,int id, int columnOrdinal, string assignee,string email,int boardId)
+        public Task(DateTime due_time, string title, string description, int id, int columnOrdinal, string assignee, string email, int boardId)
         {
             creation_time = DateTime.Now;
             if (due_time > DateTime.Now)
@@ -87,7 +87,7 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
         {
             return assignee;
         }
-        
+
         public int getColumn()
         {
             return columnOrdinal;
@@ -117,12 +117,18 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
         {
             if (!isChangable())
                 throw new ArgumentException("Task that is done cannot be changed.");
-            if (DueTime>DateTime.Now)
+            if (DueTime > DateTime.Now)
                 this.due_time = DueTime;
             else
                 throw new ArgumentException("The due time  is not possible");
             new DTask().Update(email, boardId, taskId, TaskDTO.DueDateColumnName, DueTime.ToString());
 
+        }
+
+        public void deleteFromAssignee()
+        {
+            UserController userController = UserController.getInstance();
+            userController.getUser(assigneeEmail).myAssignments.Remove(this);
         }
 
        
@@ -132,6 +138,8 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
         {
             return new TaskDTO(email, boardId, taskId, assigneeEmail, columnOrdinal, creation_time.ToString(), description, title, due_time.ToString());
         }
+
+        
         
     }
 }

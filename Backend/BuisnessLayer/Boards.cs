@@ -8,15 +8,14 @@ using System.Threading.Tasks;
 
 namespace introSE.KanbanBoard.Backend.BuisnessLayer
 {
-    public class Boards : BoardController
+    public class Boards 
     {
         //fields
         public List<Board> boards;
 
         public int id;
-        private BoardController BC;
         //constructor
-        public Boards(List<Board> boards, string email, int id) {
+        public Boards(List<Board> boards, int id) {
             this.boards = boards;
             this.id= id;
         }

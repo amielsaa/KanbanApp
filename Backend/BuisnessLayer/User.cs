@@ -16,7 +16,7 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
     {
         // feilds
         private string password;
-        public string Password { get { return password; } set {  } }
+        //public string Password { get { return password; } set {  } }
         private List<string> oldPassword;
         public List<Task> myAssignments;
         public string email;
@@ -25,30 +25,32 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
         public UserDTO dtoUser;
         public readonly int passMinLen = 4;
         public readonly int passMaxLen = 20;
-        public BoardController boardController;
+        private BoardController boardController;
         //constructor
-        public User(string em, string pw, BoardController bController)
+        public User(string em, string pw)
         {
             email =validateEmail(em);
             oldPassword = new List<string>();
             if (!validatePasswordRules(pw))
                 throw new ArgumentException("this password does'nt stand in the password rules");   
             password = pw;
+            boardController =BoardController.getInstance();
             List<Board> boardList  = boardController.getAllUserBoards(email);
-            boards = new Boards(boardList ,em,0);
-            this.boardController.AddBoardsToBC(email, boards);
+            boards = new Boards(boardList ,0);
+            boardController.AddBoardsToBC(email, boards);
             login = false;
-            boardController = bController;
+            
         }
-        public User(string em, string pw, List<string> oldPw, List<Task> myAssignments, int boardsId, BoardController boardController)
+        public User(string em, string pw, List<string> oldPw, List<Task> myAssignments, int boardsId)
         {
             email = em;
             password = pw;
             oldPassword = oldPw;
             this.myAssignments = myAssignments;
+            boardController = BoardController.getInstance();
             List<Board> boardList = boardController.getAllUserBoards(email);
-            this.boards = new Boards(boardList, em, boardsId);
-            this.boardController.AddBoardsToBC(email, boards);
+            this.boards = new Boards(boardList, boardsId);
+            boardController.AddBoardsToBC(email, boards);
             login = false;
         }
         //methods
@@ -60,8 +62,9 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
         /// <returns>A board with the name it was given and 3 empty columns, in a case where the name was already used it shoulf return an error message </returns>
         public Board newBoard(string name)
         {
+            checkIfLogedIn();
             name = boards.getValidatename(name);
-            Board board = new Board(name, email,boards.id, new Column("backlog"), new Column("in progress"), new Column("done"));
+            Board board = new Board(name, email,boards.id);
             boards.addboard( board);
             boardController.addBoard(board);
             DUserController dUser = new DUserController();
@@ -75,6 +78,7 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
         /// <returns>it returns nothing, instead it calls Boards class function to delete it.</returns>
         public void removeBoard(Board board)
         {
+            checkIfLogedIn();
             boards.removeBoard(board);
             boardController.deleteBoard(board);
         }
@@ -89,6 +93,7 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
         /// <returns>it returns nothing, it checks the validity of the password and change it if it valide</returns>
         private void changePassword(string newPassword)
         {
+            checkIfLogedIn();
             newPassword = validatePasswod(newPassword);
             oldPassword.Add(password);
             password = newPassword;
@@ -180,6 +185,7 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
         /// <returns>A list of al the tasks in "inProgress", it can return null there aren't any.</returns>
         public List<Task> getAllInProgressTasks()
         {
+            checkIfLogedIn();
             List<Task> list = boards.getAllInProgressTasks();
             return list;
         }
@@ -196,19 +202,39 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
 
         public void joinBoard(User otherUser , string boardName)
         {
+            checkIfLogedIn();
             Board board = otherUser.getBoardByName(boardName);
             board.boardUsers.Add(email);
             boards.addboard( board);
-            boardController.addBoard(board);
 
         }
         public void changeAssignee(User assignee, Task task)
         {
+            checkIfLogedIn();
             myAssignments.Remove(task);
             task.assigneeEmail = assignee.email;
             assignee.myAssignments.Add(task);
             new DTask().Update(email, task.boardId, task.taskId, TaskDTO.AssigneeColumnName, assignee.email);
 
+        }
+        private void checkIfLogedIn()
+        {
+            if (!login)
+                throw new ArgumentException("you can't do this action if the user is'nt log in");
+        }
+        public void ChangeColumnLimit(Column column, Board board, int newLimit)
+        {
+            if (board.creatorEmail == email && board.columns.Exists(x => x == column))
+            {
+                column.changeLimit(newLimit, email, board.id, board.columns.IndexOf(column));
+            }
+        }
+       public bool equalPasswords(string password)
+        {
+            if (password == this.password)
+                return true;
+            else
+                return false;
         }
 
     }

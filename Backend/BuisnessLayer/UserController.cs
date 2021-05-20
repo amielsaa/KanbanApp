@@ -13,6 +13,7 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
     public class UserController
     {
         //fields
+        private static UserController instance;
         public List<string> usersEmail;
         public List<User> users;
         private DUserController dUserController;
@@ -20,14 +21,22 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
         public BoardController boardsController { get; set; }
 
         //constructor
-        public UserController()
+        private UserController()
         {
             usersEmail = new List<string>();
             users = new List<User>();
-            boardsController = new BoardController();
+            boardsController = BoardController.getInstance();
 
         }
         //methods
+        public static UserController getInstance()
+        {
+            if (instance == null)
+            {
+                instance = new UserController();
+            }
+            return instance;
+        }
 
 
         /// <summary>
@@ -39,7 +48,7 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
         public void register(string email, string password)
         {
             email = checkExistance(email);
-            User user = new User(email, password,boardsController);
+            User user = new User(email, password);
             users.Add(user);
             newUser = new UserDTO(email, password,0);
             user.dtoUser = newUser;
@@ -66,7 +75,7 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
             }
             else
             {
-                if (password.Equals(user.Password))
+                if (user.equalPasswords(password))
                     user.login = true;
                 else
                     throw new ArgumentException("Password is incorrect");
@@ -100,7 +109,7 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
             List<UserDTO> userDtoList = dUserController.SelectAllUser();
             foreach (UserDTO userDTO in userDtoList)
             {
-                User user = new User(userDTO.Email, userDTO.Password, userDTO.getOldPasswords(), userDTO.getMyAssignments(), userDTO.BoardsId,boardsController);
+                User user = new User(userDTO.Email, userDTO.Password, userDTO.getOldPasswords(), userDTO.getMyAssignments(), userDTO.BoardsId);
                 string email = userDTO.Email;
                 users.Add(user);
                 usersEmail.Add(email);

@@ -1,4 +1,5 @@
-﻿using IntroSE.Kanban.Backend.DataAccessLayer.DalObjects;
+﻿using IntroSE.Kanban.Backend.DataAccessLayer;
+using IntroSE.Kanban.Backend.DataAccessLayer.DalObjects;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -12,6 +13,9 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
         private string title;
         private int limit_task_num = -1;
         protected List<Task> tasks;
+        public string Title { get { return title; } set { title = value; } }
+        public int Limit {  get { return limit_task_num; } set { limit_task_num = value; } }
+
         
         //constructor
         public Column(string title)
@@ -32,13 +36,16 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
         /// </summary>
         /// <param name="new_limit_task_num">the new limit number of the tasks</param>
         /// <returns>Doesn't return anything,</returns>
-        public void changeLimit(int new_limit_task_num)
+        public void changeLimit(int new_limit_task_num, string email, int boardId, int columnNumber)
         {
             if (new_limit_task_num < 0&&new_limit_task_num!=-1)
                 throw new ArgumentException("limit can't be negative");
             if (new_limit_task_num < tasks.Count)
                 throw new ArgumentException("the are already more tasks in this column");
             limit_task_num = new_limit_task_num;
+            DColumn dColumn = new DColumn();
+            dColumn.updateColumnLimit(email,boardId,columnNumber,new_limit_task_num);
+            
         }
 
         /// <summary>
@@ -56,14 +63,6 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
             return tasks;
         }
 
-        public int getColumnLimit()
-        {
-            return limit_task_num;
-        }
-        public string getColumnTitle()
-        {
-            return title;
-        }
 
         public Task getTaskById(int id)
         {
@@ -79,7 +78,11 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
             
         }
         public void deleteAllTasks()
-        { 
+        {
+            foreach (Task i in tasks)
+            {
+                i.deleteFromAssignee();
+            }
 
         }
 
