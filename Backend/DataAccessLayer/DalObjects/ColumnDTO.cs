@@ -39,7 +39,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer.DalObjects
         public Column convertToBLColumn()
         {
             DTask dTask = new DTask();
-            List<TaskDTO> taskListDTO = dTask.SelectAllTaskByEmailAndColumn(Email, _columnNumber );
+            List<TaskDTO> taskListDTO = dTask.SelectAllTaskByEmailAndColumn(Email, _columnNumber, BoardId);
             List<introSE.KanbanBoard.Backend.BuisnessLayer.Task> taskList = dTask.convertTasksToBL(taskListDTO);
             Column column = new Column(_columnName, taskList, _taskLimit);
             return column;

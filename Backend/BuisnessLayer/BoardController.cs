@@ -49,14 +49,20 @@ namespace IntroSE.Kanban.Backend.BuisnessLayer
         {
             board.deleteAllTasks();
             List<string> users = board.boardUsers;
-            foreach (string i in users)
+            foreach (string email in users)
             {
-                Boards boards = allBoardsLists.Find(x => x.Item1 == i).Item2;
+                Boards boards = allBoardsLists.Find(x => x.Item1 == email).Item2;
                 boards.removeBoard(board);
             }
             allBoards.Remove(board);
             dBoardController.DeleteBoard(board);
         }
+
+
+        /// <summary>
+        /// using UserController as a singletone 
+        /// </summary>
+        /// <returns>it returns the instance of it therefor there's only one instance of it in the whole program </returns>
         public static  BoardController getInstance()
         {
             if (instance == null)

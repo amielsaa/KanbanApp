@@ -29,6 +29,11 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
 
         }
         //methods
+
+        /// <summary>
+        /// using UserController as a singletone 
+        /// </summary>
+        /// <returns>it returns the instance of it therefor there's only one instance of it in the whole program </returns>
         public static UserController getInstance()
         {
             if (instance == null)
