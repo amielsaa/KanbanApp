@@ -15,14 +15,13 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
         public DTask() : base(TaskTableName)
         {   
         }
-
-        public List<TaskDTO> SelectAllTaskByEmailAndColumn(string email, int column)
+        public List<TaskDTO> SelectAllTaskByEmailAndColumn(string email, int column, int boardId)
         {
                 List<TaskDTO> results = new List<TaskDTO>();
                 using (var connection = new SQLiteConnection(_connectionString))
                 {
                     SQLiteCommand command = new SQLiteCommand(null, connection);
-                    command.CommandText = $"select * from {TaskTableName} WHERE email = @emailVal and column = @columnVal;";
+                    command.CommandText = $"select * from {TaskTableName} WHERE email = @emailVal and column = @columnVal and boardId = @boardIdVal;";
                     
                     SQLiteDataReader dataReader = null;
                     try
@@ -30,6 +29,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
 
                         command.Parameters.Add(new SQLiteParameter(@"emailVal", email));
                         command.Parameters.Add(new SQLiteParameter(@"columnVal", column));
+                        command.Parameters.Add(new SQLiteParameter(@"boardIdVal", boardId));
                         connection.Open();
                         dataReader = command.ExecuteReader();
                         while (dataReader.Read())

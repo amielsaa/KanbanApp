@@ -16,7 +16,6 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
     {
         // feilds
         private string password;
-        //public string Password { get { return password; } set {  } }
         private List<string> oldPassword;
         public List<Task> myAssignments;
         public string email;
@@ -26,6 +25,7 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
         public readonly int passMinLen = 4;
         public readonly int passMaxLen = 20;
         private BoardController boardController;
+       
         //constructor
         public User(string em, string pw)
         {
@@ -79,6 +79,8 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
         public void removeBoard(Board board)
         {
             checkIfLogedIn();
+            if (email != board.creatorEmail)
+                throw new ArgumentException("only the creator can delete his board");
             boards.removeBoard(board);
             boardController.deleteBoard(board);
         }
@@ -200,21 +202,21 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
             return boards.getBoardByName(email, name);
         }
 
-        public void joinBoard(User otherUser , string boardName)
+        public void joinBoard(User boardCreator , string boardName)
         {
             checkIfLogedIn();
-            Board board = otherUser.getBoardByName(boardName);
+            Board board = boardCreator.getBoardByName(boardName);
             board.boardUsers.Add(email);
             boards.addboard( board);
 
         }
-        public void changeAssignee(User assignee, Task task)
+        public void changeAssignee(User newAssignee, Task task)
         {
             checkIfLogedIn();
             myAssignments.Remove(task);
-            task.assigneeEmail = assignee.email;
-            assignee.myAssignments.Add(task);
-            new DTask().Update(email, task.boardId, task.taskId, TaskDTO.AssigneeColumnName, assignee.email);
+            task.assigneeEmail = newAssignee.email;
+            newAssignee.myAssignments.Add(task);
+            new DTask().Update(email, task.boardId, task.taskId, TaskDTO.AssigneeColumnName, newAssignee.email);
 
         }
         public void checkIfLogedIn()
