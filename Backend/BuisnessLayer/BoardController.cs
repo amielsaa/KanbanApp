@@ -11,16 +11,18 @@ namespace IntroSE.Kanban.Backend.BuisnessLayer
     public class BoardController
     {
         //fields
-        private static BoardController instance;
+        //private static BoardController instance;
         private List<Board> allBoards;
         private List<(string, Boards)> allBoardsLists;
         private DBoardsController dBoardController;
+        public UserController userController;
 
         //constructor
-        private BoardController()
+       public BoardController(UserController userController)
         {
             allBoards = new List<Board>();
             dBoardController = new DBoardsController();
+            this.userController = userController;
             List<Board> boardList = dBoardController.SelectAllBoards();
             allBoardsLists = new List<(string, Boards)>();
             foreach (Board board in boardList)
@@ -32,7 +34,7 @@ namespace IntroSE.Kanban.Backend.BuisnessLayer
         /// using UserController as a singletone 
         /// </summary>
         /// <returns>it returns the instance of it therefor there's only one instance of it in the whole program </returns>
-        public static BoardController getInstance()
+        /*public static BoardController getInstance()
         {
             if (instance == null)
             {
@@ -41,6 +43,8 @@ namespace IntroSE.Kanban.Backend.BuisnessLayer
 
             return instance;
         }
+        */
+
         public void AddBoardsToBC(string email, Boards boards)
         {
             allBoardsLists.Add((email, boards));
@@ -62,7 +66,7 @@ namespace IntroSE.Kanban.Backend.BuisnessLayer
         }
         public void deleteBoard(Board board)
         {
-            board.deleteAllTasks();
+            board.deleteAllTasks(userController);
             List<string> users = board.boardUsers;
             foreach (string email in users)
             {

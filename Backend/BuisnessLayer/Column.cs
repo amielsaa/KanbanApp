@@ -95,14 +95,15 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
         /// deleting all the task from the column
         /// </summary>
         /// <returns>returns nothing, for each task in the column it calls task function to delete itself from its assignee</returns>
-        public void deleteAllTasks()
+        public void deleteAllTasks(UserController userController)
         {
             foreach (Task i in tasks)
             {
-                i.deleteFromAssignee();
+                (userController.getUser(i.assigneeEmail)).myAssignments.Remove(i);
             }
 
         }
+
     }
 }
 

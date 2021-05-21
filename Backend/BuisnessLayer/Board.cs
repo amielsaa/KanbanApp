@@ -135,11 +135,11 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
         /// delete all the tasks from the board (through column)
         /// </summary>
         /// <returns>nothing, only calls all columns to delete its tasks</returns>
-        public void deleteAllTasks()
+        public void deleteAllTasks(UserController userController)
         {
             for (int i = 0; i < columns.Count; i++)
             {
-                columns[i].deleteAllTasks();
+                columns[i].deleteAllTasks(userController);
             }
         }
 

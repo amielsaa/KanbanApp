@@ -127,15 +127,6 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
 
         }
 
-        public void deleteFromAssignee()
-        {
-            UserController userController = UserController.getInstance();
-            userController.getUser(assigneeEmail).myAssignments.Remove(this);
-        }
-
-       
-
-
         private TaskDTO toDalObject()
         {
             return new TaskDTO(email, boardId, taskId, assigneeEmail, columnOrdinal, creation_time.ToString(), description, title, due_time.ToString());

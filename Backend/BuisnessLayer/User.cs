@@ -25,36 +25,39 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
         public readonly int passMinLen = 4;
         public readonly int passMaxLen = 20;
         private BoardController boardController;
+        private UserController userController;
        
         //constructor
 
         //create new user constructor
-        public User(string em, string pw)
+        public User(string em, string pw, UserController userController, BoardController boardController)
         {
             email =validateEmail(em);
             oldPassword = new List<string>();
             if (!validatePasswordRules(pw))
                 throw new ArgumentException("this password does'nt stand in the password rules");   
             password = pw;
-            boardController =BoardController.getInstance();
-            List<Board> boardList  = boardController.getAllUserBoards(email);
+            this.boardController = boardController;
+            this.userController = userController;
+            List<Board> boardList  = this.boardController.getAllUserBoards(email);
             boards = new Boards(boardList ,0);
-            boardController.AddBoardsToBC(email, boards);
+            this.boardController.AddBoardsToBC(email, boards);
             login = false;
             
         }
 
         // pull info from dal constructor
-        public User(string em, string pw, List<string> oldPw, List<Task> myAssignments, int boardsId)
+        public User(string em, string pw, List<string> oldPw, List<Task> myAssignments, int boardsId ,UserController userController, BoardController boardController )
         {
             email = em;
             password = pw;
             oldPassword = oldPw;
             this.myAssignments = myAssignments;
-            boardController = BoardController.getInstance();
-            List<Board> boardList = boardController.getAllUserBoards(email);
+            this.boardController = boardController;
+            this.userController = userController;
+            List<Board> boardList = this.boardController.getAllUserBoards(email);
             this.boards = new Boards(boardList, boardsId);
-            boardController.AddBoardsToBC(email, boards);
+            this.boardController.AddBoardsToBC(email, boards);
             login = false;
         }
 //---------------------------------------------------------methods----------------------------------------------------------------------------------------------------------------
@@ -281,6 +284,7 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
             new DTask().Update(email, task.boardId, task.taskId, TaskDTO.AssigneeColumnName, newAssignee.email);
 
         }
+        
 
 
     }
