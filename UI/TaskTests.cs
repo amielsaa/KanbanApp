@@ -14,7 +14,8 @@ namespace IntroSE.Kanban.Frontend
         {
             this.userService = userService;
         }
-        
+
+        /*
         public void runTests()
         {
             userService.Register("guy@gmail.com", "Aa123456");
@@ -63,6 +64,7 @@ namespace IntroSE.Kanban.Frontend
             
 
         }
+        */
     }
 }
             /*

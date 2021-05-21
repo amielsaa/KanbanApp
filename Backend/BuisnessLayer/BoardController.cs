@@ -18,18 +18,13 @@ namespace IntroSE.Kanban.Backend.BuisnessLayer
         public UserController userController;
 
         //constructor
-       public BoardController(UserController userController)
+       public BoardController()
         {
             allBoards = new List<Board>();
             dBoardController = new DBoardsController();
-            this.userController = userController;
-            List<Board> boardList = dBoardController.SelectAllBoards();
-            allBoardsLists = new List<(string, Boards)>();
-            foreach (Board board in boardList)
-            {
-                allBoards.Add(board);
-            }
+            pullAllBoards();
         }
+
         /// <summary>
         /// using UserController as a singletone 
         /// </summary>
@@ -44,6 +39,15 @@ namespace IntroSE.Kanban.Backend.BuisnessLayer
             return instance;
         }
         */
+        public void pullAllBoards()
+        {
+            List<Board> boardList = dBoardController.SelectAllBoards();
+            allBoardsLists = new List<(string, Boards)>();
+            foreach (Board board in boardList)
+            {
+                allBoards.Add(board);
+            }
+        }
 
         public void AddBoardsToBC(string email, Boards boards)
         {

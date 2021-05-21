@@ -18,10 +18,10 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         public UserController userController;
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
-        public BoardService()
+        public BoardService(BoardController boardController , UserController userController)
         {
-            boardController = BoardController.getInstance();
-            userController = UserController.getInstance();
+            this.boardController = boardController;
+            this.userController = userController;
 
             var logRepository = LogManager.GetRepository(Assembly.GetEntryAssembly());
             XmlConfigurator.Configure(logRepository, new FileInfo("log4net.config"));

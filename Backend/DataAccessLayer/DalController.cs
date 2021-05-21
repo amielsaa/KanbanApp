@@ -3,9 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Data.SQLite;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace IntroSE.Kanban.Backend.DataAccessLayer
 {
@@ -23,11 +20,11 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
             this._tableName = tableName;
         }
 
-//-------------------------------------------------------methods------------------------------------------------------------------------------
-         protected abstract DTO ConvertReaderToObject(SQLiteDataReader reader);
+        //-------------------------------------------------------methods------------------------------------------------------------------------------
+        protected abstract DTO ConvertReaderToObject(SQLiteDataReader reader);
 
-//---------------------------------------------------Update methods------------------------------------------------------------------------------
-       
+        //---------------------------------------------------Update methods------------------------------------------------------------------------------
+
         public bool Update(string email, string attributeName, string attributeValue)
         {
             int res = -1;
@@ -91,13 +88,13 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
             return res > 0;
         }
 
-//---------------------------------------------------Select methods------------------------------------------------------------------------------
+        //---------------------------------------------------Select methods------------------------------------------------------------------------------
         public List<DTO> Select()
         {
             string CommandText = $"select * from {_tableName};";
             return Select(CommandText);
         }
-        
+
         public List<DTO> Select(string commandTxt)
         {
             List<DTO> results = new List<DTO>();
@@ -111,7 +108,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
                     connection.Open();
                     dataReader = command.ExecuteReader();
 
-                    while (dataReader.Read())
+                    while (dataReader.Read()& dataReader!=null)
                     {
                         results.Add(ConvertReaderToObject(dataReader));
 
@@ -172,7 +169,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
             return results;
         }
 
-//---------------------------------------------------Delete methods------------------------------------------------------------------------------
+        //---------------------------------------------------Delete methods------------------------------------------------------------------------------
         public bool Delete(DTO DTOObj)
         {
             int res = -1;

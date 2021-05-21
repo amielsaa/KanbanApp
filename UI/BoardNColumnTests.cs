@@ -9,7 +9,7 @@ namespace IntroSE.Kanban.Frontend
 {
     class BoardNColumnTests
     {
-
+        /*
         Service userService;
         public BoardNColumnTests(Service userService)
         {
@@ -90,5 +90,6 @@ namespace IntroSE.Kanban.Frontend
                 Console.WriteLine("limited");
             }
         }
+        */
     }
 }

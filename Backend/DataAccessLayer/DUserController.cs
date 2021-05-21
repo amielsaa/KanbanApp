@@ -23,7 +23,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
 //---------------------------------------------------methods--------------------------------------------------------------------------------
     
 //------------------------------------------------Select methods---------------------------------------------------------------------------
-        public List<UserDTO> SelectAllUser()
+        public List<UserDTO> SelectAllUsers()
         {
             List<UserDTO> results = new List<UserDTO>();
             using (var connection = new SQLiteConnection(_connectionString))

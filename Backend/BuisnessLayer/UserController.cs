@@ -25,8 +25,8 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
         {
             usersEmail = new List<string>();
             users = new List<User>();
+            dUserController = new DUserController();
             //boardsController = BoardController.getInstance();
-            boardsController = new BoardController(this);
 
         }
         //methods
@@ -57,6 +57,7 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
             email = checkExistance(email);
             User user = new User(email, password, this, boardsController);
             users.Add(user);
+            usersEmail.Add(email);
             newUser = new UserDTO(email, password,0);
             user.dtoUser = newUser;
             dUserController = new DUserController();
@@ -119,7 +120,7 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
         /// </summary>
         public void pullAllUsers()
         {
-            List<UserDTO> userDtoList = dUserController.SelectAllUser();
+            List<UserDTO> userDtoList = dUserController.SelectAllUsers();
             foreach (UserDTO userDTO in userDtoList)
             {
                 User user = new User(userDTO.Email, userDTO.Password, userDTO.getOldPasswords(), userDTO.getMyAssignments(), userDTO.BoardsId,  this , boardsController);
@@ -139,6 +140,7 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
                 throw new ArgumentException("The user is'nt the assignee of the current task");
             }
         }
+        
 
 
     }

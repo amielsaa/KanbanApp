@@ -16,7 +16,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         public Service()
         {
             userService = new UserService();
-            boardService = new BoardService();
+            boardService = new BoardService(userService.boardController, userService.userController);
 
         }
         ///<summary>This method loads the data from the persistance.
