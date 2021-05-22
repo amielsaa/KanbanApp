@@ -18,10 +18,11 @@ namespace IntroSE.Kanban.Backend.BuisnessLayer
         public UserController userController;
 
         //constructor
-       public BoardController()
+       public BoardController(UserController uc)
         {
             allBoards = new List<Board>();
             dBoardController = new DBoardsController();
+            userController = uc;
             pullAllBoards();
         }
 

@@ -130,6 +130,8 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
                 throw new ArgumentException("No such board was found");
             board.boardUsers.Add(email);
             boards.addboard(board);
+            (new DBoardsController()).Update(boardCreator.email, board.id, BoardsDTO.UsersEmailColumnName, string.Join(",", board.boardUsers));
+
 
         }
         /// <summary>

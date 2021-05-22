@@ -19,7 +19,7 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
         public List<User> users;
         private DUserController dUserController;
         private UserDTO newUser;
-        public BoardController boardsController;
+        public BoardController boardController;
 
         //constructor
         public UserController()
@@ -27,7 +27,7 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
             usersEmail = new List<string>();
             users = new List<User>();
             dUserController = new DUserController();
-            boardsController = new BoardController();
+            boardController = new BoardController(this);
             //boardsController = BoardController.getInstance();
 
         }
@@ -58,7 +58,7 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
         {
             email = validateEmail(email);
             email = checkExistance(email);
-            User user = new User(email, password, this, boardsController);
+            User user = new User(email, password, this, boardController);
             users.Add(user);
             usersEmail.Add(email);
             newUser = new UserDTO(email, password,0);
@@ -139,7 +139,7 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
             List<UserDTO> userDtoList = dUserController.SelectAllUsers();
             foreach (UserDTO userDTO in userDtoList)
             {
-                User user = new User(userDTO.Email, userDTO.Password, userDTO.getOldPasswords(), userDTO.getMyAssignments(), userDTO.BoardsId,  this , boardsController);
+                User user = new User(userDTO.Email, userDTO.Password, userDTO.getOldPasswords(), userDTO.getMyAssignments(), userDTO.BoardsId,  this , boardController);
                 string email = userDTO.Email;
                 users.Add(user);
                 usersEmail.Add(email);

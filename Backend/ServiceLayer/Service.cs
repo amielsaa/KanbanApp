@@ -39,8 +39,9 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             {
                 boardService.boardController.deleteAllData();
                 userService.userController.deleteAll();
-                boardService.boardController = new BuisnessLayer.BoardController();
-                userService.userController = new UserController() ;
+                userService = new UserService();
+                boardService = new BoardService(userService.boardController, userService.userController);
+
                 return new Response();
             }catch(Exception e)
             {

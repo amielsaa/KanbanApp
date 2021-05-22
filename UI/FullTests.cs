@@ -401,7 +401,7 @@ namespace IntroSE.Kanban.Frontend
                     Console.WriteLine(name + " is part of the boards of the user guy@gmail.com");
                 }
             }
-            userService.DeleteData();
+            
 
         }
     }

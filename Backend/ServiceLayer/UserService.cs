@@ -22,8 +22,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         public UserService()
         {
             userController = new UserController();
-            boardController = userController.boardsController;
-            boardController.userController = userController;
+            boardController = userController.boardController;
             var logRepository = LogManager.GetRepository(Assembly.GetEntryAssembly());
             XmlConfigurator.Configure(logRepository, new FileInfo("log4net.config"));
             log.Info("Starting Log!");
