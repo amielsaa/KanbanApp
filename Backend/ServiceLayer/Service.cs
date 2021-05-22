@@ -17,6 +17,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         {
             userService = new UserService();
             boardService = new BoardService(userService.boardController, userService.userController);
+            LoadData();
 
         }
         ///<summary>This method loads the data from the persistance.
@@ -36,6 +37,8 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         {
             try
             {
+                boardService.boardController.deleteAllData();
+                userService.userController.deleteAll();
                 boardService.boardController = null;
                 userService.userController = null;
                 return new Response();

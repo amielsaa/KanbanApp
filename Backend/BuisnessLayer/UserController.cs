@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using IntroSE.Kanban.Backend.DataAccessLayer;
 using IntroSE.Kanban.Backend.DataAccessLayer.DalObjects;
 using IntroSE.Kanban.Backend.BuisnessLayer;
+using System.Text.RegularExpressions;
 
 namespace introSE.KanbanBoard.Backend.BuisnessLayer
 {
@@ -54,6 +55,7 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
         /// <returns>It rerurns nothing but creates a new user account in the users list </returns>
         public void register(string email, string password)
         {
+            email = validateEmail(email);
             email = checkExistance(email);
             User user = new User(email, password, this, boardsController);
             users.Add(user);
@@ -76,6 +78,11 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
         /// <returns>A user and change its loggin status to logged in, if one of the fields is incorrect it throws an error</returns>
         public User login(string email, string password)
         {
+            if (email == null | password == null)
+            {
+                throw new ArgumentException("input can't be null");
+            }    
+            email = validateEmail(email);
             User user = getUser(email);
             if (user == null)
             {
@@ -83,12 +90,19 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
             }
             else
             {
-                if (user.equalPasswords(password))
-                    user.login = true;
+                if (user.login|| !user.equalPasswords(password))
+                    throw new ArgumentException("User is already logged in or password is incorrect");      
                 else
-                    throw new ArgumentException("Password is incorrect");
+                    user.login = true;
             }
             return user;
+        }
+        public void logout(string userEmail)
+        {
+            userEmail = validateEmail(userEmail);
+            User user = getUser(userEmail);
+            user.logout();
+
         }
 
         /// <summary>
@@ -98,6 +112,7 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
         /// <returns>A user if it exist in the users list, returns null otherwise</returns>
         public User getUser(string email)
         {
+            
             var user = users.Find(x => x.email.Equals(email));
             if (user == null)
                 throw new ArgumentException("User not found.");
@@ -140,7 +155,30 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
                 throw new ArgumentException("The user is'nt the assignee of the current task");
             }
         }
-        
+
+        /// <summary>
+        /// checking validity of an email
+        /// </summary>
+        /// <param name="email">Email of user. Must be logged in</param>
+        /// <returns>a string variable with the email, if it isn't valid it returns an error insted. </returns>
+        public string validateEmail(string email)
+        {
+            string expression = @"^[\w!#$%&'*+\-/=?\^_`{|}~]+(\.[\w!#$%&'*+\-/=?\^_`{|}~]+)*"
+            + "@"
+            + @"((([\-\w]+\.)+[a-zA-Z]{2,4})|(([0-9]{1,3}\.){3}[0-9]{1,3}))$";
+            if (email != null && email[email.Length - 1] < 65)
+                throw new ArgumentException("email isn't valid");
+            if (Regex.IsMatch(email, expression))
+                return email;
+            else
+                throw new ArgumentException("email isn't valid");
+        }
+
+        public void deleteAll()
+        {
+            dUserController.DeleteAllUsersInfo();
+        }
+
 
 
     }

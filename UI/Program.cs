@@ -16,8 +16,10 @@ namespace UI
         public static void Main(string[] args)
         {
             Service service = new Service();
-            Console.WriteLine((service.LoadData()).ErrorMessage);
-            string userTable = "Users";
+
+            UserTests us = new UserTests(service);
+            us.runTests();
+            /*string userTable = "Users";
             DUserController userController = new DUserController();
             DBoardsController boardsController = new DBoardsController();
             string command = $"select * from {userTable} where email = 'amiel'";
@@ -27,7 +29,7 @@ namespace UI
             
             boardsController.Update("email@jss", BoardsDTO.BoardIdColumnName, 5);
 
-
+            */
           
 
             /*

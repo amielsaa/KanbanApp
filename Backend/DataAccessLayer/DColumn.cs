@@ -104,6 +104,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
             }
         }
 
+
 //--------------------------------------------------Convert methods-------------------------------------------------------------------------------
         protected override DTO ConvertReaderToObject(SQLiteDataReader reader)
         {

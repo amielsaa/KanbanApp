@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace IntroSE.Kanban.Backend.DataAccessLayer
 {
-   public class DUserController : DalController
+    public class DUserController : DalController
     {
         //fields
         private const string oldPasswordsTableName = "OldPassword";
@@ -20,9 +20,9 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
         {
         }
 
-//---------------------------------------------------methods--------------------------------------------------------------------------------
-    
-//------------------------------------------------Select methods---------------------------------------------------------------------------
+        //---------------------------------------------------methods--------------------------------------------------------------------------------
+
+        //------------------------------------------------Select methods---------------------------------------------------------------------------
         public List<UserDTO> SelectAllUsers()
         {
             List<UserDTO> results = new List<UserDTO>();
@@ -92,7 +92,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
             return result;
         }
 
-//-------------------------------------------------Insert methods---------------------------------------------------------------------------
+        //-------------------------------------------------Insert methods---------------------------------------------------------------------------
         public bool Insert(UserDTO user)
         {
 
@@ -155,21 +155,28 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
                 return res > 0;
             }
         }
-//------------------------------------------------Update methods------------------------------------------------------------------------------
+        //------------------------------------------------Update methods------------------------------------------------------------------------------
         public void updateBoardsIdNum(string email, int boardId)
         {
             UserDTO user = SelectUser(email);
             user.BoardsId = boardId;
-            
+
         }
 
-//-------------------------------------------------Convert methods----------------------------------------------------------------------------
+        //-------------------------------------------------Convert methods----------------------------------------------------------------------------
         protected override DTO ConvertReaderToObject(SQLiteDataReader reader)
         {
             UserDTO result = new UserDTO(reader.GetString(0), reader.GetString(1), reader.GetInt32(2));
             return result;
 
         }
+        public void DeleteAllUsersInfo()
+        {
+            DeleteAll(UserTableName);
+            DeleteAll(oldPasswordsTableName);
+        }
+
+        
        
 
 

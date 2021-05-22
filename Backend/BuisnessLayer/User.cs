@@ -32,14 +32,14 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
         //create new user constructor
         public User(string em, string pw, UserController userController, BoardController boardController)
         {
-            email =validateEmail(em);
             oldPassword = new List<string>();
             if (!validatePasswordRules(pw))
-                throw new ArgumentException("this password does'nt stand in the password rules");   
+                throw new ArgumentException("this password doesn't stand in the password rules");
+            email = em;
             password = pw;
             this.boardController = boardController;
             this.userController = userController;
-            List<Board> boardList  = this.boardController.getAllUserBoards(email);
+            List<Board> boardList = new List<Board>() ;
             boards = new Boards(boardList ,0);
             this.boardController.AddBoardsToBC(email, boards);
             login = false;
@@ -66,6 +66,8 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
 
          public void logout()
         {
+            if (!login)
+                throw new ArgumentException("User isn't logged in");
             login = false;
         }
         public void checkIfLogedIn()
@@ -225,23 +227,7 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
         }
 
 
-        /// <summary>
-        /// checking validity of an email
-        /// </summary>
-        /// <param name="email">Email of user. Must be logged in</param>
-        /// <returns>a string variable with the email, if it isn't valid it returns an error insted. </returns>
-        public string validateEmail(string email)
-        {
-            string expression = @"^[\w!#$%&'*+\-/=?\^_`{|}~]+(\.[\w!#$%&'*+\-/=?\^_`{|}~]+)*"
-            + "@"
-            + @"((([\-\w]+\.)+[a-zA-Z]{2,4})|(([0-9]{1,3}\.){3}[0-9]{1,3}))$";
-            if (email!=null&&email[email.Length-1]<65)
-                throw new ArgumentException("email isn't valid");
-            if (Regex.IsMatch(email, expression))
-                return email;
-            else
-                throw new ArgumentException("email isn't valid");
-        }
+        
 
         /// <summary>
         /// check if passwords are the same (to keep password private)

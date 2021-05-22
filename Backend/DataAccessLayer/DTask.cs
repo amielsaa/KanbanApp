@@ -194,6 +194,8 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
             return DeleteWithBoardId(boardsDTO);
         }
 
+
+
 //-------------------------------------------Convert methods-------------------------------------------------------------------------------
         protected override DTO ConvertReaderToObject(SQLiteDataReader reader)
         {

@@ -28,6 +28,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             var logRepository = LogManager.GetRepository(Assembly.GetEntryAssembly());
             XmlConfigurator.Configure(logRepository, new FileInfo("log4net.config"));
             log.Info("Starting Log!");
+            
         }
 
         
@@ -43,8 +44,6 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             try
             {
                 var user = userController.login(userEmail, password);
-                if (user == null)
-                    throw new ArgumentException("User doesnt exists!");
                 log.Info("User logged in successfully");
                 return Response<User>.FromValue(new User(userEmail));
             }
@@ -63,10 +62,8 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         {
             try
             {
+                userController.logout(userEmail);
                 var user = userController.getUser(userEmail);
-                if (user == null)
-                    throw new ArgumentException("User doesnt exists!");
-                user.logout();
                 log.Info("User logged out successfully");
                 return new Response();
             }
@@ -111,15 +108,10 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             {
                 var user = userController.getUser(userEmail);
                 var creatorUser = userController.getUser(creatorEmail);
-                if (user == null  | creatorUser == null) { throw new ArgumentException("User doesnt exists!"); }
-                if (user.login)
-                {
-                    user.joinBoard(creatorUser, boardName);
-                    log.Info($"User joined {boardName} successfully");
-                    return new Response();
-                }
-                else
-                    throw new ArgumentException("You must be logged in");
+                user.joinBoard(creatorUser, boardName);
+                log.Info($"User joined {boardName} successfully");
+                return new Response();
+
             }
             catch(Exception e)
             {

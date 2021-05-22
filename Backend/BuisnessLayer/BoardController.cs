@@ -91,6 +91,14 @@ namespace IntroSE.Kanban.Backend.BuisnessLayer
                 throw new ArgumentException("Board not found.");
             return toReturn;
         }
+        public void deleteAllData()
+        {
+            foreach (Board board in allBoards)
+            {
+                deleteBoard(board);
+            }
+
+        }
 
 
     }

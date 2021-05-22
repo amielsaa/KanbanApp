@@ -229,5 +229,37 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
             return res > 0;
         }
 
+        public bool DeleteAll(string tablename)
+        {
+            int res = -1;
+
+            using (var connection = new SQLiteConnection(_connectionString))
+            {
+                var command = new SQLiteCommand
+                {
+                    Connection = connection,
+                    CommandText = $"delete from {tablename} "
+                };
+                try
+                {
+                    connection.Open();
+                    res = command.ExecuteNonQuery();
+                }
+                catch (Exception e)
+                {
+                    throw new ArgumentException("deletion in database failed");
+                }
+                finally
+                {
+                    command.Dispose();
+                    connection.Close();
+                }
+
+            }
+            return res > 0;
+        }
+
     }
+
+
 }
