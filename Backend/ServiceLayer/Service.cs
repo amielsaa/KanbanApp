@@ -39,8 +39,8 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             {
                 boardService.boardController.deleteAllData();
                 userService.userController.deleteAll();
-                boardService.boardController = null;
-                userService.userController = null;
+                boardService.boardController = new BuisnessLayer.BoardController();
+                userService.userController = new UserController() ;
                 return new Response();
             }catch(Exception e)
             {
@@ -269,7 +269,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         /// <returns>A response object with a value set to the board, instead the response should contain a error message in case of an error</returns>
         public Response<IList<String>> GetBoardNames(string userEmail)
         {
-            throw new NotImplementedException();
+            return userService.GetBoardNames(userEmail);
         }
 
     }

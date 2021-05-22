@@ -17,8 +17,8 @@ namespace UI
         {
             Service service = new Service();
 
-            UserTests us = new UserTests(service);
-            us.runTests();
+            FullTests tests = new FullTests(service);
+            tests.RunTests();
             /*string userTable = "Users";
             DUserController userController = new DUserController();
             DBoardsController boardsController = new DBoardsController();
@@ -48,10 +48,7 @@ namespace UI
             }
 
             */
-            Console.Read();
-            
-            UserTests test = new UserTests(new Service());
-            test.runTests();
+
             /*
             Task newTask = new Task(new DateTime(2021,5,15,15,15,15),"milestone2","finish it", 4,0,new User("shapiraido123@gmail.com","ido1Ido1"),"amiel",5);
             DTask dtask = new DTask();
