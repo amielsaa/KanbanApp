@@ -83,7 +83,7 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
         /// <returns>A board with the name it was given and 3 empty columns, in a case where the name was already used it shoulf return an error message </returns>
         public Board newBoard(string name)
         {
-            checkIfLogedIn();
+            //checkIfLogedIn();
             name = boards.getValidatename(name);
             Board board = new Board(name, email,boards.id);
             boards.addboard( board);
@@ -99,7 +99,7 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
         /// <returns>it returns nothing, instead it calls Boards class function to delete it.</returns>
         public void removeBoard(Board board)
         {
-            checkIfLogedIn();
+            //checkIfLogedIn();
             if (email != board.creatorEmail)
                 throw new ArgumentException("only the creator can delete his board");
             boards.removeBoard(board);
@@ -124,8 +124,10 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
         /// <returns> return nothing, only adding board to boards of this user.</returns>
         public void joinBoard(User boardCreator, string boardName)
         {
-            checkIfLogedIn();
+            //checkIfLogedIn();
             Board board = boardCreator.getBoardByName(boardName);
+            if (board == null)
+                throw new ArgumentException("No such board was found");
             board.boardUsers.Add(email);
             boards.addboard(board);
 

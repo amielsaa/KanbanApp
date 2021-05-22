@@ -73,20 +73,21 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
                 {
                     connection.Open();
                     command.CommandText = $"INSERT INTO {ColumnTableName} ({ColumnDTO.EmailColumnName} ,{ColumnDTO.BoardIdColumnName},{ColumnDTO.ColumnNumberColumnName}, {ColumnDTO.TaskLimitColumnName},{ColumnDTO.ColumnNameColumnName}) " +
-                        $"VALUES (@creatorEmail,@boardId,@columnNumber,@taskLimit,@columnName); ";
+                        $"VALUES ('{columnDTO.Email}',{columnDTO.BoardId},{columnDTO.ColumnNumber},{columnDTO.TaskLimit},'{columnDTO.ColumnName}' ); ";
 
-                    SQLiteParameter newEmail = new SQLiteParameter(@"creatorEmail", columnDTO.Email);
+                    /*SQLiteParameter newEmail = new SQLiteParameter(@"creatorEmail", columnDTO.Email);
                     SQLiteParameter newBoardId = new SQLiteParameter(@"boardId", columnDTO.BoardId);
                     SQLiteParameter newColumnNumber = new SQLiteParameter(@"columnNumber", columnDTO.ColumnNumber);
                     SQLiteParameter newTaskLimit = new SQLiteParameter(@"taskLimit", columnDTO.TaskLimit);
                     SQLiteParameter newColumnName = new SQLiteParameter(@"columnName", columnDTO.ColumnName);
+                    
 
                     command.Parameters.Add(newEmail);
                     command.Parameters.Add(newBoardId);
                     command.Parameters.Add(newColumnName);
                     command.Parameters.Add(newTaskLimit);
                     command.Parameters.Add(newColumnName);
-
+                    */
                     command.Prepare();
 
                     res = command.ExecuteNonQuery();
