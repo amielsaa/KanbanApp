@@ -155,7 +155,7 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
         /// <returns>it returns nothing, it checks the validity of the password and change it if it valide</returns>
         private void changePassword(string newPassword)
         {
-            checkIfLogedIn();
+            //checkIfLogedIn();
             DUserController dUser = new DUserController();
             dUser.InsertOldPassword(password,email);
             newPassword = validatePasswod(newPassword);
@@ -252,7 +252,7 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
         /// <returns>A list of al the tasks in "inProgress", it can return null there aren't any.</returns>
         public List<Task> getAllInProgressTasks()
         {
-            checkIfLogedIn();
+            //checkIfLogedIn();
             List<Task> list = boards.getAllInProgressTasks();
             return list;
         }
@@ -265,7 +265,7 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
         /// <returns>A board if there is a board with this name or null if there is no board with this name</returns> 
         public void changeAssignee(User newAssignee, Task task)
         {
-            checkIfLogedIn();
+            //checkIfLogedIn();
             myAssignments.Remove(task);
             task.assigneeEmail = newAssignee.email;
             newAssignee.myAssignments.Add(task);

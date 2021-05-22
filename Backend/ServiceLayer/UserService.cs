@@ -172,7 +172,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
                     IList<Task> inProgList = new List<Task>();
                     foreach(var task in toConvertProgTasksList)
                     {
-                        inProgList.Add(new Task(task.taskId, task.getCreationTime(), task.getTitle(), task.getDescription(), task.getDueTime()));
+                        inProgList.Add(new Task(task.taskId, task.getCreationTime(), task.getTitle(), task.getDescription(), task.getDueTime(),task.assigneeEmail));
                     }
                     log.Info("In Progress Tasks fetched successfully.");
                     return Response<IList<Task>>.FromValue(inProgList);

@@ -152,7 +152,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
                     var taskList = new List<Task>();
                     foreach(var task in tasks)
                     {
-                        taskList.Add(new Task(task.taskId, task.getCreationTime(), task.getTitle(), task.getDescription(), task.getDueTime()));
+                        taskList.Add(new Task(task.taskId, task.getCreationTime(), task.getTitle(), task.getDescription(), task.getDueTime(), task.assigneeEmail));
                     }
                     log.Info("Column retrieved successfully");
                     return Response<IList<Task>>.FromValue(taskList);

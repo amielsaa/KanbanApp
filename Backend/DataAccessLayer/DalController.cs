@@ -208,7 +208,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
                 var command = new SQLiteCommand
                 {
                     Connection = connection,
-                    CommandText = $"delete from {_tableName} where email={DTOObj.Email} and boardId = {DTOObj.BoardId}"
+                    CommandText = $"delete from {_tableName} where email='{DTOObj.Email}' and boardId = {DTOObj.BoardId}"
                 };
                 try
                 {

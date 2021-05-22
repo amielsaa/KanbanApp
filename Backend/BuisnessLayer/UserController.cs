@@ -19,7 +19,7 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
         public List<User> users;
         private DUserController dUserController;
         private UserDTO newUser;
-        public BoardController boardsController { get; set; }
+        public BoardController boardsController;
 
         //constructor
         public UserController()

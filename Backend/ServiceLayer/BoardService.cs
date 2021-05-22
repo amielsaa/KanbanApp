@@ -45,6 +45,8 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             {
                 Board board = boardController.getBoard(creatorEmail, boardName);
                 var task = board.getColumn(columnOrdinal).getTaskById(taskId);
+                if (task == null)
+                    throw new ArgumentException("there is no task with this id");
                 userController.isUserAssignee(userEmail, task.taskId, task.boardId, creatorEmail);
                 task.setDueTime(dueDate);
                 return new Response();
@@ -117,7 +119,6 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         {
             try
             {
-                userController.getUser(userEmail).checkIfLogedIn();
                 Board board = boardController.getBoard(creatorEmail, boardName);
                 return Response<int>.FromValue(board.getColumn(columnOrdinal).Limit);
             }catch(Exception e)
@@ -138,7 +139,6 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         {
             try
             {
-                userController.getUser(userEmail).checkIfLogedIn();
                 Board board = boardController.getBoard(creatorEmail, boardName);
                 return Response<string>.FromValue(board.getColumn(columnOrdinal).Title);
             }catch(Exception e)
@@ -187,10 +187,9 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         {
             try
             {
-                userController.getUser(userEmail).checkIfLogedIn();
                 Board board = boardController.getBoard(creatorEmail, boardName);
                 var task = board.addTask(dueDate, title, description);
-                return Response<Task>.FromValue(new Task(task.taskId, task.getCreationTime(), task.getTitle(), task.getDescription(), task.getDueTime()));
+                return Response<Task>.FromValue(new Task(task.taskId, task.getCreationTime(), task.getTitle(), task.getDescription(), task.getDueTime(),task.assigneeEmail));
             }catch(Exception e)
             {
                 return Response<Task>.FromError(e.Message);
@@ -210,7 +209,6 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         {
             try
             {
-                userController.getUser(userEmail).checkIfLogedIn();
                 Board board = boardController.getBoard(creatorEmail, boardName);
                 Column column = board.getColumn(columnOrdinal);
                 board.moveTask(column.getTaskById(taskId), columnOrdinal);
@@ -236,8 +234,15 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             try
             {
                 var task = boardController.getBoard(creatorEmail, boardName).getColumn(columnOrdinal).getTaskById(taskId);
+                if (task == null)
+                    throw new ArgumentException("there's no such task");
                 var user = userController.getUser(userEmail);
+                if (user == null)
+                    throw new ArgumentException("there's no such user");
                 var newAssignee = userController.getUser(emailAssignee);
+                if (newAssignee == null)
+                    throw new ArgumentException("there's no such user (Assignee)");
+
                 userController.isUserAssignee(userEmail, task.taskId, task.boardId, creatorEmail);
                 user.changeAssignee(newAssignee, task);
                 return new Response(); 
@@ -260,13 +265,12 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         {
             try
             {
-                userController.getUser(userEmail).checkIfLogedIn();
                 Column column = boardController.getBoard(creatorEmail, boardName).getColumn(columnOrdinal);
                 var taskList = column.getTasks();
                 IList<Task> tasks = new List<Task>();
                 foreach(var task in taskList)
                 {
-                    tasks.Add(new Task(task.taskId, task.getCreationTime(), task.getTitle(), task.getDescription(), task.getDueTime()));
+                    tasks.Add(new Task(task.taskId, task.getCreationTime(), task.getTitle(), task.getDescription(), task.getDueTime(), task.assigneeEmail));
                 }
                 return Response<IList<Task>>.FromValue(tasks);
             }

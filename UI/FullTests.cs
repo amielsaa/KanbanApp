@@ -138,7 +138,11 @@ namespace IntroSE.Kanban.Frontend
             {
                 Console.WriteLine("###logout successfully###");
             }
+
+
             ///***BOARD TESTS***///
+
+
             Console.WriteLine("\n///***BOARD TESTS***///");
             Response res6 = userService.AddBoard("guy@gmail.com", "newBoard0");
             if (res6.ErrorOccured)
@@ -149,6 +153,7 @@ namespace IntroSE.Kanban.Frontend
             {
                 Console.WriteLine("###Created board successfully###");
             }
+
             Response res55 = userService.AddBoard("oran@gmail.com", "newBoard1");
             if (res55.ErrorOccured)
             {
@@ -158,6 +163,7 @@ namespace IntroSE.Kanban.Frontend
             {
                 Console.WriteLine("###Created board successfully###");
             }
+
             Response res56 = userService.AddBoard("oran@gmail.com", "newBoard2");
             if (res56.ErrorOccured)
             {
@@ -167,6 +173,18 @@ namespace IntroSE.Kanban.Frontend
             {
                 Console.WriteLine("###Created board successfully###");
             }
+      
+            Response res500 = userService.RemoveBoard("oran@gmail.com", "oran@gmail.com", "newBoard2");
+            if (res500.ErrorOccured)
+            {
+                Console.WriteLine(res500.ErrorMessage);
+            }
+            else
+            {
+                Console.WriteLine("###board deleted successfully###");
+            }
+
+
             Response res57 = userService.AddBoard("oran@gmail.com", "newBoard3");
             if (res57.ErrorOccured)
             {
@@ -176,6 +194,7 @@ namespace IntroSE.Kanban.Frontend
             {
                 Console.WriteLine("###Created board successfully###");
             }
+
             Response res58 = userService.AddBoard("guy@gmail.com", "newBoard4");
             if (res58.ErrorOccured)
             {
@@ -185,6 +204,8 @@ namespace IntroSE.Kanban.Frontend
             {
                 Console.WriteLine("###Created board successfully###");
             }
+
+
             Response res59 = userService.AddBoard("guy@gmail.com", "newBoard4");
             if (res59.ErrorOccured)
             {
@@ -316,7 +337,7 @@ namespace IntroSE.Kanban.Frontend
                 Console.WriteLine("###Got the column successfully###");
             }
 
-            /*Response rmvbrd = userService.RemoveBoard("oran@gmail.com", "guy@gmail.com", "newBoard0");
+            Response rmvbrd = userService.RemoveBoard("oran@gmail.com", "guy@gmail.com", "newBoard0");
             if (rmvbrd.ErrorOccured)
             {
                 Console.WriteLine(rmvbrd.ErrorMessage);
@@ -333,13 +354,13 @@ namespace IntroSE.Kanban.Frontend
             }
             else
             {
-                Response<IList<Task>> inprogress = userService.InProgressTasks("oran@gmail.com");
-                IList<Task> i = inprogress.Value;
-                foreach (Task task in i)
+                Response<IList<Backend.ServiceLayer.Task>> inprogress = userService.InProgressTasks("oran@gmail.com");
+                IList<Backend.ServiceLayer.Task> i = inprogress.Value;
+                foreach (Backend.ServiceLayer.Task task in i)
                 {
                     Console.WriteLine(task.Id + " is part of the in progress of the user oran@gmail.com");
                 }
-            }*/
+            }
 
             Response asgntsk = userService.AssignTask("oran@gmail.com", "oran@gmail.com", "newBoard1", 0, 0, "guy@gmail.com");
             if (asgntsk.ErrorOccured)
@@ -380,6 +401,7 @@ namespace IntroSE.Kanban.Frontend
                     Console.WriteLine(name + " is part of the boards of the user guy@gmail.com");
                 }
             }
+            userService.DeleteData();
 
         }
     }

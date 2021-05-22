@@ -77,7 +77,7 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
                 Task task = new Task(dueDate, title, description, taskId, 0, creatorEmail, creatorEmail, id);
                 columns[0].addTask(task);
                 taskId++;
-                TaskDTO taskdto = new TaskDTO(creatorEmail, id, taskId, task.getAssignee().email, task.getColumn(),
+                TaskDTO taskdto = new TaskDTO(creatorEmail, id, taskId, task.getAssignee(), task.getColumn(),
                     task.getCreationTime().ToString(), task.getDescription(), task.getTitle(), task.getDueTime().ToString());
                 DTask dtask = new DTask();
                 dtask.Insert(taskdto);

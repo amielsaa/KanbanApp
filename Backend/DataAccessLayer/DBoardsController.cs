@@ -129,8 +129,9 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
                 {
                     connection.Open();
                     command.CommandText = $"INSERT INTO {BoardsTableName} ({DTO.EmailColumnName} ,{BoardsDTO.BoardIdColumnName},{BoardsDTO.BoardNameColumnName},{BoardsDTO.TaskIdColumnName},{BoardsDTO.UsersEmailColumnName}) " +
-                        $"VALUES (@emailVal,@boardIdVal,@boardNameVal,@taskIdVal,@usersEmailVal);";
-                    
+                        $"VALUES ('{boardsDTO.Email}',{boardsDTO.BoardId},'{boardsDTO.BoardName}',{boardsDTO.TaskId},'{boardsDTO.UsersEmail}');";
+
+                    /*
                     SQLiteParameter emailParam = new SQLiteParameter(@"emailVal", boardsDTO.Email);
                     SQLiteParameter boardIdParam = new SQLiteParameter(@"boardIdVal", boardsDTO.BoardId);
                     SQLiteParameter boardNameParam = new SQLiteParameter(@"boardNameVal", boardsDTO.BoardName);
@@ -142,7 +143,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
                     command.Parameters.Add(boardNameParam);
                     command.Parameters.Add(taskIdParam);
                     command.Parameters.Add(usersEmailParam);
-
+                    */
                     command.Prepare();
 
                     res = command.ExecuteNonQuery();
@@ -166,6 +167,12 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
             DTask dTask = new DTask();
             dTask.DeleteBoardTasks(boardsDTO);
             return DeleteWithBoardId(boardsDTO);
+        }
+        public void DeleteAllBoards()
+        {
+            DeleteAll(BoardsTableName);
+            DeleteAll("Column");
+            DeleteAll("Tasks");
         }
 
         

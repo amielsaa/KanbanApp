@@ -87,7 +87,7 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
         {
             foreach (Board i in boards)
             {
-                if (i.creatorEmail == email && i.name == name)
+                if (i.name == name)
                     return i;
             }
             return null;

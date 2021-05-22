@@ -19,7 +19,6 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
         private int TITLE_MAX_LENGTH = 50;
         private int DESCRIPTION_MAX_LENGTH = 300;
         private string description;
-        public User assignee;
         public string assigneeEmail;
         //constructor
 
@@ -85,9 +84,9 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
             return description;
         }
 
-        public User getAssignee()
+        public string getAssignee()
         {
-            return assignee;
+            return assigneeEmail;
         }
 
         public int getColumn()

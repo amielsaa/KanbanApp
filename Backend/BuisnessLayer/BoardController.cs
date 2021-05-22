@@ -93,10 +93,7 @@ namespace IntroSE.Kanban.Backend.BuisnessLayer
         }
         public void deleteAllData()
         {
-            foreach (Board board in allBoards)
-            {
-                deleteBoard(board);
-            }
+            dBoardController.DeleteAllBoards();
 
         }
 
