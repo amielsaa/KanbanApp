@@ -163,7 +163,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
                 var user = userController.getUser(userEmail);
                 Board board = boardController.getBoard(creatorEmail, boardName);
                 Column column = board.getColumn(columnOrdinal);
-                user.ChangeColumnLimit(column, board, limit);
+                user.ChangeColumnLimit(column, board, limit,creatorEmail);
                 return new Response();
             }catch(Exception e)
             {
@@ -188,7 +188,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             try
             {
                 Board board = boardController.getBoard(creatorEmail, boardName);
-                var task = board.addTask(dueDate, title, description);
+                var task = board.addTask(dueDate, title, description,userEmail,userController.getUser(userEmail));
                 return Response<Task>.FromValue(new Task(task.taskId, task.getCreationTime(), task.getTitle(), task.getDescription(), task.getDueTime(),task.assigneeEmail));
             }catch(Exception e)
             {
@@ -237,13 +237,9 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
                 if (task == null)
                     throw new ArgumentException("there's no such task");
                 var user = userController.getUser(userEmail);
-                if (user == null)
-                    throw new ArgumentException("there's no such user");
                 var newAssignee = userController.getUser(emailAssignee);
-                if (newAssignee == null)
-                    throw new ArgumentException("there's no such user (Assignee)");
 
-                userController.isUserAssignee(userEmail, task.taskId, task.boardId, creatorEmail);
+                userController.isUserAssignee(userEmail, task.taskId, task.boardId,creatorEmail);
                 user.changeAssignee(newAssignee, task);
                 return new Response(); 
                 

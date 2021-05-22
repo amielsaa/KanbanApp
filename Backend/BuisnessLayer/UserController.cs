@@ -147,11 +147,11 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
 
         }
 
-        public void isUserAssignee(string email, int taskId,int boardId, string creatorEmail)
+        public void isUserAssignee(string email, int taskId,int boardId,string creatorEmail)
         {
             var user = getUser(email);
             user.checkIfLogedIn();
-            if ((user.myAssignments.Find(x => x.taskId == taskId & x.boardId == boardId & x.email == creatorEmail)) == null )
+            if (!(user.myAssignments.Exists(x => x.taskId == taskId & x.boardId == boardId & x.email == creatorEmail)) )
             {
                 throw new ArgumentException("The user is'nt the assignee of the current task");
             }

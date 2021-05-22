@@ -22,6 +22,7 @@ namespace IntroSE.Kanban.Backend.BuisnessLayer
         {
             allBoards = new List<Board>();
             dBoardController = new DBoardsController();
+            allBoardsLists = new List<(string, Boards)>();
             userController = uc;
             pullAllBoards();
         }
@@ -43,7 +44,7 @@ namespace IntroSE.Kanban.Backend.BuisnessLayer
         public void pullAllBoards()
         {
             List<Board> boardList = dBoardController.SelectAllBoards();
-            allBoardsLists = new List<(string, Boards)>();
+            
             foreach (Board board in boardList)
             {
                 allBoards.Add(board);
@@ -59,7 +60,7 @@ namespace IntroSE.Kanban.Backend.BuisnessLayer
             List<Board> list = new List<Board>();
             foreach (Board b in allBoards)
             {
-                if (b.searchForUser(email))
+                if (b.searchForUser(email) | b.creatorEmail == email)
                     list.Add(b);
             }
             return list;

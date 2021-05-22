@@ -15,10 +15,42 @@ namespace UI
     {
         public static void Main(string[] args)
         {
+            /*
             Service service = new Service();
-
             FullTests tests = new FullTests(service);
             tests.RunTests();
+            */
+
+            
+            Service service = new Service();
+            service.DeleteData();
+            service.Register("amiel@gmail.com", "123456Kk");
+            service.Register("amielhagever@gmail.com", "123456Kk");
+            service.Login("amiel@gmail.com", "123456Kk");
+            service.Login("amielhagever@gmail.com", "123456Kk");
+
+            service.AddBoard("amiel@gmail.com", "boardz");
+            service.AddBoard("amiel@gmail.com", "boardbzz");
+            service.AddBoard("amiel@gmail.com", "boardzbzxcbzbz");
+            var res4 = service.GetBoardNames("amiel@gmail.com");
+            /*
+            //service.JoinBoard("amielhagever@gmail.com", "amiel@gmail.com", "boardz");
+            var res = service.AddTask("amiel@gmail.com", "amiel@gmail.com", "boardz", "MAKORE", "BSEDER", new DateTime(2021, 6, 5, 4, 5, 5));
+            service.AdvanceTask("amiel@gmail.com", "amiel@gmail.com", "boardz", 0, res.Value.Id);
+            var res1 = service.AddTask("amiel@gmail.com", "amiel@gmail.com", "boardz", "MA ATA ROTZE", "MIMENI", new DateTime(2021, 6, 5, 4, 5, 5));
+            service.AdvanceTask("amiel@gmail.com", "amiel@gmail.com", "boardz", 0, res1.Value.Id);
+            var res2 = service.AddTask("amiel@gmail.com", "amiel@gmail.com", "boardz", "MA MA", "MI ATA YAMANAYAK", new DateTime(2021, 6, 5, 4, 5, 5));
+            service.AdvanceTask("amiel@gmail.com", "amiel@gmail.com", "boardz", 0, res2.Value.Id);
+            var res3 = service.AddTask("amiel@gmail.com", "amiel@gmail.com", "boardz", "AL DABER ELAY BIHLAL", "ABA SHLI HAYAL AVAL SADIR", new DateTime(2021, 6, 5, 4, 5, 5));
+            service.AdvanceTask("amiel@gmail.com", "amiel@gmail.com", "boardz", 0, res3.Value.Id);
+
+            var res4 = service.InProgressTasks("amiel@gmail.com");*/
+            //var res1= service.AssignTask("amielhagever@gmail.com", "amiel@gmail.com", "boardz", 0, res.Value.Id, "amiel@gmail.com");
+            Console.WriteLine(res4.Value.Count);
+            
+
+
+
             /*string userTable = "Users";
             DUserController userController = new DUserController();
             DBoardsController boardsController = new DBoardsController();
@@ -30,7 +62,7 @@ namespace UI
             boardsController.Update("email@jss", BoardsDTO.BoardIdColumnName, 5);
 
             */
-          
+
 
             /*
             ans = forumController.Insert(forum);

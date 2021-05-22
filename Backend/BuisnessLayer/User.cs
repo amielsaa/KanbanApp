@@ -41,8 +41,9 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
             this.userController = userController;
             List<Board> boardList = new List<Board>() ;
             boards = new Boards(boardList ,0);
-            this.boardController.AddBoardsToBC(email, boards);
+            boardController.AddBoardsToBC(email, boards);
             login = false;
+            myAssignments = new List<Task>();
             
         }
 
@@ -57,7 +58,7 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
             this.userController = userController;
             List<Board> boardList = this.boardController.getAllUserBoards(email);
             this.boards = new Boards(boardList, boardsId);
-            this.boardController.AddBoardsToBC(email, boards);
+            boardController.AddBoardsToBC(email, boards);
             login = false;
         }
 //---------------------------------------------------------methods----------------------------------------------------------------------------------------------------------------
@@ -141,11 +142,11 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
         /// <param name="board"> the board where the column is in .</param>
         /// <param name="newLimit"> the new limit for the column .</param>
         /// <returns> returns nothing, it checks if the column is in the board and calls columns function.</returns>
-        public void ChangeColumnLimit(Column column, Board board, int newLimit)
+        public void ChangeColumnLimit(Column column, Board board, int newLimit,string creatorEmail)
         {
-            if (board.creatorEmail == email && board.columns.Exists(x => x == column))
+            if (board.columns.Exists(x => x == column))
             {
-                column.changeLimit(newLimit, email, board.id, board.columns.IndexOf(column));
+                column.changeLimit(newLimit, creatorEmail, board.id, board.columns.IndexOf(column));
             }
         }
 ///--------------------------------------------password and email methods -----------------------------------------------------------------------------------------------------------
@@ -271,7 +272,7 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
             myAssignments.Remove(task);
             task.assigneeEmail = newAssignee.email;
             newAssignee.myAssignments.Add(task);
-            new DTask().Update(email, task.boardId, task.taskId, TaskDTO.AssigneeColumnName, newAssignee.email);
+            (new DTask()).Update(task.email, task.boardId, task.taskId, TaskDTO.AssigneeColumnName, newAssignee.email);
 
         }
         

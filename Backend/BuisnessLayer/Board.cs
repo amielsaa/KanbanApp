@@ -70,17 +70,14 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
         /// <param name="title">The name of the task</param>
         /// <param name="description">a summary of the task and what the user need to do to complete it </param>
         /// <returns>A task in the backlog column if there's a place in it, returns error otherwise</returns>
-        public Task addTask(DateTime dueDate, string title, string description)
+        public Task addTask(DateTime dueDate, string title, string description,string assignee,User user)
         {
             if (columns[0].checkLimit())
             {
-                Task task = new Task(dueDate, title, description, taskId, 0, creatorEmail, creatorEmail, id);
+                Task task = new Task(dueDate, title, description, taskId, 0, assignee, creatorEmail, id);
                 columns[0].addTask(task);
                 taskId++;
-                TaskDTO taskdto = new TaskDTO(creatorEmail, id, taskId, task.getAssignee(), task.getColumn(),
-                    task.getCreationTime().ToString(), task.getDescription(), task.getTitle(), task.getDueTime().ToString());
-                DTask dtask = new DTask();
-                dtask.Insert(taskdto);
+                user.myAssignments.Add(task);
                 return task;
             }
             else
@@ -115,6 +112,7 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
                 columns[column_of_the_task + 1].getTasks().Add(toMove);
                 deleteTask(toMove, column_of_the_task);
                 toMove.columnOrdinal = toMove.columnOrdinal + 1;
+                (new DTask()).Update(creatorEmail, toMove.boardId, toMove.taskId, TaskDTO.ColumnColumnName, column_of_the_task + 1);
             }
             if (column_of_the_task >= 2)
                 throw new ArgumentException("Cannot advance task to a column past Done");
