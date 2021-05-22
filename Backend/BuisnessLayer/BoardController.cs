@@ -87,7 +87,7 @@ namespace IntroSE.Kanban.Backend.BuisnessLayer
 
         public Board getBoard(string email,string boardName)
         {
-            Board toReturn = allBoards.Find(x => x.creatorEmail.Equals(email) & x.name.Equals(boardName)); ;
+            Board toReturn = allBoards.Find(x => x.creatorEmail.Equals(email) & x.name.Equals(boardName));
             if (toReturn == null)
                 throw new ArgumentException("Board not found.");
             return toReturn;

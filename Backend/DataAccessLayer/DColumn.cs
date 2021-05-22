@@ -119,5 +119,70 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
             return columnDTO;
         }
 
+        public bool Update(string email, int boardId,int columnNumber, string attributeName, string attributeValue)
+        {
+            int res = -1;
+            using (var connection = new SQLiteConnection(_connectionString))
+            {
+                SQLiteCommand command = new SQLiteCommand
+                {
+                    Connection = connection,
+                    CommandText = $"update {ColumnTableName} set {attributeName}=@attVal where email=@emailVal and boardId=@boardIdVal and columnNumber=@columnVal"
+                };
+                try
+                {
+                    command.Parameters.Add(new SQLiteParameter(@"attVal", attributeValue));
+                    command.Parameters.Add(new SQLiteParameter(@"boardIdVal", boardId));
+                    command.Parameters.Add(new SQLiteParameter(@"emailVal", email));
+                    command.Parameters.Add(new SQLiteParameter(@"columnVal", columnNumber));
+                    connection.Open();
+                    command.ExecuteNonQuery();
+                }
+                catch (Exception e)
+                {
+                    throw new ArgumentException("update in database failed: -update board (string)-");
+                }
+                finally
+                {
+                    command.Dispose();
+                    connection.Close();
+                }
+
+            }
+            return res > 0;
+        }
+        public bool Update(string email, int boardId, int columnNumber, string attributeName, int attributeValue)
+        {
+            int res = -1;
+            using (var connection = new SQLiteConnection(_connectionString))
+            {
+                SQLiteCommand command = new SQLiteCommand
+                {
+                    Connection = connection,
+                    CommandText = $"update {ColumnTableName} set {attributeName}=@attVal where email=@emailVal and boardId=@boardIdVal and columnNumber=@columnVal"
+                };
+                try
+                {
+                    command.Parameters.Add(new SQLiteParameter(@"attVal", attributeValue));
+                    command.Parameters.Add(new SQLiteParameter(@"boardIdVal", boardId));
+                    command.Parameters.Add(new SQLiteParameter(@"emailVal", email));
+                    command.Parameters.Add(new SQLiteParameter(@"columnVal", columnNumber));
+                    connection.Open();
+                    command.ExecuteNonQuery();
+                }
+                catch (Exception e)
+                {
+                    throw new ArgumentException("update in database failed: -update board (string)-");
+                }
+                finally
+                {
+                    command.Dispose();
+                    connection.Close();
+                }
+
+            }
+            return res > 0;
+        }
+
     }
 }
