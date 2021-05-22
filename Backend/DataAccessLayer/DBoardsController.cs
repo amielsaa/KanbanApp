@@ -99,7 +99,12 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
         {
             string command = $"select * from {BoardsTableName} where boardId = {boardId} and email = '{creatorEmail}'";
             List<BoardsDTO> list = Select(command).Cast<BoardsDTO>().ToList();
-            return list[0].UsersEmail.Split(',').ToList();
+            List<string> usersList = new List<string>();
+            if (list.Count != 0)
+            {
+                usersList = list[0].UsersEmail.Split(',').ToList();
+            }
+            return usersList ;
         }
         
         public List<Board> SelectAllBoardsByEmail(string email)
