@@ -26,10 +26,10 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
             taskId = 0;
             columns = new List<Column>();
             Column backlog = new Column("backlog");
-            Column inProggress = new Column("inProggress");
+            Column inProgress = new Column("in progress");
             Column done = new Column("done");
             columns.Add(backlog);
-            columns.Add(inProggress);
+            columns.Add(inProgress);
             columns.Add(done);
             InsertColumsToDal(columns);
             boardUsers = new List<string>();

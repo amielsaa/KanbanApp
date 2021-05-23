@@ -24,8 +24,10 @@ namespace UI
             Service service = new Service();
             service.LoadData();
             service.Login("amiel@gmail.com", "123456Kk");
-            service.RemoveBoard("amiel@gmail.com", "amiel@gmail.com", "boardzbzxcbzbz");
-            
+            //service.RemoveBoard("amiel@gmail.com", "amiel@gmail.com", "boardzbzxcbzbz");
+            //service.LimitColumn("amiel@gmail.com", "amiel@gmail.com", "boardz", 1, 10);
+            var res1 = service.GetColumnName("amiel@gmail.com", "amiel@gmail.com", "boardz", 1);
+            Console.WriteLine(res1.Value);
             /*
             Service service = new Service();
             service.DeleteData();
