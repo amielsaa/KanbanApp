@@ -100,7 +100,7 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
         /// <returns>it returns nothing, instead it calls Boards class function to delete it.</returns>
         public void removeBoard(Board board)
         {
-            //checkIfLogedIn();
+            checkIfLogedIn();
             if (email != board.creatorEmail)
                 throw new ArgumentException("only the creator can delete his board");
             boards.removeBoard(board);
@@ -144,6 +144,7 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
         /// <returns> returns nothing, it checks if the column is in the board and calls columns function.</returns>
         public void ChangeColumnLimit(Column column, Board board, int newLimit,string creatorEmail)
         {
+            checkIfLogedIn();
             if (board.columns.Exists(x => x == column))
             {
                 column.changeLimit(newLimit, creatorEmail, board.id, board.columns.IndexOf(column));
@@ -256,7 +257,12 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
         public List<Task> getAllInProgressTasks()
         {
             //checkIfLogedIn();
-            List<Task> list = boards.getAllInProgressTasks();
+            List<Task> list = new List<Task>();
+            foreach (Task task in myAssignments)
+            {
+                if (task.columnOrdinal == 1)
+                    list.Add(task);
+            }
             return list;
         }
 

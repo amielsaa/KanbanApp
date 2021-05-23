@@ -20,8 +20,13 @@ namespace UI
             FullTests tests = new FullTests(service);
             tests.RunTests();
             */
-
             
+            Service service = new Service();
+            service.LoadData();
+            service.Login("amiel@gmail.com", "123456Kk");
+            service.RemoveBoard("amiel@gmail.com", "amiel@gmail.com", "boardzbzxcbzbz");
+            
+            /*
             Service service = new Service();
             service.DeleteData();
             service.Register("amiel@gmail.com", "123456Kk");
@@ -33,8 +38,8 @@ namespace UI
             service.AddBoard("amiel@gmail.com", "boardbzz");
             service.AddBoard("amiel@gmail.com", "boardzbzxcbzbz");
             var res4 = service.GetBoardNames("amiel@gmail.com");
-            /*
-            //service.JoinBoard("amielhagever@gmail.com", "amiel@gmail.com", "boardz");
+            Console.WriteLine(res4.Value.Count);   
+            service.JoinBoard("amielhagever@gmail.com", "amiel@gmail.com", "boardz");
             var res = service.AddTask("amiel@gmail.com", "amiel@gmail.com", "boardz", "MAKORE", "BSEDER", new DateTime(2021, 6, 5, 4, 5, 5));
             service.AdvanceTask("amiel@gmail.com", "amiel@gmail.com", "boardz", 0, res.Value.Id);
             var res1 = service.AddTask("amiel@gmail.com", "amiel@gmail.com", "boardz", "MA ATA ROTZE", "MIMENI", new DateTime(2021, 6, 5, 4, 5, 5));
@@ -44,10 +49,10 @@ namespace UI
             var res3 = service.AddTask("amiel@gmail.com", "amiel@gmail.com", "boardz", "AL DABER ELAY BIHLAL", "ABA SHLI HAYAL AVAL SADIR", new DateTime(2021, 6, 5, 4, 5, 5));
             service.AdvanceTask("amiel@gmail.com", "amiel@gmail.com", "boardz", 0, res3.Value.Id);
 
-            var res4 = service.InProgressTasks("amiel@gmail.com");*/
-            //var res1= service.AssignTask("amielhagever@gmail.com", "amiel@gmail.com", "boardz", 0, res.Value.Id, "amiel@gmail.com");
-            Console.WriteLine(res4.Value.Count);
-            
+            var res5 = service.InProgressTasks("amiel@gmail.com");
+            var res6= service.AssignTask("amielhagever@gmail.com", "amiel@gmail.com", "boardz", 0, res.Value.Id, "amiel@gmail.com");
+            Console.WriteLine(res5.Value.Count);
+
 
 
 

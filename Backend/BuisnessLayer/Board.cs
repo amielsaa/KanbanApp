@@ -118,16 +118,7 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
                 throw new ArgumentException("Cannot advance task to a column past Done");
         }
 
-        /// <summary>
-        /// gets all the the task in "inProgress" column
-        /// </summary>
-        /// <returns>a list of all the task in "inprogress" column</returns>
-        public List<Task> getInProgressTasks()
-        {
-            if (columns[1] == null)
-                throw new ArgumentException("There're no InProgress tasks");
-            return columns[1].getTasks();
-        }
+        
 
         /// <summary>
         /// delete all the tasks from the board (through column)
