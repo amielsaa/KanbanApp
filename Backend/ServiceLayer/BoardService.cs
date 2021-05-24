@@ -50,9 +50,12 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
                     throw new ArgumentException("there is no task with this id");
                 userController.isUserAssignee(userEmail, task.taskId, task.boardId, creatorEmail);
                 task.setDueTime(dueDate);
+                log.Info("Updated the task due date");
+
                 return new Response();
             }catch(Exception e)
             {
+                log.Error("Something went wrong during updating the task due date");
                 return new Response(e.Message);
             }
         }
@@ -75,10 +78,12 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
                 var task = board.getColumn(columnOrdinal).getTaskById(taskId);
                 userController.isUserAssignee(userEmail, task.taskId, task.boardId, creatorEmail);
                 task.setTitle(title);
+                log.Info("Updated the task title");
                 return new Response();
             }
             catch (Exception e)
             {
+                log.Error("Something went wrong during updating the task title");
                 return new Response(e.Message);
             }
         }
@@ -101,10 +106,12 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
                 var task = board.getColumn(columnOrdinal).getTaskById(taskId);
                 userController.isUserAssignee(userEmail, task.taskId, task.boardId, creatorEmail);
                 task.setDescription(description);
+                log.Info("Updated the task description");
                 return new Response();
             }
             catch (Exception e)
             {
+                log.Error("Something went wrong during updating the task description");
                 return new Response(e.Message);
             }
         }
@@ -124,9 +131,11 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             {
                 userController.getUser(userEmail).checkIfLogedIn();
                 Board board = boardController.getBoard(creatorEmail, boardName);
+                log.Info("Get column limit");
                 return Response<int>.FromValue(board.getColumn(columnOrdinal).Limit);
             }catch(Exception e)
             {
+                log.Error("Something went wrong during get the column limit");
                 return Response<int>.FromError(e.Message);
             }
         }
@@ -145,9 +154,11 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             {
                 userController.getUser(userEmail).checkIfLogedIn();
                 Board board = boardController.getBoard(creatorEmail, boardName);
+                log.Info("Get column name");
                 return Response<string>.FromValue(board.getColumn(columnOrdinal).Title);
             }catch(Exception e)
             {
+                log.Error("Something went wrong during get the column name");
                 return Response<string>.FromError(e.Message);
             }
         }
@@ -169,9 +180,11 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
                 Board board = boardController.getBoard(creatorEmail, boardName);
                 Column column = board.getColumn(columnOrdinal);
                 user.ChangeColumnLimit(column, board, limit,creatorEmail);
+                log.Info("limit successfully");
                 return new Response();
             }catch(Exception e)
             {
+                log.Error("limit went wrong");
                 return new Response(e.Message);
             }
         }
@@ -195,9 +208,11 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
                 userController.getUser(userEmail).checkIfLogedIn();
                 Board board = boardController.getBoard(creatorEmail, boardName);
                 var task = board.addTask(dueDate, title, description,userEmail,userController.getUser(userEmail));
+                log.Info("Added task successfully");
                 return Response<Task>.FromValue(new Task(task.taskId, task.getCreationTime(), task.getTitle(), task.getDescription(), task.getDueTime(),task.assigneeEmail));
             }catch(Exception e)
             {
+                log.Error("Something went wrong during adding the task");
                 return Response<Task>.FromError(e.Message);
             }
         }
@@ -219,9 +234,11 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
                 Board board = boardController.getBoard(creatorEmail, boardName);
                 Column column = board.getColumn(columnOrdinal);
                 board.moveTask(column.getTaskById(taskId), columnOrdinal);
+                log.Info("The task moved successfully to the next column");
                 return new Response();
             }catch(Exception e)
             {
+                log.Error("Something wehnt wrong during moving the task");
                 return new Response(e.Message);
             }
         }
@@ -249,10 +266,12 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 
                 userController.isUserAssignee(userEmail, task.taskId, task.boardId,creatorEmail);
                 user.changeAssignee(newAssignee, task);
+                log.Info("Assign task successfully");
                 return new Response(); 
                 
             }catch(Exception e)
             {
+                log.Error("Assign task went wrong");
                 return new Response(e.Message);
             }
         }
@@ -277,10 +296,12 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
                 {
                     tasks.Add(new Task(task.taskId, task.getCreationTime(), task.getTitle(), task.getDescription(), task.getDueTime(), task.assigneeEmail));
                 }
+                log.Info("Get the column successfully");
                 return Response<IList<Task>>.FromValue(tasks);
             }
             catch(Exception e)
             {
+                log.Error("something went wrong getting the column successfully");
                 return Response<IList<Task>>.FromError(e.Message);
             }
         }

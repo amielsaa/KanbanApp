@@ -88,7 +88,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             }
             catch (Exception e)
             {
-
+                log.Error("Register failed");
                 return new Response(e.Message);
             }
         }
@@ -130,10 +130,13 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             {
                 var user = userController.getUser(userEmail);
                 user.newBoard(boardName);
+                log.Info("The user add the board successfully");
+
                 return new Response();
             }
             catch (Exception e)
             {
+                log.Error("Something went wrong during adding the board");
                 return new Response(e.Message);
             }
         }
@@ -152,9 +155,11 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
                 var user = userController.getUser(userEmail);
                 Board board = boardController.getBoard(creatorEmail, boardName);
                 user.removeBoard(board);
+                log.Info("User removed the board successfully");
                 return new Response();
             }catch(Exception e)
             {
+                log.Error("Something went wrong during remove board");
                 return new Response(e.Message);
             }
         }
@@ -169,15 +174,18 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
                 {
                     var toConvertProgTasksList = user.getAllInProgressTasks();
                     IList<Task> inProgList = new List<Task>();
-                    foreach(var task in toConvertProgTasksList)
+                    foreach (var task in toConvertProgTasksList)
                     {
-                        inProgList.Add(new Task(task.taskId, task.getCreationTime(), task.getTitle(), task.getDescription(), task.getDueTime(),task.assigneeEmail));
+                        inProgList.Add(new Task(task.taskId, task.getCreationTime(), task.getTitle(), task.getDescription(), task.getDueTime(), task.assigneeEmail));
                     }
                     log.Info("In Progress Tasks fetched successfully.");
                     return Response<IList<Task>>.FromValue(inProgList);
                 }
                 else
+                {
+                    log.Error("You must be logged in");
                     throw new ArgumentException("You must be logged in");
+                }
             }
             catch (Exception e)
             {
@@ -201,9 +209,11 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
                 {
                     list.Add(board.name);
                 }
+                log.Info("Get board names");
                 return Response<IList<String>>.FromValue(list);
             }catch(Exception e)
             {
+                log.Error("Something went wrong during get board names");
                 return Response<IList<String>>.FromError(e.Message);
             }
         }
