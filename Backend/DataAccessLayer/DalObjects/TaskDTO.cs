@@ -22,7 +22,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer.DalObjects
         public const string DueDateColumnName = "dueDate";
 
         //fields
-        private int _boardId;
+
         private int _taskId;
         private string _assignee;
         private int _column;
@@ -32,7 +32,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer.DalObjects
         private string _dueDate;
 
         //getters-setters
-        public new int BoardId { get => _boardId; set { _boardId = value; _controller.Update(Email, BoardIdColumnName, value); } }
+
         public int TaskId { get => _taskId; set { _taskId = value; _controller.Update(Email, TaskIdColumnName, value); } }
         public string Assignee { get => _assignee; set { _assignee = value; _controller.Update(Email, AssigneeColumnName, value); } }
         public int Column { get => _column; set { _column = value; _controller.Update(Email, ColumnColumnName, value); } }
@@ -45,7 +45,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer.DalObjects
         {
             
             Email = email;
-            _boardId = boardid;
+            BoardId = boardid;
             _taskId = taskid;
             _assignee = assignee;
             _column = column;

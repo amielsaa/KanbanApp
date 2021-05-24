@@ -340,7 +340,7 @@ namespace IntroSE.Kanban.Frontend
             Response rmvbrd = userService.RemoveBoard("oran@gmail.com", "guy@gmail.com", "newBoard0");
             if (rmvbrd.ErrorOccured)
             {
-                Console.WriteLine(rmvbrd.ErrorMessage);
+                Console.WriteLine(rmvbrd.ErrorMessage + "###passed the test###");
             }
             else
             {

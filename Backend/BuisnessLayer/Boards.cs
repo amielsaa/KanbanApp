@@ -40,7 +40,7 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
         /// <returns>Doesn't return anything, it returns an error if it can't find the board</returns>
         public void removeBoard(Board board)
         {
-            if (boards.Exists(x => x.id == board.id && x.creatorEmail == board.creatorEmail))
+            if (boards.Exists(x => x.name.Equals(board.name) && x.creatorEmail.Equals(board.creatorEmail)))
             {
                 boards.Remove(board);
             }
@@ -95,21 +95,7 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
         }
 
 //-----------------------------------------------------------Tasks methods----------------------------------------------------------------------
-        /// <summary>
-        /// get all the tasks in "inProgress" column from all the boards of the user
-        /// </summary>
-        /// <returns>A list of al the tasks in "inProgress", it can return null there aren't any.</returns>
-         
-        public List<Task> getAllInProgressTasks()
-        {
-            List<Task> list = new List<Task>();
-            foreach (Board i in boards)
-            {
-                List<Task> listToAdd = i.getInProgressTasks();
-                list.AddRange(listToAdd);
-            }
-            return list;
-        }
+        
         
     }
 }

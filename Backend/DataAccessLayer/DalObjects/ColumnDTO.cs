@@ -16,22 +16,20 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer.DalObjects
         public const string ColumnNameColumnName = "columnName";
 
         //fields
-        private int _boardId;
         private int _columnNumber;
         private int _taskLimit;
         private string _columnName;
 
         //getters-setters
-        public new int BoardId { get => _boardId; set { _boardId = value; ((DColumn)_controller).Update(Email,_boardId,_columnNumber, BoardIdColumnName, value); } }
-        public int ColumnNumber { get => _columnNumber; set { _columnNumber = value; ((DColumn)_controller).Update(Email, _boardId, _columnNumber, ColumnNumberColumnName, value); } }
-        public int TaskLimit { get => _taskLimit; set { _taskLimit = value; ((DColumn)_controller).Update(Email, _boardId, _columnNumber, TaskLimitColumnName, value); } }
-        public string ColumnName { get => _columnName; set { _columnName = value; ((DColumn)_controller).Update(Email, _boardId, _columnNumber, ColumnNameColumnName, value);  }
+        public int ColumnNumber { get => _columnNumber; set { _columnNumber = value; ((DColumn)_controller).Update(Email, BoardId, _columnNumber, ColumnNumberColumnName, value); } }
+        public int TaskLimit { get => _taskLimit; set { _taskLimit = value; ((DColumn)_controller).Update(Email, BoardId, _columnNumber, TaskLimitColumnName, value); } }
+        public string ColumnName { get => _columnName; set { _columnName = value; ((DColumn)_controller).Update(Email, BoardId, _columnNumber, ColumnNameColumnName, value);  }
     }
 
         public ColumnDTO(string email, int boardId, int column, int taskLimit, string columnName) : base(new DColumn())
         {
             Email = email;
-            _boardId = boardId;
+            BoardId = boardId;
             _columnNumber = column;
             _taskLimit = taskLimit;
             _columnName = columnName;

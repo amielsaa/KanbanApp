@@ -12,7 +12,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer.DalObjects
 
         protected DalController _controller;
         public string Email { get; set; } = "";
-        public int BoardId;
+        public int BoardId { get; set; }
         protected DTO(DalController controller)
         {
             _controller = controller;

@@ -26,10 +26,10 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
             taskId = 0;
             columns = new List<Column>();
             Column backlog = new Column("backlog");
-            Column inProggress = new Column("inProggress");
+            Column inProgress = new Column("in progress");
             Column done = new Column("done");
             columns.Add(backlog);
-            columns.Add(inProggress);
+            columns.Add(inProgress);
             columns.Add(done);
             InsertColumsToDal(columns);
             boardUsers = new List<string>();
@@ -118,16 +118,7 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
                 throw new ArgumentException("Cannot advance task to a column past Done");
         }
 
-        /// <summary>
-        /// gets all the the task in "inProgress" column
-        /// </summary>
-        /// <returns>a list of all the task in "inprogress" column</returns>
-        public List<Task> getInProgressTasks()
-        {
-            if (columns[1] == null)
-                throw new ArgumentException("There're no InProgress tasks");
-            return columns[1].getTasks();
-        }
+        
 
         /// <summary>
         /// delete all the tasks from the board (through column)

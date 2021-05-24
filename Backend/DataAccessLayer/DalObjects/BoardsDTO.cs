@@ -16,12 +16,10 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer.DalObjects
 
 
         private string _boardName;
-        private int _boardId;
         private int _taskId;
         private string _usersEmail;
 
         public string BoardName { get => _boardName; set { _boardName = value; _controller.Update(Email, BoardNameColumnName, value); } }
-        public new int BoardId { get => _boardId; set { _boardId = value; _controller.Update(Email, BoardIdColumnName, value); } }
         public int TaskId { get => _taskId; set { _taskId = value; _controller.Update(Email, TaskIdColumnName, value); } }
         public string UsersEmail { get => _usersEmail; set { _usersEmail = value; _controller.Update(Email, UsersEmailColumnName, _usersEmail); } }
         
@@ -29,8 +27,8 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer.DalObjects
         public BoardsDTO(string email, int boardId, string boardName, int taskId, string usersEmail) : base(new DBoardsController())
         {
             Email = email;
+            BoardId = boardId;
             _boardName = boardName;
-            _boardId = boardId;
             _taskId = taskId;
             _usersEmail = usersEmail;
         }
@@ -39,11 +37,11 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer.DalObjects
             DTask dTask = new DTask();
             DBoardsController dBoards = new DBoardsController();
             DColumn column = new DColumn();
-            Column backlog = column.SelectColumn(Email, _boardId, 0).convertToBLColumn();
-            Column inProgress = column.SelectColumn(Email, _boardId, 1).convertToBLColumn();
-            Column done = column.SelectColumn(Email, _boardId, 2).convertToBLColumn();
-            List<string> boardUsers = dBoards.SelectAllBoardUsers(_usersEmail, _boardId);
-            Board board = new Board(_boardName, _usersEmail, _boardId, _taskId, backlog, inProgress, done, boardUsers);
+            Column backlog = column.SelectColumn(Email, BoardId, 0).convertToBLColumn();
+            Column inProgress = column.SelectColumn(Email, BoardId, 1).convertToBLColumn();
+            Column done = column.SelectColumn(Email, BoardId, 2).convertToBLColumn();
+            List<string> boardUsers = dBoards.SelectAllBoardUsers(_usersEmail, BoardId);
+            Board board = new Board(_boardName, Email, BoardId, _taskId, backlog, inProgress, done, boardUsers);
             return board;
         }
 

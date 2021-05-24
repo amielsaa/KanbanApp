@@ -24,7 +24,6 @@ namespace IntroSE.Kanban.Backend.BuisnessLayer
             dBoardController = new DBoardsController();
             allBoardsLists = new List<(string, Boards)>();
             userController = uc;
-            pullAllBoards();
         }
 
         /// <summary>
