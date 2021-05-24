@@ -30,10 +30,8 @@ namespace UI
             service.Login("amielhagever@gmail.com", "123456Kk");
 
             service.AddBoard("amiel@gmail.com", "boardz");
-            service.AddBoard("amiel@gmail.com", "boardbzz");
-            service.AddBoard("amiel@gmail.com", "boardzbzxcbzbz");
-            var res4 = service.GetBoardNames("amiel@gmail.com");
-            /*
+            
+            
             //service.JoinBoard("amielhagever@gmail.com", "amiel@gmail.com", "boardz");
             var res = service.AddTask("amiel@gmail.com", "amiel@gmail.com", "boardz", "MAKORE", "BSEDER", new DateTime(2021, 6, 5, 4, 5, 5));
             service.AdvanceTask("amiel@gmail.com", "amiel@gmail.com", "boardz", 0, res.Value.Id);
@@ -44,9 +42,9 @@ namespace UI
             var res3 = service.AddTask("amiel@gmail.com", "amiel@gmail.com", "boardz", "AL DABER ELAY BIHLAL", "ABA SHLI HAYAL AVAL SADIR", new DateTime(2021, 6, 5, 4, 5, 5));
             service.AdvanceTask("amiel@gmail.com", "amiel@gmail.com", "boardz", 0, res3.Value.Id);
 
-            var res4 = service.InProgressTasks("amiel@gmail.com");*/
+            var res4 = service.GetColumn("amiel@gmail.com", "amiel@gmail.com","boardz",1);
             //var res1= service.AssignTask("amielhagever@gmail.com", "amiel@gmail.com", "boardz", 0, res.Value.Id, "amiel@gmail.com");
-            Console.WriteLine(res4.Value.Count);
+            Console.WriteLine((res4.Value)[3].Title);
             
 
 
