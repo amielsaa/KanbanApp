@@ -20,15 +20,8 @@ namespace UI
             FullTests tests = new FullTests(service);
             tests.RunTests();
             */
+
             
-            Service service = new Service();
-            service.LoadData();
-            service.Login("amiel@gmail.com", "123456Kk");
-            //service.RemoveBoard("amiel@gmail.com", "amiel@gmail.com", "boardzbzxcbzbz");
-            //service.LimitColumn("amiel@gmail.com", "amiel@gmail.com", "boardz", 1, 10);
-            var res1 = service.GetColumnName("amiel@gmail.com", "amiel@gmail.com", "boardz", 1);
-            Console.WriteLine(res1.Value);
-            /*
             Service service = new Service();
             service.DeleteData();
             service.Register("amiel@gmail.com", "123456Kk");
@@ -37,7 +30,6 @@ namespace UI
             service.Login("amielhagever@gmail.com", "123456Kk");
 
             service.AddBoard("amiel@gmail.com", "boardz");
-            
             
             //service.JoinBoard("amielhagever@gmail.com", "amiel@gmail.com", "boardz");
             var res = service.AddTask("amiel@gmail.com", "amiel@gmail.com", "boardz", "MAKORE", "BSEDER", new DateTime(2021, 6, 5, 4, 5, 5));
