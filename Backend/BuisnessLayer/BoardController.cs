@@ -92,12 +92,7 @@ namespace IntroSE.Kanban.Backend.BuisnessLayer
                 throw new ArgumentException("Board not found.");
             return toReturn;
         }
-        public void deleteAllData()
-        {
-            dBoardController.DeleteAllBoards();
-
-        }
-
+      
 
     }
 }

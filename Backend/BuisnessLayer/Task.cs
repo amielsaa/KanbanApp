@@ -39,6 +39,23 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
             assigneeEmail = assignee;
             (new DTask()).Insert(toDalObject());
         }
+        //new constructor  for task that insert him to the first column
+        public Task(DateTime due_time, string title, string description, int id, string assignee, string email, int boardId)
+        {
+            creation_time = DateTime.Now;
+            if (due_time > DateTime.Now)
+                this.due_time = due_time;
+            else
+                throw new ArgumentException("The due time  is not possible");
+            setTitle(title);
+            setDescription(description);
+            taskId = id;
+            this.email = email;
+            this.boardId = boardId;
+            assigneeEmail = assignee;
+            this.columnOrdinal = 0;
+            (new DTask()).Insert(toDalObject());
+        }
         //pull task from database constructor
         public Task(string email, int boardid, int taskid, string assignee, int column, DateTime creationtime, string description, string title, DateTime duedate)
         {
@@ -131,6 +148,7 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
             return new TaskDTO(email, boardId, taskId, assigneeEmail, columnOrdinal, creation_time.ToString(), description, title, due_time.ToString());
         }
 
+      
         
         
     }

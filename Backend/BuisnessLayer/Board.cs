@@ -118,7 +118,104 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
                 throw new ArgumentException("Cannot advance task to a column past Done");
         }
 
-        
+        // milestone 3 move task
+        public void advanceTask(Task toMove, int column_of_the_task)
+        {
+
+            if (column_of_the_task < columns.Count - 1)
+            {
+                columns[column_of_the_task + 1].getTasks().Add(toMove);
+                deleteTask(toMove, column_of_the_task);
+                toMove.columnOrdinal = toMove.columnOrdinal + 1;
+                (new DTask()).Update(creatorEmail, toMove.boardId, toMove.taskId, TaskDTO.ColumnColumnName, column_of_the_task + 1);
+            }
+
+            else
+                throw new ArgumentException("Cannot advance task to a column past Done");
+            
+        }
+
+        public void RemoveColumn(Column column, int columnOrdinal)
+        {
+            Column nextColumn;
+            if(columnOrdinal==0)
+            {
+                nextColumn =getColumn(columnOrdinal + 1);
+                int nextColumnEmptyPlace = nextColumn.Limit - nextColumn.getTasks().Count;
+                if (nextColumnEmptyPlace < column.getTasks().Count)
+                    throw new Exception("Exceed the limit");
+                else
+                {
+                    foreach (Task task in column.getTasks())
+                        task.columnOrdinal = columnOrdinal + 1;
+                    columns.RemoveAt(columnOrdinal);
+                }
+            }
+            else
+            {
+                nextColumn = getColumn(columnOrdinal - 1);
+                int nextColumnEmptyPlace = nextColumn.Limit - nextColumn.getTasks().Count;
+                if (nextColumnEmptyPlace < column.getTasks().Count)
+                    throw new Exception("Exceed the limit");
+                else
+                {
+                    foreach (Task task in column.getTasks())
+                        task.columnOrdinal = columnOrdinal - 1;
+                    columns.RemoveAt(columnOrdinal);
+                }
+            }
+        }
+
+        public void MoveColumn(Column column, int shiftSize)
+        {
+            int columnIndex = columns.IndexOf(column);
+            if (shiftSize > 0)
+            {
+                if (columnIndex + shiftSize >= columns.Count)
+                    throw new Exception("To many right shifts");
+                else
+                {
+                    for (int i = columnIndex; i <= columnIndex + shiftSize; i = i + 1)
+                    {
+                        if (i == columnIndex + shiftSize)
+                            columns[columnIndex + shiftSize] = column;
+                        else
+                            columns[i] = columns[i + 1];
+                    }
+                }
+            }
+            else
+            {
+                if (columnIndex + shiftSize < 0)
+                    throw new Exception("To many left shifts");
+                else
+                {
+                    for (int i = columnIndex; i >= columnIndex + shiftSize; i = i - 1)
+                    {
+                        if (i == columnIndex + shiftSize)
+                            columns[columnIndex + shiftSize] = column;
+                        else
+                            columns[i-1] = columns[i];
+                    }
+                }
+            }
+        }
+
+        public void AddColumn (Column column, int columnOrdinal)
+        {
+            if (columnOrdinal >= 0 & columnOrdinal <= columns.Count)
+            {
+                for (int index = columnOrdinal; index < columns.Count; index = index + 1)
+                {
+                    Column temp = column;
+                    columns[index] = column;
+                    column = temp;
+                }
+                columns.Add(column);
+            }
+            else
+                throw new Exception("Invalid column ordinal");
+        }
 
         /// <summary>
         /// delete all the tasks from the board (through column)

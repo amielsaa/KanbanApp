@@ -243,6 +243,136 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             }
         }
 
+        //milestone 3 advanceTask
+        public Response advanceTask(string userEmail, string creatorEmail, string boardName, int columnOrdinal, int taskId)
+        {
+            try
+            {
+                userController.getUser(userEmail).checkIfLogedIn();
+                Board board = boardController.getBoard(creatorEmail, boardName);
+                Column column = board.getColumn(columnOrdinal);
+                board.advanceTask(column.getTaskById(taskId), columnOrdinal);
+                log.Info("The task moved successfully to the next column");
+                return new Response();
+            }
+            catch (Exception e)
+            {
+                log.Error("Something wehnt wrong during moving the task");
+                return new Response(e.Message);
+            }
+        }
+        /// <summary>
+        /// Removes a specific column
+        /// </summary>
+        /// <param name="userEmail">Email of the current user. Must be logged in</param>
+        /// <param name="creatorEmail">Email of the board creator</param>
+        /// <param name="boardName">The name of the board</param>
+        /// <param name="columnOrdinal">The column location. The first column location is identified by 0, the location increases by 1 for each column</param>
+        /// <returns>A response object. The response should contain a error message in case of an error</returns>
+        public Response RemoveColumn(string userEmail, string creatorEmail, string boardName, int columnOrdinal)
+        {
+            try
+            {
+                userController.getUser(userEmail).checkIfLogedIn();
+                Board board = boardController.getBoard(creatorEmail, boardName);
+                Column column = board.getColumn(columnOrdinal);
+                board.RemoveColumn( column,columnOrdinal);
+                log.Info("The column removed successfully");
+                return new Response();
+
+            }
+            catch (Exception e)
+            {
+                log.Error("Cannot remove the column");
+                return new Response(e.Message);
+            }
+        }
+
+        /// <summary>
+        /// Renames a specific column
+        /// </summary>
+        /// <param name="userEmail">Email of the current user. Must be logged in</param>
+        /// <param name="creatorEmail">Email of the board creator</param>
+        /// <param name="boardName">The name of the board</param>
+        /// <param name="columnOrdinal">The column location. The first column location is identified by 0, the location increases by 1 for each column</param>
+        /// <param name="newColumnName">The new column name</param>        
+        /// <returns>A response object. The response should contain a error message in case of an error</returns>
+        public Response RenameColumn(string userEmail, string creatorEmail, string boardName, int columnOrdinal, string newColumnName)
+        {
+            try
+            {
+                userController.getUser(userEmail).checkIfLogedIn();
+                Board board = boardController.getBoard(creatorEmail, boardName);
+                Column column = board.getColumn(columnOrdinal);
+                column.Title = newColumnName;
+                log.Info("The column name changed successfully");
+                return new Response();
+            }
+            catch (Exception e)
+            {
+                log.Error("Cannot changed the name");
+                return new Response(e.Message);
+            }
+        }
+        /// <summary>
+        /// Moves a column shiftSize times to the right. If shiftSize is negative, the column moves to the left
+        /// </summary>
+        /// <param name="userEmail">Email of the current user. Must be logged in</param>
+        /// <param name="creatorEmail">Email of the board creator</param>
+        /// <param name="boardName">The name of the board</param>
+        /// <param name="columnOrdinal">The column location. The first column location is identified by 0, the location increases by 1 for each column</param>
+        /// <param name="shiftSize">The number of times to move the column, relativly to its current location. Negative values are allowed</param>  
+        /// <returns>A response object. The response should contain a error message in case of an error</returns>
+
+
+        public Response MoveColumn(string userEmail, string creatorEmail, string boardName, int columnOrdinal, int shiftSize)
+        {
+            try
+            {
+                userController.getUser(userEmail).checkIfLogedIn();
+                Board board = boardController.getBoard(creatorEmail, boardName);
+                Column column = board.getColumn(columnOrdinal);
+                board.MoveColumn(column,shiftSize) ;
+                log.Info("The column moved successfully");
+                return new Response();
+
+            }
+            catch (Exception e)
+            {
+                log.Error("Cannot moved the column");
+                return new Response(e.Message);
+            }
+        }
+
+        /// <summary>
+        /// Adds a new column
+        /// </summary>
+        /// <param name="userEmail">Email of the current user. Must be logged in</param>
+        /// <param name="creatorEmail">Email of the board creator</param>
+        /// <param name="boardName">The name of the board</param>
+        /// <param name="columnOrdinal">The location of the new column. Location for old columns with index>=columnOrdinal is increased by 1 (moved right). The first column is identified by 0, the location increases by 1 for each column.</param>
+        /// <param name="columnName">The name for the new columns</param>        
+        /// <returns>A response object. The response should contain a error message in case of an error</returns>
+        public Response AddColumn(string userEmail, string creatorEmail, string boardName, int columnOrdinal, string columnName)
+        {
+
+            try
+            {
+                userController.getUser(userEmail).checkIfLogedIn();
+                Board board = boardController.getBoard(creatorEmail, boardName);
+                Column column = new Column(columnName);
+                board.AddColumn(column, columnOrdinal);
+                log.Info("The column added successfully");
+                return new Response();
+
+            }
+            catch (Exception e)
+            {
+                log.Error("Cannot add the column");
+                return new Response(e.Message);
+            }
+        }
+
         /// <summary>
         /// Assigns a task to a user
         /// </summary>
