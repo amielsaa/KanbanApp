@@ -6,7 +6,6 @@ using IntroSE.Kanban.Backend.DataAccessLayer.DalObjects;
 using System.Collections.Generic;
 
 using IntroSE.Kanban.Frontend;
-using System.Collections.Generic;
 using IntroSE.Kanban.Backend.ServiceLayer;
 
 namespace UI

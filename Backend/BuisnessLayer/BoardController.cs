@@ -26,6 +26,11 @@ namespace IntroSE.Kanban.Backend.BuisnessLayer
             userController = uc;
         }
 
+        internal void deleteAllData()
+        {
+            throw new NotImplementedException();
+        }
+
         /// <summary>
         /// using UserController as a singletone 
         /// </summary>
