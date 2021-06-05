@@ -1,0 +1,53 @@
+﻿<Window x:Class="IntroSE.Kanban.PresentationLayer.View.Board"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:IntroSE.Kanban.PresentationLayer.View"
+        mc:Ignorable="d"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+     TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+     TextElement.FontWeight="Regular"
+     TextElement.FontSize="13"
+     TextOptions.TextFormattingMode="Ideal"
+     TextOptions.TextRenderingMode="Auto"
+     Background="{DynamicResource MaterialDesignPaper}"
+     FontFamily="{DynamicResource MaterialDesignFont}"
+        Title="Board" Height="675" Width="1200">
+    <Grid RenderTransformOrigin="0.507,0.612" >
+        <StackPanel Orientation="Vertical">
+            <WrapPanel Margin="0,0,0,0">
+                <Button
+                Style="{StaticResource MaterialDesignFlatAccentBgButton}"
+                ToolTip="MaterialDesignFlatAccentBackgroundButton"
+                Content="addTask"
+                Margin="900,0,0,0" Name="AddTask" Click="Button_Add_Task"/>
+                <Button
+                Style="{StaticResource MaterialDesignFlatAccentBgButton}"
+                ToolTip="MaterialDesignFlatAccentBackgroundButton"
+                Content="addColumn" 
+                Margin="20,0,0,0" Name="AddColumn" Click="Button_Add_Column"/>
+            </WrapPanel>
+            <ScrollViewer ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Visible" Margin="0,120,0,0">
+
+                <StackPanel Orientation="Horizontal" Height="Auto">
+                    <Label Margin="0,5,5,0" Content="AHAHAHAHAHAHAHAHA"/>
+                    <GroupBox Header="GroupBox" Height="505" Width="257">
+                        <StackPanel>
+                            <GroupBox
+                                Header="Default Look"
+                                Margin="16">
+                                <TextBlock
+                                    Text="My Content" />
+                            </GroupBox>
+                            
+                        </StackPanel>
+                    </GroupBox>
+
+
+                </StackPanel>
+            </ScrollViewer>
+           
+        </StackPanel>
+    </Grid>
+</Window>

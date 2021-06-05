@@ -6,10 +6,12 @@
     <UseWPF>true</UseWPF>
     <AssemblyName>IntroSE.Kanban.PresentationLayer</AssemblyName>
     <RootNamespace>IntroSE.Kanban.PresentationLayer</RootNamespace>
+    <StartupObject>PresentationLayer.App</StartupObject>
+    <Platforms>AnyCPU;x86</Platforms>
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Model\" />
+    <PackageReference Include="MaterialDesignThemes" Version="4.1.0" />
   </ItemGroup>
 
   <ItemGroup>
