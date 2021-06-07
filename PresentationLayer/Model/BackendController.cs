@@ -23,9 +23,10 @@ namespace IntroSE.Kanban.PresentationLayer.Model
         }
 
 
+        //dummy
         internal UserModel Login(string userEmail, string password)
         {
-            throw new NotImplementedException("");
+            return new UserModel(this, userEmail);
         }
 
         internal TaskModel AddTask(string userEmail, string creatorEmail, string boardName, string title, string description, DateTime dueDate)

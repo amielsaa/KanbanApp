@@ -11,23 +11,10 @@ namespace IntroSE.Kanban.PresentationLayer.ViewModel
     internal class BoardVM : NotifiableObject
     {
         private Model.BackendController controller;
-        private UserModel user;
-        private ColumnModel[] columns; 
+        public UserModel user;
+        public IList<ColumnModel> columns; 
         
-        private MessageModel _selectedMessage;
-        public MessageModel SelectedMessage
-        {
-            get
-            {
-                return _selectedMessage;
-            }
-            set
-            {
-                _selectedMessage = value;
-                EnableForward = value != null;
-                RaisePropertyChanged("SelectedTask");
-            }
-        }
+        
         private bool _enableForward = false;
         public bool EnableForward
         {
@@ -49,10 +36,10 @@ namespace IntroSE.Kanban.PresentationLayer.ViewModel
 
         }
 
-        public BoardVM(UserModel user)
+        public BoardVM() // add user
         {
-            this.controller = user.Controller;
-            this.user = user;
+            //this.controller = user.Controller;
+            //this.user = user;
             
         }
 

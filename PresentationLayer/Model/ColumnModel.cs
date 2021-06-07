@@ -19,10 +19,22 @@ namespace IntroSE.Kanban.PresentationLayer.Model
         {
             this.user = user;
             //Tasks = new ObservableCollection<ColumnModel>(controller.GetAllMessagesIds(user.Email).
-                //Select((c, i) => new ColumnModel(controller, controller.GetMessage(user.Email, i), user)).ToList());
+               // Select((c, i) => new ColumnModel(controller, controller.GetMessage(user.Email, i), user)).ToList());
+            //Tasks.CollectionChanged += HandleChange;
+        }
+
+        //dummy constructor for testing
+        public ColumnModel(BackendController controller, UserModel user,string title) : base(controller)
+        {
+            this.user = user;
+            Tasks = new ObservableCollection<TaskModel>();
             Tasks.CollectionChanged += HandleChange;
         }
 
+        public void AddTask(TaskModel task)
+        {
+
+        }
 
         public void RemoveMessage(TaskModel t)
         {

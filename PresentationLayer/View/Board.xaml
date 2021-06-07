@@ -54,7 +54,7 @@
                 <StackPanel Orientation="Horizontal" Height="Auto">
                     <Label Margin="0,5,5,0" Content="AHAHAHAHAHAHAHAHA"/>
                     <GroupBox Header="GroupBox" Height="505" Width="257">
-                        <StackPanel>
+                        <StackPanel x:Name="TasksPanel">
                             <GroupBox
                                 Header="Default Look"
                                 Margin="16">

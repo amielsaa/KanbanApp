@@ -30,5 +30,13 @@ namespace IntroSE.Kanban.PresentationLayer.Model
             this.Assignee = email;
             this.ColumnOrdinal = 0; 
         }
+        //dummy for testing
+        public TaskModel(string title, string description, DateTime dueDate) : base(null)
+        {
+            this.Title = title;
+            this.Description = description;
+            this.DueDate = dueDate;
+            this.ColumnOrdinal = 0;
+        }
     }
 }
