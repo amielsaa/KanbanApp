@@ -16,7 +16,28 @@
         Title="Board" Height="675" Width="1200">
     <Grid RenderTransformOrigin="0.507,0.612" >
         <StackPanel Orientation="Vertical">
-            <WrapPanel Margin="0,0,0,0">
+            <materialDesign:PopupBox
+                PlacementMode="BottomAndAlignCentres"
+                ToolTipService.Placement="Right"
+                ToolTip="PopupBox, Style MaterialDesignMultiFloatingActionPopupBox"
+                Opened="PopupBox_OnOpened"            
+                Closed="PopupBox_OnClosed">
+                <materialDesign:PopupBox.ToggleContent>                    <materialDesign:PackIcon Kind="PlusBox" />                </materialDesign:PopupBox.ToggleContent>
+
+                <StackPanel>
+                    <Button
+                        ToolTip="One with custom opacity"
+                        Content="Add Task" 
+                        Click="Button_Add_Task"
+                       />
+                    <Button
+                        ToolTip="Two"
+                        Content="Add Column"
+                        Click="Button_Add_Column"/>
+                </StackPanel>
+            </materialDesign:PopupBox>
+            
+                <WrapPanel Margin="0,0,0,0">
                 <Button
                 Style="{StaticResource MaterialDesignFlatAccentBgButton}"
                 ToolTip="MaterialDesignFlatAccentBackgroundButton"

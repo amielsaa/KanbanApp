@@ -1,4 +1,5 @@
-﻿using System;
+﻿using IntroSE.Kanban.PresentationLayer.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,14 +20,22 @@ namespace IntroSE.Kanban.PresentationLayer.View
     /// </summary>
     public partial class Task : Window
     {
+
+        private BoardVM boardVM;
+
         public Task()
         {
             InitializeComponent();
         }
+        internal Task(BoardVM boardVM)
+        {
+            InitializeComponent();
+            this.boardVM = boardVM;
+        }
 
         private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
         {
-
+            boardVM.AddTask();
         }
     }
 }

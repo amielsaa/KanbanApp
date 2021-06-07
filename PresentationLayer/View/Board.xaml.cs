@@ -1,4 +1,5 @@
-﻿using IntroSE.Kanban.PresentationLayer.ViewModel;
+﻿using IntroSE.Kanban.PresentationLayer.Model;
+using IntroSE.Kanban.PresentationLayer.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,9 +24,10 @@ namespace IntroSE.Kanban.PresentationLayer.View
 
         private BoardVM boardVM;
 
-        public Board()
+        public Board(UserModel user)
         {
             InitializeComponent();
+            this.boardVM = new BoardVM(user);
             this.DataContext = boardVM;
         }
 
@@ -37,6 +39,14 @@ namespace IntroSE.Kanban.PresentationLayer.View
         }
 
         private void Button_Add_Column(object sender, RoutedEventArgs e)
+        {
+           
+        }
+        private void PopupBox_OnOpened(object sender,RoutedEventArgs e)
+        {
+
+        }
+        private void PopupBox_OnClosed(object sender, RoutedEventArgs e)
         {
 
         }

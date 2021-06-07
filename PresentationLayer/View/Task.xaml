@@ -21,6 +21,7 @@
                 Text="New Task" 
                 HorizontalAlignment="Center"
                 Margin="0,0,0,20"
+                
                 />
             <TextBox
                 materialDesign:HintAssist.Hint="Title"
