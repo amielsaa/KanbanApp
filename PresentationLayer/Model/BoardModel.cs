@@ -22,8 +22,8 @@ namespace IntroSE.Kanban.PresentationLayer.Model
         public BoardModel(BackendController controller, UserModel user) : base(controller)
         {
             this.user = user;
-            //Columns = new ObservableCollection<ColumnModel>(controller.GetAllMessagesIds(user.Email).
-              //  Select((c, i) => new ColumnModel(controller, controller.GetMessage(user.Email, i), user)).ToList());
+            Columns = new ObservableCollection<ColumnModel>(controller.GetAllMessagesIds(user.Email).
+                Select((c, i) => new ColumnModel(controller, controller.GetMessage(user.Email, i), user)).ToList());
             Columns.CollectionChanged += HandleChange;
         }
 

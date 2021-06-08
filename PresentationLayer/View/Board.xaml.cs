@@ -24,11 +24,17 @@ namespace IntroSE.Kanban.PresentationLayer.View
 
         private BoardVM boardVM;
 
-        public Board() //add user
+        public Board(UserModel user) 
         {
             InitializeComponent();
-            this.boardVM = new BoardVM(); // add user
+            this.boardVM = new BoardVM(user); 
             this.DataContext = boardVM;
+            this.Load();
+        }
+
+        private void Load()
+        {
+            var columns = boardVM.Load();
         }
 
         private void Button_Add_Task(object sender, RoutedEventArgs e)

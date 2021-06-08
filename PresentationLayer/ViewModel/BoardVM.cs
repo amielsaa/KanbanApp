@@ -12,6 +12,7 @@ namespace IntroSE.Kanban.PresentationLayer.ViewModel
     {
         private Model.BackendController controller;
         public UserModel user;
+        public BoardModel board;
         public IList<ColumnModel> columns; 
         
         
@@ -36,10 +37,13 @@ namespace IntroSE.Kanban.PresentationLayer.ViewModel
 
         }
 
-        public BoardVM() // add user
+
+
+        public BoardVM(UserModel user) 
         {
-            //this.controller = user.Controller;
-            //this.user = user;
+            this.controller = user.Controller;
+            this.user = user;
+            this.board = new BoardModel(this.controller, this.user);
             
         }
 

@@ -29,12 +29,15 @@ namespace IntroSE.Kanban.PresentationLayer.View
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            loginVM.Login();
+            var user = loginVM.Login();
+            Board board = new Board(user);
+            board.Show();
+            this.Close();
         }
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
-            loginVM.Regiester();
+            loginVM.Register();
         }
     }
 }

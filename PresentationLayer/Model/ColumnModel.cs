@@ -7,29 +7,24 @@ namespace IntroSE.Kanban.PresentationLayer.Model
     {
 
         private readonly UserModel user;
+        private int columnOrdinal;
         public ObservableCollection<TaskModel> Tasks { get; set; }
 
-        private ColumnModel(BackendController controller, ObservableCollection<TaskModel> tasks) : base(controller)
+        private ColumnModel(BackendController controller, ObservableCollection<TaskModel> tasks, int columnOrdinal) : base(controller)
         {
             this.Tasks = tasks;
             Tasks.CollectionChanged += HandleChange;
         }
 
-        public ColumnModel(BackendController controller, UserModel user) : base(controller)
+        public ColumnModel(BackendController controller, UserModel user,int columnOrdinal) : base(controller)
         {
             this.user = user;
+            this.columnOrdinal = columnOrdinal;
             //Tasks = new ObservableCollection<ColumnModel>(controller.GetAllMessagesIds(user.Email).
                // Select((c, i) => new ColumnModel(controller, controller.GetMessage(user.Email, i), user)).ToList());
             //Tasks.CollectionChanged += HandleChange;
         }
 
-        //dummy constructor for testing
-        public ColumnModel(BackendController controller, UserModel user,string title) : base(controller)
-        {
-            this.user = user;
-            Tasks = new ObservableCollection<TaskModel>();
-            Tasks.CollectionChanged += HandleChange;
-        }
 
         public void AddTask(TaskModel task)
         {
@@ -48,6 +43,7 @@ namespace IntroSE.Kanban.PresentationLayer.Model
             //read more here: https://stackoverflow.com/questions/4279185/what-is-the-use-of-observablecollection-in-net/4279274#4279274
             if (e.Action == NotifyCollectionChangedAction.Remove)
             {
+                
                 foreach (TaskModel y in e.OldItems)
                 {
 

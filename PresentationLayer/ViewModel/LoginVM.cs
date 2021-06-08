@@ -5,13 +5,16 @@ using System.Text;
 using System.Threading.Tasks;
 using PresentationLayer;
 using IntroSE.Kanban.Backend.ServiceLayer;
-
+using IntroSE.Kanban.PresentationLayer.Model;
 
 namespace IntroSE.Kanban.PresentationLayer.ViewModel
 {
     class LoginVM : NotifiableObject
     {
-        private UserService userService = new UserService();
+        public BackendController Controller { get; private set; }
+        //private UserService userService = new UserService();
+        private string _username;
+        private string _password;
         public string Username { get; set; } = "";
         public string Password { get; set; } = "";
         private string message = "";
@@ -25,21 +28,37 @@ namespace IntroSE.Kanban.PresentationLayer.ViewModel
             }
         }
 
-        internal void Login()
+        internal UserModel Login()
         {
-            var response = userService.Login(Username, Password);
-            if (response.ErrorOccured)
-                Message = response.ErrorMessage;
-            else
-                Message = "Login succeeded!";
+            Message = "";
+            try
+            {
+                return Controller.Login(Username, Password);
+            }
+            catch (Exception e)
+            {
+                Message = e.Message;
+                return null;
+            }
         }
-        internal void Regiester()
+        internal void Register()
         {
-            var response = userService.Register(Username, Password);
-            if (response.ErrorOccured)
-                Message = response.ErrorMessage;
-            else
-                Message = "Regiester succeeded!";
+            Message = "";
+            try
+            {
+                Controller.Register(Username, Password);
+                Message = "Registered successfully";
+            }
+            catch (Exception e)
+            {
+                Message = e.Message;
+            }
         }
-    }
+
+        public LoginVM()
+        {
+            this.Controller = new BackendController();
+
+        }
+    } 
 }
