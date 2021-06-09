@@ -14,20 +14,18 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
     public class UserController
     {
         //fields
-        //private static UserController instance;
+        private static UserController instance;
         public List<string> usersEmail;
         public List<User> users;
         private DUserController dUserController;
         private UserDTO newUser;
-        public BoardController boardController;
 
         //constructor
-        public UserController()
+        private UserController()
         {
             usersEmail = new List<string>();
             users = new List<User>();
             dUserController = new DUserController();
-            boardController = new BoardController(this);
             //boardsController = BoardController.getInstance();
 
         }
@@ -37,7 +35,7 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
         /// using UserController as a singletone 
         /// </summary>
         /// <returns>it returns the instance of it therefor there's only one instance of it in the whole program </returns>
-        /*public static UserController getInstance()
+        public static UserController getInstance()
         {
             if (instance == null)
             {
@@ -45,7 +43,7 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
             }
             return instance;
         }
-        */
+        
 
 
         /// <summary>
@@ -58,7 +56,7 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
         {
             email = validateEmail(email);
             email = checkExistance(email);
-            User user = new User(email, password, this, boardController);
+            User user = new User(email, password);
             users.Add(user);
             usersEmail.Add(email);
             newUser = new UserDTO(email, password,0);
@@ -139,7 +137,7 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
             List<UserDTO> userDtoList = dUserController.SelectAllUsers();
             foreach (UserDTO userDTO in userDtoList)
             {
-                User user = new User(userDTO.Email, userDTO.Password, userDTO.getOldPasswords(), userDTO.getMyAssignments(), userDTO.BoardsId,  this , boardController);
+                User user = new User(userDTO.Email, userDTO.Password, userDTO.getOldPasswords(), userDTO.getMyAssignments(), userDTO.BoardsId);
                 string email = userDTO.Email;
                 users.Add(user);
                 usersEmail.Add(email);

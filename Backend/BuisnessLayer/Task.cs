@@ -142,6 +142,11 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
             new DTask().Update(email, boardId, taskId, TaskDTO.DueDateColumnName, DueTime.ToString());
 
         }
+        public void setColumnOrdinal(int newColumnOrdinal)
+        {
+            this.columnOrdinal = newColumnOrdinal;
+            new DTask().Update(email, boardId, taskId, TaskDTO.ColumnColumnName, newColumnOrdinal);
+        }
 
         private TaskDTO toDalObject()
         {
