@@ -25,15 +25,12 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
             this.id =id;
             taskId = 0;
             columns = new List<Column>();
-            Column backlog = new Column("backlog");
-            Column inProgress = new Column("in progress");
-            Column done = new Column("done");
+            Column backlog = new Column("backlog",0);
+            Column inProgress = new Column("in progress",1);
+            Column done = new Column("done",2);
             columns.Add(backlog);
             columns.Add(inProgress);
             columns.Add(done);
-            backlog.ColumnOrdinal=0;
-            inProgress.ColumnOrdinal = 1;
-            done.ColumnOrdinal = 2;
             InsertColumsToDal(columns);
             boardUsers = new List<string>();
         }
@@ -223,7 +220,7 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
             if (columnOrdinal >= 0 & columnOrdinal <= columns.Count)
             {
                 columns.Insert(columnOrdinal, column);
-                for (int index = columnOrdinal; index < columns.Count; index = index + 1)
+                for (int index = columnOrdinal+1; index < columns.Count; index = index + 1)
                 {
                     columns[index].changeColumnOrdinal(columnOrdinal, creatorEmail, id);
                 }

@@ -16,7 +16,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         public Service()
         {
             userService = new UserService();
-            boardService = new BoardService(userService.boardController, userService.userController);
+            boardService = new BoardService();
             //LoadData();
 
         }

@@ -26,7 +26,6 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
             usersEmail = new List<string>();
             users = new List<User>();
             dUserController = new DUserController();
-            //boardsController = BoardController.getInstance();
 
         }
         //methods

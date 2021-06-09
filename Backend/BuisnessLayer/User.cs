@@ -25,7 +25,6 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
         public readonly int passMinLen = 4;
         public readonly int passMaxLen = 20;
         private BoardController boardController;
-        private UserController userController;
        
         //constructor
 
@@ -38,7 +37,6 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
             email = em;
             password = pw;
             this.boardController = BoardController.getInstance();
-            this.userController = UserController.getInstance();
             List<Board> boardList = new List<Board>() ;
             boards = new Boards(boardList ,0);
             boardController.AddBoardsToBC(email, boards);
@@ -55,7 +53,6 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
             oldPassword = oldPw;
             this.myAssignments = myAssignments;
             this.boardController = BoardController.getInstance();
-            this.userController = UserController.getInstance();
             List<Board> boardList = this.boardController.getAllUserBoards(email);
             this.boards = new Boards(boardList, boardsId);
             boardController.AddBoardsToBC(email, boards);

@@ -21,7 +21,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer.DalObjects
         private string _columnName;
 
         //getters-setters
-        public int ColumnNumber { get => _columnNumber; set { _columnNumber = value; ((DColumn)_controller).Update(Email, BoardId, _columnNumber, ColumnNumberColumnName, value); } }
+        public int ColumnNumber { get => _columnNumber; set { ((DColumn)_controller).Update(Email, BoardId, _columnNumber, ColumnNumberColumnName, value); _columnNumber = value; } }
         public int TaskLimit { get => _taskLimit; set { _taskLimit = value; ((DColumn)_controller).Update(Email, BoardId, _columnNumber, TaskLimitColumnName, value); } }
         public string ColumnName { get => _columnName; set { _columnName = value; ((DColumn)_controller).Update(Email, BoardId, _columnNumber, ColumnNameColumnName, value);  }
     }

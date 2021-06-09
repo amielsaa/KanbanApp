@@ -184,8 +184,9 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
             int boardid = reader.GetInt32(1);
             string boardName = reader.GetString(2);
             int taskId = reader.GetInt32(3);
-            string usersEmail = reader.GetString(4);
-            BoardsDTO result = new BoardsDTO(email, boardid,boardName,taskId,usersEmail);
+            int columnsNumber = reader.GetInt32(4);
+            string usersEmail = reader.GetString(5);
+            BoardsDTO result = new BoardsDTO(email, boardid,boardName,taskId,columnsNumber,usersEmail);
             return result;
 
         }

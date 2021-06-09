@@ -22,9 +22,10 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
         //constructor
 
         //create new column constructor
-        public Column(string title)
+        public Column(string title, int columnOrdinal)
         {
             this.title = title;
+            this.columnOrdinal = columnOrdinal;
             tasks = new List<Task>();
         }
 

@@ -18,10 +18,10 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         public UserController userController;
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
-        public BoardService(BoardController boardController , UserController userController)
+        public BoardService()
         {
-            this.boardController = boardController;
-            this.userController = userController;
+            this.boardController = BoardController.getInstance();
+            this.userController = UserController.getInstance();
 
             var logRepository = LogManager.GetRepository(Assembly.GetEntryAssembly());
             XmlConfigurator.Configure(logRepository, new FileInfo("log4net.config"));
@@ -360,7 +360,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             {
                 userController.getUser(userEmail).checkIfLogedIn();
                 Board board = boardController.getBoard(creatorEmail, boardName);
-                Column column = new Column(columnName);
+                Column column = new Column(columnName,columnOrdinal);
                 board.AddColumn(column, columnOrdinal);
                 log.Info("The column added successfully");
                 return new Response();

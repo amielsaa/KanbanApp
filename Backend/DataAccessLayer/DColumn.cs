@@ -55,6 +55,43 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
             }
             return result;
         }
+        public List<ColumnDTO> SelectAllColumn(string email, int boardId)
+        {
+            List<ColumnDTO> results = null;
+            using (var connection = new SQLiteConnection(_connectionString))
+            {
+                SQLiteCommand command = new SQLiteCommand(null, connection);
+                command.CommandText = $"SELECT * FROM {ColumnTableName} WHERE email = '{email}' and boardId = '{boardId}' ";
+
+                SQLiteDataReader dataReader = null;
+                try
+                {
+                    connection.Open();
+                    dataReader = command.ExecuteReader();
+                    while (dataReader.Read() & dataReader != null)
+                    {
+                        results.Add((ColumnDTO)ConvertReaderToObject(dataReader));
+
+                    }
+                }
+                catch (Exception e)
+                {
+                    throw new ArgumentException("selection from database failed: -select column-");
+                }
+                finally
+                {
+                    if (dataReader != null)
+                    {
+                        dataReader.Close();
+                    }
+
+                    command.Dispose();
+                    connection.Close();
+                }
+
+            }
+            return results;
+        }
         public void updateColumnLimit(string email, int boardId, int columnNum, int newLimit)
         {
             ColumnDTO column = SelectColumn(email, boardId, columnNum);
