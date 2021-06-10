@@ -25,20 +25,18 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
         public readonly int passMinLen = 4;
         public readonly int passMaxLen = 20;
         private BoardController boardController;
-        private UserController userController;
        
         //constructor
 
         //create new user constructor
-        public User(string em, string pw, UserController userController, BoardController boardController)
+        public User(string em, string pw )
         {
             oldPassword = new List<string>();
             if (!validatePasswordRules(pw))
                 throw new ArgumentException("this password doesn't stand in the password rules");
             email = em;
             password = pw;
-            this.boardController = boardController;
-            this.userController = userController;
+            this.boardController = BoardController.getInstance();
             List<Board> boardList = new List<Board>() ;
             boards = new Boards(boardList ,0);
             boardController.AddBoardsToBC(email, boards);
@@ -48,14 +46,13 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
         }
 
         // pull info from dal constructor
-        public User(string em, string pw, List<string> oldPw, List<Task> myAssignments, int boardsId ,UserController userController, BoardController boardController )
+        public User(string em, string pw, List<string> oldPw, List<Task> myAssignments, int boardsId  )
         {
             email = em;
             password = pw;
             oldPassword = oldPw;
             this.myAssignments = myAssignments;
-            this.boardController = boardController;
-            this.userController = userController;
+            this.boardController = BoardController.getInstance();
             List<Board> boardList = this.boardController.getAllUserBoards(email);
             this.boards = new Boards(boardList, boardsId);
             boardController.AddBoardsToBC(email, boards);

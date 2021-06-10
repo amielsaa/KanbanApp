@@ -12,17 +12,20 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
         //fields
         private string title;
         private int limit_task_num = -1;
+        private int columnOrdinal;
         protected List<Task> tasks;
         public string Title { get { return title; } set { title = value; } }
         public int Limit {  get { return limit_task_num; } set { limit_task_num = value; } }
+        public int ColumnOrdinal { get { return columnOrdinal; } set { columnOrdinal = value; } }
 
         
         //constructor
 
         //create new column constructor
-        public Column(string title)
+        public Column(string title, int columnOrdinal)
         {
             this.title = title;
+            this.columnOrdinal = columnOrdinal;
             tasks = new List<Task>();
         }
 
@@ -95,13 +98,25 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
         /// deleting all the task from the column
         /// </summary>
         /// <returns>returns nothing, for each task in the column it calls task function to delete itself from its assignee</returns>
-        public void deleteAllTasks(UserController userController)
+        public void deleteAllTasks()
         {
+             UserController userController = UserController.getInstance();
             foreach (Task i in tasks)
             {
                 (userController.getUser(i.assigneeEmail)).myAssignments.Remove(i);
             }
 
+        }
+        public void changeColumnOrdinal(int newColumnOrdinal ,string CreatorEmail , int boardId)
+        {
+            DColumn dColumn = new DColumn();
+            ColumnDTO columnDTO = dColumn.SelectColumn(CreatorEmail, boardId, columnOrdinal);
+            columnDTO.ColumnNumber = newColumnOrdinal ;
+            this.columnOrdinal = newColumnOrdinal;
+            foreach (Task t in tasks)
+            {
+                t.setColumnOrdinal(newColumnOrdinal);
+            }
         }
 
     }

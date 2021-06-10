@@ -25,9 +25,9 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
             this.id =id;
             taskId = 0;
             columns = new List<Column>();
-            Column backlog = new Column("backlog");
-            Column inProgress = new Column("in progress");
-            Column done = new Column("done");
+            Column backlog = new Column("backlog",0);
+            Column inProgress = new Column("in progress",1);
+            Column done = new Column("done",2);
             columns.Add(backlog);
             columns.Add(inProgress);
             columns.Add(done);
@@ -36,15 +36,13 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
         }
 
         //pull board from database constructor
-        public Board(string name, string creator, int id,int taskId, Column backlog, Column inProgress, Column done , List<string> bUsers)
+        public Board(string name, string creator, int id,int taskId, List<Column> columns , List<string> bUsers)
         {
             this.name = name;
             creatorEmail = creator;
             this.id = id;
             columns = new List<Column>();
-            columns.Add(backlog);
-            columns.Add(inProgress);
-            columns.Add(done);
+            this.columns = columns;
             boardUsers = bUsers;
             this.taskId = taskId;
         }
@@ -149,6 +147,7 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
                     foreach (Task task in column.getTasks())
                         task.columnOrdinal = columnOrdinal + 1;
                     columns.RemoveAt(columnOrdinal);
+                    
                 }
             }
             else
@@ -164,23 +163,32 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
                     columns.RemoveAt(columnOrdinal);
                 }
             }
+            for (int i = columnOrdinal; i < columns.Count; i++)
+                columns[i].changeColumnOrdinal(i, creatorEmail, id);
+            
         }
 
         public void MoveColumn(Column column, int shiftSize)
         {
-            int columnIndex = columns.IndexOf(column);
+            int columnIndex = column.ColumnOrdinal;
             if (shiftSize > 0)
             {
                 if (columnIndex + shiftSize >= columns.Count)
-                    throw new Exception("To many right shifts");
+                    throw new Exception("Too many right shifts");
                 else
                 {
                     for (int i = columnIndex; i <= columnIndex + shiftSize; i = i + 1)
                     {
                         if (i == columnIndex + shiftSize)
+                        {
                             columns[columnIndex + shiftSize] = column;
+                            column.changeColumnOrdinal(columnIndex + shiftSize, creatorEmail, id);
+                        }
                         else
+                        {
                             columns[i] = columns[i + 1];
+                            columns[i].changeColumnOrdinal(i, creatorEmail,id);
+                        }
                     }
                 }
             }
@@ -190,12 +198,18 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
                     throw new Exception("To many left shifts");
                 else
                 {
-                    for (int i = columnIndex; i >= columnIndex + shiftSize; i = i - 1)
+                    for (int i = columnIndex; i > columnIndex + shiftSize; i = i - 1)
                     {
                         if (i == columnIndex + shiftSize)
+                        {
                             columns[columnIndex + shiftSize] = column;
+                            column.changeColumnOrdinal(columnIndex + shiftSize, creatorEmail, id);
+                        }
                         else
-                            columns[i-1] = columns[i];
+                        {
+                            columns[i - 1] = columns[i];
+                            columns[i-1].changeColumnOrdinal(i-1, creatorEmail, id);
+                        }
                     }
                 }
             }
@@ -205,13 +219,12 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
         {
             if (columnOrdinal >= 0 & columnOrdinal <= columns.Count)
             {
-                for (int index = columnOrdinal; index < columns.Count; index = index + 1)
+                columns.Insert(columnOrdinal, column);
+                for (int index = columnOrdinal+1; index < columns.Count; index = index + 1)
                 {
-                    Column temp = column;
-                    columns[index] = column;
-                    column = temp;
+                    columns[index].changeColumnOrdinal(columnOrdinal, creatorEmail, id);
                 }
-                columns.Add(column);
+                
             }
             else
                 throw new Exception("Invalid column ordinal");
@@ -221,11 +234,11 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
         /// delete all the tasks from the board (through column)
         /// </summary>
         /// <returns>nothing, only calls all columns to delete its tasks</returns>
-        public void deleteAllTasks(UserController userController)
+        public void deleteAllTasks()
         {
             for (int i = 0; i < columns.Count; i++)
             {
-                columns[i].deleteAllTasks(userController);
+                columns[i].deleteAllTasks();
             }
         }
 

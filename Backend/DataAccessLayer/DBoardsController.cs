@@ -120,7 +120,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
         public bool Insert(Board board)
         {
             string boardUsers = string.Join(",", board.boardUsers);
-            BoardsDTO boardsDTO = new BoardsDTO(board.creatorEmail, board.id, board.name, board.taskId, boardUsers);
+            BoardsDTO boardsDTO = new BoardsDTO(board.creatorEmail, board.id, board.name, board.taskId,board.columns.Count, boardUsers);
             using (var connection = new SQLiteConnection(_connectionString))
             {
                 int res = -1;
@@ -128,8 +128,8 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
                 try
                 {
                     connection.Open();
-                    command.CommandText = $"INSERT INTO {BoardsTableName} ({DTO.EmailColumnName} ,{BoardsDTO.BoardIdColumnName},{BoardsDTO.BoardNameColumnName},{BoardsDTO.TaskIdColumnName},{BoardsDTO.UsersEmailColumnName}) " +
-                        $"VALUES ('{boardsDTO.Email}',{boardsDTO.BoardId},'{boardsDTO.BoardName}',{boardsDTO.TaskId},'{boardsDTO.UsersEmail}');";
+                    command.CommandText = $"INSERT INTO {BoardsTableName} ({DTO.EmailColumnName} ,{BoardsDTO.BoardIdColumnName},{BoardsDTO.BoardNameColumnName},{BoardsDTO.TaskIdColumnName},{BoardsDTO.ColumnsNumberColumnName},{BoardsDTO.UsersEmailColumnName}) " +
+                        $"VALUES ('{boardsDTO.Email}',{boardsDTO.BoardId},'{boardsDTO.BoardName}',{boardsDTO.TaskId},'{boardsDTO.ColumnsNumber}','{boardsDTO.UsersEmail}');";
 
                     /*
                     SQLiteParameter emailParam = new SQLiteParameter(@"emailVal", boardsDTO.Email);
@@ -163,7 +163,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
         public bool DeleteBoard(Board board)
         {
             string boardUsers = string.Join(",", board.boardUsers);
-            BoardsDTO boardsDTO = new BoardsDTO(board.creatorEmail, board.id, board.name, board.taskId, boardUsers);
+            BoardsDTO boardsDTO = new BoardsDTO(board.creatorEmail, board.id, board.name, board.taskId,board.columns.Count ,boardUsers);
             DTask dTask = new DTask();
             dTask.DeleteBoardTasks(boardsDTO);
             return DeleteWithBoardId(boardsDTO);
@@ -184,8 +184,9 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
             int boardid = reader.GetInt32(1);
             string boardName = reader.GetString(2);
             int taskId = reader.GetInt32(3);
-            string usersEmail = reader.GetString(4);
-            BoardsDTO result = new BoardsDTO(email, boardid,boardName,taskId,usersEmail);
+            int columnsNumber = reader.GetInt32(4);
+            string usersEmail = reader.GetString(5);
+            BoardsDTO result = new BoardsDTO(email, boardid,boardName,taskId,columnsNumber,usersEmail);
             return result;
 
         }
