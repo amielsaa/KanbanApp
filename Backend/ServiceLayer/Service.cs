@@ -274,6 +274,63 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             return userService.GetBoardNames(userEmail);
         }
 
+        /// <summary>
+        /// Removes a specific column
+        /// </summary>
+        /// <param name="userEmail">Email of the current user. Must be logged in</param>
+        /// <param name="creatorEmail">Email of the board creator</param>
+        /// <param name="boardName">The name of the board</param>
+        /// <param name="columnOrdinal">The column location. The first column location is identified by 0, the location increases by 1 for each column</param>
+        /// <returns>A response object. The response should contain a error message in case of an error</returns>
+        public Response RemoveColumn(string userEmail, string creatorEmail, string boardName, int columnOrdinal)
+        {
+            return boardService.RemoveColumn(userEmail, creatorEmail, boardName, columnOrdinal);
+        }
+
+        /// <summary>
+        /// Renames a specific column
+        /// </summary>
+        /// <param name="userEmail">Email of the current user. Must be logged in</param>
+        /// <param name="creatorEmail">Email of the board creator</param>
+        /// <param name="boardName">The name of the board</param>
+        /// <param name="columnOrdinal">The column location. The first column location is identified by 0, the location increases by 1 for each column</param>
+        /// <param name="newColumnName">The new column name</param>        
+        /// <returns>A response object. The response should contain a error message in case of an error</returns>
+        public Response RenameColumn(string userEmail, string creatorEmail, string boardName, int columnOrdinal, string newColumnName)
+        {
+            return boardService.RenameColumn(userEmail, creatorEmail, boardName, columnOrdinal, newColumnName);
+        }
+        /// <summary>
+        /// Moves a column shiftSize times to the right. If shiftSize is negative, the column moves to the left
+        /// </summary>
+        /// <param name="userEmail">Email of the current user. Must be logged in</param>
+        /// <param name="creatorEmail">Email of the board creator</param>
+        /// <param name="boardName">The name of the board</param>
+        /// <param name="columnOrdinal">The column location. The first column location is identified by 0, the location increases by 1 for each column</param>
+        /// <param name="shiftSize">The number of times to move the column, relativly to its current location. Negative values are allowed</param>  
+        /// <returns>A response object. The response should contain a error message in case of an error</returns>
+
+
+        public Response MoveColumn(string userEmail, string creatorEmail, string boardName, int columnOrdinal, int shiftSize)
+        {
+            return boardService.MoveColumn(userEmail, creatorEmail, boardName, columnOrdinal, shiftSize);
+        }
+
+        /// <summary>
+        /// Adds a new column
+        /// </summary>
+        /// <param name="userEmail">Email of the current user. Must be logged in</param>
+        /// <param name="creatorEmail">Email of the board creator</param>
+        /// <param name="boardName">The name of the board</param>
+        /// <param name="columnOrdinal">The location of the new column. Location for old columns with index>=columnOrdinal is increased by 1 (moved right). The first column is identified by 0, the location increases by 1 for each column.</param>
+        /// <param name="columnName">The name for the new columns</param>        
+        /// <returns>A response object. The response should contain a error message in case of an error</returns>
+        public Response AddColumn(string userEmail, string creatorEmail, string boardName, int columnOrdinal, string columnName)
+        {
+            return boardService.AddColumn(userEmail, creatorEmail, boardName, columnOrdinal, columnName);
+           
+        }
+
     }
 
 

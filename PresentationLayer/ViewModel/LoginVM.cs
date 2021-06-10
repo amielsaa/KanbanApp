@@ -12,7 +12,6 @@ namespace IntroSE.Kanban.PresentationLayer.ViewModel
     class LoginVM : NotifiableObject
     {
         public BackendController Controller { get; private set; }
-        //private UserService userService = new UserService();
         private string _username;
         private string _password;
         public string Username { get; set; } = "";

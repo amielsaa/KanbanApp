@@ -25,9 +25,10 @@ namespace IntroSE.Kanban.PresentationLayer.ViewModel
         internal TaskModel AddTask(ColumnModel columnModel)
         {
             //TaskModel taskModel = new TaskModel(controller, user.Email, Title, Description, DueDate);
-            TaskModel taskModel = new TaskModel(Title, Description, DueDate);
+            //TaskModel taskModel = new TaskModel(Title, Description, DueDate);
             //columnModel.AddTask(taskModel);
-            return taskModel;
+            //return taskModel;
+            return null;
         }
 
         public TaskVM(UserModel user)

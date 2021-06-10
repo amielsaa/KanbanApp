@@ -41,7 +41,8 @@ namespace IntroSE.Kanban.PresentationLayer.View
 
         private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
         {
-            TaskModel task = taskVM.AddTask(new ColumnModel(null,null));
+            //TaskModel task = taskVM.AddTask(new ColumnModel(null,null));
+            TaskModel task = null;
             GroupBox taskGroupBox = new GroupBox();
             taskGroupBox.Header = task.Title;
             taskGroupBox.Margin = new Thickness(16);

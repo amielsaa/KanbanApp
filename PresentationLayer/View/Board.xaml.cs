@@ -34,7 +34,7 @@ namespace IntroSE.Kanban.PresentationLayer.View
 
         private void Load()
         {
-            var columns = boardVM.Load();
+            //var columns = boardVM.Load();
         }
 
         private void Button_Add_Task(object sender, RoutedEventArgs e)
