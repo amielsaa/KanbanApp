@@ -6,13 +6,13 @@
         xmlns:local="clr-namespace:IntroSE.Kanban.PresentationLayer.View"
         mc:Ignorable="d"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-     TextElement.Foreground="{DynamicResource MaterialDesignBody}"
-     TextElement.FontWeight="Regular"
-     TextElement.FontSize="13"
-     TextOptions.TextFormattingMode="Ideal"
-     TextOptions.TextRenderingMode="Auto"
-     Background="{DynamicResource MaterialDesignPaper}"
-     FontFamily="{DynamicResource MaterialDesignFont}"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        TextElement.FontWeight="Regular"
+        TextElement.FontSize="13"
+        TextOptions.TextFormattingMode="Ideal"
+        TextOptions.TextRenderingMode="Auto"
+        Background="{DynamicResource MaterialDesignPaper}"
+        FontFamily="{DynamicResource MaterialDesignFont}"
         Title="Board" Height="675" Width="1200">
     <Grid RenderTransformOrigin="0.507,0.612" >
         <StackPanel Orientation="Vertical">
@@ -51,7 +51,7 @@
             </WrapPanel>
             <ScrollViewer ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Visible" Margin="0,120,0,0">
 
-                <StackPanel Orientation="Horizontal" Height="Auto">
+                <StackPanel Orientation="Horizontal" Height="Auto" Name="ColumnStackPanel" CanHorizontallyScroll="True" CanVerticallyScroll="True" >
                     <Label Margin="0,5,5,0" Content="AHAHAHAHAHAHAHAHA"/>
                     <GroupBox Header="GroupBox" Height="505" Width="257">
                         <StackPanel x:Name="TasksPanel">

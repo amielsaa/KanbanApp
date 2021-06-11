@@ -331,6 +331,22 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
            
         }
 
+        /**************************************************************************************************/
+        /************************[--------------OUR METHODS---------------]********************************/
+        /**************************************************************************************************/
+
+        /// <summary>
+        /// Return an email of the board creator.
+        /// </summary>
+        /// <param name="userEmail">Email of the current user. Must be logged in</param>
+        /// <param name="boardName">The name of the board</param>
+        /// <returns>A response object. The response should contain a error message in case of an error</returns>
+        public Response<string> BoardCreator(string userEmail,string boardName)
+        {
+            //needed to be implemented
+            return Response<string>.FromValue(userEmail);
+        }
+
     }
 
 

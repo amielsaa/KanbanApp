@@ -23,10 +23,13 @@ namespace IntroSE.Kanban.PresentationLayer.View
     {
 
         private BoardVM boardVM;
-
-        public Board(UserModel user) 
+        private MainWindow main;
+        private BoardModel boardModel;
+        public Board(UserModel user, BoardModel boardModel, MainWindow main) 
         {
             InitializeComponent();
+            this.boardModel = boardModel;
+            this.main = main;
             this.boardVM = new BoardVM(user); 
             this.DataContext = boardVM;
             this.Load();
@@ -34,7 +37,32 @@ namespace IntroSE.Kanban.PresentationLayer.View
 
         private void Load()
         {
-            //var columns = boardVM.Load();
+            var columns = boardVM.Load();
+
+            foreach(var column in columns)
+            {
+                StackPanel stackPanel = new StackPanel();
+                Name = $"column{column.ColumnOrdinal}column";
+
+                foreach (var task in column.Tasks)
+                {
+                    GroupBox taskBox = new GroupBox();
+                    taskBox.Header = task.Title;
+                    taskBox.Margin = new Thickness(16);
+                    taskBox.Content = new TextBlock() { Text = task.Description};
+                    stackPanel.Children.Add(taskBox);
+                }
+
+                GroupBox groupBox = new GroupBox();
+                groupBox.Header = column.Title;
+                groupBox.Height = 505;
+                groupBox.Width = 257;
+                groupBox.Margin = new Thickness(16);
+                groupBox.Content = stackPanel;
+
+                this.ColumnStackPanel.Children.Add(groupBox);
+            }
+            
         }
 
         private void Button_Add_Task(object sender, RoutedEventArgs e)

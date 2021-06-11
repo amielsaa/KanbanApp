@@ -38,5 +38,7 @@ namespace IntroSE.Kanban.PresentationLayer.ViewModel
             
 
         }
+
+        
     }
 }

@@ -20,18 +20,19 @@ namespace IntroSE.Kanban.PresentationLayer.View
     /// </summary>
     public partial class Login : Window
     {
-        LoginVM loginVM = new LoginVM();
+        LoginVM loginVM;
         public Login()
         {
             InitializeComponent();
+            loginVM = new LoginVM();
             this.DataContext = loginVM;
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             var user = loginVM.Login();
-            Board board = new Board(user);
-            board.Show();
+            MainWindow main = new MainWindow(user);
+            main.Show();
             this.Close();
         }
 

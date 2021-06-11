@@ -15,7 +15,7 @@ namespace IntroSE.Kanban.PresentationLayer.ViewModel
         public BoardModel board;
         public IList<ColumnModel> columns; 
         
-        
+
         private bool _enableForward = false;
         public bool EnableForward
         {
@@ -25,6 +25,11 @@ namespace IntroSE.Kanban.PresentationLayer.ViewModel
                 _enableForward = value;
                 RaisePropertyChanged("EnableForward");
             }
+        }
+
+        internal IList<ColumnModel> Load()
+        {
+            return controller.GetAllColumns(user.Email, user.Email, "somefuckingboard");
         }
 
         internal void Logout()

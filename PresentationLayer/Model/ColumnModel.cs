@@ -8,12 +8,25 @@ namespace IntroSE.Kanban.PresentationLayer.Model
 
         private readonly UserModel user;
         private int columnOrdinal;
+        private string title;
+
         public ObservableCollection<TaskModel> Tasks { get; set; }
+        public string Title { get => title; set { } }
+        public int ColumnOrdinal { get => columnOrdinal; set { } }
 
         private ColumnModel(BackendController controller, ObservableCollection<TaskModel> tasks, int columnOrdinal) : base(controller)
         {
             this.Tasks = tasks;
             Tasks.CollectionChanged += HandleChange;
+        }
+
+
+        //loading data constructor
+        public ColumnModel(BackendController controller, ObservableCollection<TaskModel> tasks, int columnOrdinal, string title) : base(controller)
+        {
+            this.Tasks = tasks;
+            this.columnOrdinal = columnOrdinal;
+            this.title = title;
         }
 
         public ColumnModel(BackendController controller, UserModel user,int columnOrdinal) : base(controller)
