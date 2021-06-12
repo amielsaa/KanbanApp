@@ -96,6 +96,7 @@ namespace IntroSE.Kanban.PresentationLayer.Model
 
         internal List<string> GetBoardNames(string userEmail)
         {
+
             var list = Service.GetBoardNames(userEmail).Value;
             List<string> newList = new List<string>();
             foreach(var boardName in list)
@@ -105,6 +106,12 @@ namespace IntroSE.Kanban.PresentationLayer.Model
                     newList.Add(boardName);
                 }
             }
+
+
+            ///////
+            newList.Add("1Nice board");
+            newList.Add("Okay board");
+            ///////
             return newList;
         }
 
@@ -115,7 +122,24 @@ namespace IntroSE.Kanban.PresentationLayer.Model
 
         internal void AddBoard(string userEmail, string boardName)
         {
+            /////// testing
+            if(boardName == "ok")
+            {
+                throw new ArgumentException("what ok hdfhdfhdhd");
+            }
+            ///////
+            
+            var action = Service.AddBoard(userEmail, boardName);
+            if (action.ErrorOccured)
+            {
+                throw new ArgumentException(action.ErrorMessage);
+            }
 
+        }
+
+        internal void RemoveBoard(string userEmail, string boardName)
+        {
+            throw new ArgumentException("shit");
         }
 
         internal void Register(string userEmail, string password)

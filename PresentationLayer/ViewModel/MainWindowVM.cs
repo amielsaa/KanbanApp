@@ -1,4 +1,5 @@
 ﻿using IntroSE.Kanban.PresentationLayer.Model;
+using PresentationLayer;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace IntroSE.Kanban.PresentationLayer.ViewModel
 {
-    internal class MainWindowVM
+    internal class MainWindowVM : NotifiableObject
     {
 
         public UserModel user;
@@ -15,10 +16,20 @@ namespace IntroSE.Kanban.PresentationLayer.ViewModel
         public List<string> boardNames;
         private Model.BackendController controller;
         private string _newBoardName;
-        private string _clickedBoard;
+        private string _boardIndex;
+        private string _message;
 
         public string NewBoardName { get => _newBoardName; set { _newBoardName = value; } }
-        public string ClickedBoard { get => _clickedBoard; set { _clickedBoard = value; } }
+        public string BoardIndex { get => _boardIndex; set { _boardIndex = value; } }
+        public string Message
+        {
+            get => _message;
+            set
+            {
+                _message = value;
+                RaisePropertyChanged("Message");
+            }
+        }
 
         public MainWindowVM(UserModel user)
         {
@@ -36,9 +47,32 @@ namespace IntroSE.Kanban.PresentationLayer.ViewModel
 
         internal string AddBoard()
         {
-            controller.AddBoard(user.Email, NewBoardName);
-            return NewBoardName;
+            try
+            {
+                controller.AddBoard(user.Email, NewBoardName);
+                return NewBoardName;
+            } catch(Exception e)
+            {
+                Message = e.Message;
+                return null;
+            }
+            
         }
+
+        internal bool RemoveBoard(string boardName)
+        {
+            try
+            {
+                controller.RemoveBoard(user.Email, boardName);
+                return true;
+            } catch(Exception e)
+            {
+                Message = boardName;
+                return false;
+            }
+            
+        }
+
 
     }
 }

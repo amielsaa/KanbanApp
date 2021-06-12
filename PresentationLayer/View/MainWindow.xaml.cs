@@ -37,7 +37,10 @@ namespace IntroSE.Kanban.PresentationLayer.View
         private void LoadBoards()
         {
             var boardNames = mainWindowVM.boardNames;
-
+            foreach(string boardName in boardNames)
+            {
+                AddBoardToView(boardName);
+            }
         }
 
 
@@ -52,26 +55,39 @@ namespace IntroSE.Kanban.PresentationLayer.View
 
         private void Remove_Button(object sender, RoutedEventArgs e)
         {
-
+            var boardName = ((StackPanel)((Button)sender).Parent).Name;
+            if (mainWindowVM.RemoveBoard(boardName))
+            {
+                this.BoardStackPanel.Children.RemoveAt(Int32.Parse(((Button)sender).Tag.ToString()));
+                
+            }
         }
-        /*
-        <StackPanel Margin = "0,20,0,0" x:Name="BoardStackPanel"  Orientation="Horizontal" Width="1000" Height="300" CanHorizontallyScroll="True">
-                    <WrapPanel Orientation = "Vertical" VerticalAlignment="Center" >
-                        <GroupBox Header = "BoardName" Height="200" Width="200" Margin="10,0,10,5" Content="fsdafasd"/>
-                        <Button Content = "Enter Board" Tag="BoardName" Width="200" Margin="0,0,0,5" Click="Enter_Button"/>
-                        <Button Content = "Remove Board" Width="200" Click="Remove_Button" />
-                    </WrapPanel>
-                </StackPanel>*/
+        
         private void Add_Board_Button(object sender, RoutedEventArgs e)
         {
             string boardName = mainWindowVM.AddBoard();
             this.text_box.Text = "";
-
+            if(boardName != null)
+            {
+                AddBoardToView(boardName);
+            }
+            
+        }
+        /* GroupBox Example
+         <WrapPanel Orientation="Vertical" VerticalAlignment="Center" Width="200">
+                        <GroupBox Header="BoardName" Height="200"  Margin="10,0,10,5" Content="fsdafasd"/>
+                        <Button  Content="Enter Board" Tag="BoardName" Width="200" Margin="0,0,0,5" Click="Enter_Button"/>
+                        <Button  Content="Remove Board" Width="200" Click="Remove_Button" />
+                    </WrapPanel>
+         */
+        private void AddBoardToView(string boardName)
+        {
             StackPanel stackPanel = new StackPanel();
             stackPanel.VerticalAlignment = VerticalAlignment.Center;
             stackPanel.Orientation = Orientation.Vertical;
-            
-            
+            //stackPanel.Tag = $"{this.BoardStackPanel.Children.Count}";
+            //stackPanel.Name = boardName.Replace(" ","");
+
             GroupBox groupBox = new GroupBox();
             groupBox.Header = boardName;
             groupBox.Height = 200;
@@ -89,14 +105,14 @@ namespace IntroSE.Kanban.PresentationLayer.View
 
             Button removeButton = new Button();
             removeButton.Content = "Remove Board";
-            removeButton.Tag = boardName;
+            removeButton.Tag = this.BoardStackPanel.Children.Count;
             removeButton.Width = 200;
             removeButton.Margin = new Thickness(5);
             removeButton.Click += Remove_Button;
             stackPanel.Children.Add(removeButton);
 
             this.BoardStackPanel.Children.Add(stackPanel);
-
+            
         }
     }
 }

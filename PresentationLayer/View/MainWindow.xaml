@@ -16,23 +16,22 @@
         Title="Board" Height="675" Width="1200">
     <Grid>
         <StackPanel Orientation="Vertical">
-            <WrapPanel HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,100,0,10">
+            <WrapPanel HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,50,0,0">
                 <Label FontSize="25" Content="Enter new board name: "/>
                 <TextBox x:Name="text_box" HorizontalAlignment="Left" Text="{Binding NewBoardName}" TextWrapping="Wrap" VerticalAlignment="Top" Width="182" Height="39"/>
                 <Button Content="Add Board" Height="40" Click="Add_Board_Button"/>
+            </WrapPanel> 
+            <WrapPanel Height="30" Width="Auto" HorizontalAlignment="Center">
+                <Label Content="{Binding Message ,Mode=OneWay}" FontSize="15"  Foreground="Red" FontStyle="Italic" Opacity="0.8" Margin="0,0,0,0"/>
             </WrapPanel>
-
             <ScrollViewer  HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Disabled" Width="1000" Height="350" CanContentScroll="True">
                 <StackPanel x:Name="BoardStackPanel" Margin="0,0,0,0" Orientation="Horizontal" Width="Auto" Height="350"  >
                 
-                    <WrapPanel Orientation="Vertical" VerticalAlignment="Center" Width="200">
-                        <GroupBox Header="BoardName" Height="200"  Margin="10,0,10,5" Content="fsdafasd"/>
-                        <Button  Content="Enter Board" Tag="BoardName" Width="200" Margin="0,0,0,5" Click="Enter_Button"/>
-                        <Button  Content="Remove Board" Width="200" Click="Remove_Button" />
-                    </WrapPanel>
+                    
                 
             </StackPanel>
          </ScrollViewer>
+            
             <WrapPanel HorizontalAlignment="Center">
                 <Label Content="Join Board" FontSize="30" />
             </WrapPanel>
