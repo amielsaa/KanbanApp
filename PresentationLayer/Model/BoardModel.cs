@@ -12,8 +12,26 @@ namespace IntroSE.Kanban.PresentationLayer.Model
     {
         private readonly UserModel user;
         private string _boardName;
+        private string _creator;
+        public string BoardName
+        {
+            get => _boardName;
+            set
+            {
+                this._boardName = value;
+                RaisePropertyChanged("BoardName");
+            }
+        }
+        public string Creator
+        {
+            get => _creator;
+            set
+            {
+                this._creator = value;
+                RaisePropertyChanged("Creator");
+            }
+        }
 
-        public string BoardName { get => _boardName; set { _boardName = value; } }
         public ObservableCollection<ColumnModel> Columns { get; set; }
 
         private BoardModel(BackendController controller, ObservableCollection<ColumnModel> columns) : base(controller)
@@ -22,12 +40,14 @@ namespace IntroSE.Kanban.PresentationLayer.Model
             Columns.CollectionChanged += HandleChange;
         }
 
-        public BoardModel(BackendController controller, UserModel user,string boardName) : base(controller)
+        public BoardModel(BackendController controller, UserModel user,string boardName, string creatorEmail) : base(controller)
         {
             this.user = user;
-            this._boardName = boardName;
+            this.BoardName = boardName;
+            this.Creator = creatorEmail;
             Columns = new ObservableCollection<ColumnModel>(controller.GetAllColumns(user.Email,user.Email,boardName));
             //Columns.CollectionChanged += HandleChange;
+            //laasot getboard me ha backendcontroller
         }
 
         public BoardModel(BackendController controller, UserModel user) : base(controller)

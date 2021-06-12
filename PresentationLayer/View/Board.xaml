@@ -52,7 +52,24 @@
             <ScrollViewer ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Visible" Margin="0,120,0,0">
 
                 <StackPanel Orientation="Horizontal" Height="Auto" Name="ColumnStackPanel" CanHorizontallyScroll="True" CanVerticallyScroll="True" >
-                    <Label Margin="0,5,5,0" Content="AHAHAHAHAHAHAHAHA"/>
+                    <ItemsControl ItemsSource="{Binding Path=Board}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <GroupBox Header="GroupBox" Height="505" Width="257">
+                                    <StackPanel x:Name="TasksPanel">
+                                        <GroupBox
+                                            Header="{Binding Title}"
+                                            Margin="16">
+                                            <TextBlock
+                                                Text="My Content" />
+                                        </GroupBox>
+
+                                    </StackPanel>
+                                </GroupBox>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+
                     <GroupBox Header="GroupBox" Height="505" Width="257">
                         <StackPanel x:Name="TasksPanel">
                             <GroupBox

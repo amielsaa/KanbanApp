@@ -23,18 +23,16 @@ namespace IntroSE.Kanban.PresentationLayer.View
     {
 
         private BoardVM boardVM;
-        private MainWindow main;
         private BoardModel boardModel;
-        public Board(UserModel user, BoardModel boardModel, MainWindow main) 
+        public Board(UserModel user, BoardModel boardModel) 
         {
             InitializeComponent();
             this.boardModel = boardModel;
-            this.main = main;
-            this.boardVM = new BoardVM(user); 
+            this.boardVM = new BoardVM(user,boardModel); 
             this.DataContext = boardVM;
-            this.Load();
         }
 
+        /*
         private void Load()
         {
             var columns = boardVM.Load();
@@ -63,7 +61,7 @@ namespace IntroSE.Kanban.PresentationLayer.View
                 this.ColumnStackPanel.Children.Add(groupBox);
             }
             
-        }
+        }*/
 
         private void Button_Add_Task(object sender, RoutedEventArgs e)
         {

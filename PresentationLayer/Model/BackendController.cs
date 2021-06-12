@@ -93,7 +93,7 @@ namespace IntroSE.Kanban.PresentationLayer.Model
             }
             return boardModels;
         }*/
-
+        /*
         internal List<string> GetBoardNames(string userEmail)
         {
 
@@ -113,6 +113,22 @@ namespace IntroSE.Kanban.PresentationLayer.Model
             newList.Add("Okay board");
             ///////
             return newList;
+        }*/
+
+        internal List<BoardModel> GetBoards(UserModel user)
+        {
+            List<BoardModel> list = new List<BoardModel>();
+            list.Add(new BoardModel(this, user, "oneboard",user.Email));
+            list.Add(new BoardModel(this, user, "twoboard", user.Email));
+            list.Add(new BoardModel(this, user, "threeboard", user.Email));
+            list.Add(new BoardModel(this, user, "frewag", user.Email));
+            list.Add(new BoardModel(this, user, "asfsa", user.Email));
+            list.Add(new BoardModel(this, user, "thrfxdfeeboard", user.Email));
+            list.Add(new BoardModel(this, user, "thrasfdaeeboard", user.Email));
+            list.Add(new BoardModel(this, user, "thrasfeeboard", user.Email));
+            list.Add(new BoardModel(this, user, "thrfdsfdeeboard", user.Email));
+
+            return list;
         }
 
         internal TaskModel AddTask(string userEmail, string creatorEmail, string boardName, string title, string description, DateTime dueDate)
@@ -125,21 +141,21 @@ namespace IntroSE.Kanban.PresentationLayer.Model
             /////// testing
             if(boardName == "ok")
             {
-                throw new ArgumentException("what ok hdfhdfhdhd");
+                throw new ArgumentException("fasfdsa");
             }
             ///////
-            
+            /*
             var action = Service.AddBoard(userEmail, boardName);
             if (action.ErrorOccured)
             {
                 throw new ArgumentException(action.ErrorMessage);
-            }
+            }*/
 
         }
 
-        internal void RemoveBoard(string userEmail, string boardName)
+        internal void DeleteBoard(string userEmail,string creatorEmail, string boardName)
         {
-            throw new ArgumentException("shit");
+            
         }
 
         internal void Register(string userEmail, string password)

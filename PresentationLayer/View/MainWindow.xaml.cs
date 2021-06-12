@@ -31,7 +31,7 @@ namespace IntroSE.Kanban.PresentationLayer.View
             this.user = user;
             mainWindowVM = new MainWindowVM(user);
             this.DataContext = mainWindowVM;
-            LoadBoards();
+            //LoadBoards();
         }
 
         private void LoadBoards()
@@ -39,47 +39,45 @@ namespace IntroSE.Kanban.PresentationLayer.View
             var boardNames = mainWindowVM.boardNames;
             foreach(string boardName in boardNames)
             {
-                AddBoardToView(boardName);
+                //AddBoardToView(boardName);
             }
         }
 
 
-        private void Enter_Button(object sender, RoutedEventArgs e)
-        {
-            var myValue = ((Button)sender).Tag;
-            var boardModel = mainWindowVM.LoadBoard(myValue.ToString());
-            Board board = new Board(user, boardModel,this);
-            board.Show();
-            this.Hide();
-        }
-
-        private void Remove_Button(object sender, RoutedEventArgs e)
-        {
-            var boardName = ((StackPanel)((Button)sender).Parent).Name;
-            if (mainWindowVM.RemoveBoard(boardName))
-            {
-                this.BoardStackPanel.Children.RemoveAt(Int32.Parse(((Button)sender).Tag.ToString()));
-                
-            }
-        }
+        
         
         private void Add_Board_Button(object sender, RoutedEventArgs e)
         {
-            string boardName = mainWindowVM.AddBoard();
-            this.text_box.Text = "";
-            if(boardName != null)
-            {
-                AddBoardToView(boardName);
-            }
-            
+            mainWindowVM.AddBoard();
+
+        }
+
+        private void Delete_Board_Button(object sender, RoutedEventArgs e)
+        {
+            mainWindowVM.DeleteBoard();
+        }
+
+        private void Enter_Board_Button(object sender, RoutedEventArgs e)
+        {
+            var board = mainWindowVM.EnterBoard();
+            Board boardWindow = new Board(user, board);
+            boardWindow.Show();
+            this.Close();
         }
         /* GroupBox Example
-         <WrapPanel Orientation="Vertical" VerticalAlignment="Center" Width="200">
-                        <GroupBox Header="BoardName" Height="200"  Margin="10,0,10,5" Content="fsdafasd"/>
-                        <Button  Content="Enter Board" Tag="BoardName" Width="200" Margin="0,0,0,5" Click="Enter_Button"/>
-                        <Button  Content="Remove Board" Width="200" Click="Remove_Button" />
-                    </WrapPanel>
-         */
+<WrapPanel Orientation="Vertical" VerticalAlignment="Center" Width="200">
+      <GroupBox Header="BoardName" Height="200"  Margin="10,0,10,5" Content="fsdafasd"/>
+      <Button  Content="Enter Board" Tag="BoardName" Width="200" Margin="0,0,0,5" Click="Enter_Button"/>
+      <Button  Content="Remove Board" Width="200" Click="Remove_Button" />
+  </WrapPanel>
+
+<StackPanel x:Name="BoardStackPanel" Margin="0,0,0,0" Orientation="Horizontal" Width="Auto" Height="350"  >
+
+
+
+</StackPanel>
+*/
+        /*
         private void AddBoardToView(string boardName)
         {
             StackPanel stackPanel = new StackPanel();
@@ -113,6 +111,6 @@ namespace IntroSE.Kanban.PresentationLayer.View
 
             this.BoardStackPanel.Children.Add(stackPanel);
             
-        }
+        }*/
     }
 }

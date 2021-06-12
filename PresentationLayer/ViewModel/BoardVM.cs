@@ -12,9 +12,8 @@ namespace IntroSE.Kanban.PresentationLayer.ViewModel
     {
         private Model.BackendController controller;
         public UserModel user;
-        public BoardModel board;
-        public IList<ColumnModel> columns; 
-        
+        public BoardModel Board { get; private set; }
+
 
         private bool _enableForward = false;
         public bool EnableForward
@@ -44,11 +43,12 @@ namespace IntroSE.Kanban.PresentationLayer.ViewModel
 
 
 
-        public BoardVM(UserModel user) 
+        public BoardVM(UserModel user, BoardModel board) 
         {
             this.controller = user.Controller;
             this.user = user;
-            this.board = new BoardModel(this.controller, this.user);
+            this.Board = board;
+            
             
         }
 
