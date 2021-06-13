@@ -9,10 +9,24 @@ namespace IntroSE.Kanban.PresentationLayer.Model
         private readonly UserModel user;
         private int columnOrdinal;
         private string title;
+        private TaskModel _selectedTask;
 
         public ObservableCollection<TaskModel> Tasks { get; set; }
         public string Title { get => title; set { } }
         public int ColumnOrdinal { get => columnOrdinal; set { } }
+        public TaskModel SelectedTask
+        {
+            get
+            {
+                return _selectedTask;
+            }
+            set
+            {
+                _selectedTask = value;
+                //EnableForward = value != null;
+                RaisePropertyChanged("SelectedTask");
+            }
+        }
 
         private ColumnModel(BackendController controller, ObservableCollection<TaskModel> tasks, int columnOrdinal) : base(controller)
         {
@@ -22,11 +36,12 @@ namespace IntroSE.Kanban.PresentationLayer.Model
 
 
         //loading data constructor
-        public ColumnModel(BackendController controller, ObservableCollection<TaskModel> tasks, int columnOrdinal, string title) : base(controller)
+        public ColumnModel(BackendController controller, int columnOrdinal, string title) : base(controller)
         {
-            this.Tasks = tasks;
             this.columnOrdinal = columnOrdinal;
             this.title = title;
+            Tasks = new ObservableCollection<TaskModel>(controller.GetColumnTask("", "", "", columnOrdinal));
+            
         }
 
         public ColumnModel(BackendController controller, UserModel user,int columnOrdinal) : base(controller)
@@ -38,10 +53,24 @@ namespace IntroSE.Kanban.PresentationLayer.Model
             //Tasks.CollectionChanged += HandleChange;
         }
 
+        /*
+        internal TaskModel AdvanceTask()
+        {
+            var res = Controller.AdvanceTask("","","", SelectedTask.ColumnOrdinal, SelectedTask.Id);
+            if (res)
+            {
+                Tasks.Remove(SelectedTask);
+                return SelectedTask;
+            }
+        }*/
 
         public void AddTask(TaskModel task)
         {
-
+            var res = Controller.AddTask(task);
+            if(res)
+            {
+                Tasks.Add(task);
+            }
         }
 
         public void RemoveMessage(TaskModel t)

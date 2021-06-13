@@ -52,7 +52,7 @@
                 Style="{StaticResource MaterialDesignOutlinedDatePicker}"
                 SelectedDate="{Binding DueDate}"
                 />
-            <Label Content="{Binding ErrorMessage}" Margin="0,20,0,0" Height="20"/>
+            <Label Content="{Binding Message}" Margin="0,20,0,0" Height="20"/>
             <Button
                 Style="{StaticResource MaterialDesignFlatButton}"
                 Click="ButtonBase_OnClick"

@@ -31,6 +31,7 @@ namespace IntroSE.Kanban.PresentationLayer.Model
                 RaisePropertyChanged("Creator");
             }
         }
+        
 
         public ObservableCollection<ColumnModel> Columns { get; set; }
 

@@ -12,8 +12,9 @@ namespace IntroSE.Kanban.PresentationLayer.ViewModel
     {
         private Model.BackendController controller;
         public UserModel user;
+        
         public BoardModel Board { get; private set; }
-
+        private string _message;
 
         private bool _enableForward = false;
         public bool EnableForward
@@ -25,6 +26,17 @@ namespace IntroSE.Kanban.PresentationLayer.ViewModel
                 RaisePropertyChanged("EnableForward");
             }
         }
+        public string Message
+        {
+            get => _message;
+            set
+            {
+                _message = value;
+                RaisePropertyChanged("Message");
+            }
+        }
+
+        
 
         internal IList<ColumnModel> Load()
         {
@@ -36,10 +48,7 @@ namespace IntroSE.Kanban.PresentationLayer.ViewModel
 
         }
 
-        internal void AddTask(TaskModel task)
-        {
-
-        }
+        
 
 
 
@@ -52,6 +61,26 @@ namespace IntroSE.Kanban.PresentationLayer.ViewModel
             
         }
 
-       
+        /*
+        internal void AdvanceTask()
+        {
+            try
+            {
+                var selectedTask = Board.Columns[SelectedTask.ColumnOrdinal].AdvanceTask(SelectedTask);
+                Board.Columns[SelectedTask.ColumnOrdinal + 1].AddTask(SelectedTask);
+            }catch(Exception e)
+            {
+                Message = e.Message;
+            }
+        }*/
+
+        internal void AddTask()
+        {
+            
+        }
+
+
+
+
     }
 }

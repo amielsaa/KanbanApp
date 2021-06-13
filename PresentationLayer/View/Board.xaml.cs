@@ -23,10 +23,12 @@ namespace IntroSE.Kanban.PresentationLayer.View
     {
 
         private BoardVM boardVM;
+        private UserModel user;
         private BoardModel boardModel;
         public Board(UserModel user, BoardModel boardModel) 
         {
             InitializeComponent();
+            this.user = user;
             this.boardModel = boardModel;
             this.boardVM = new BoardVM(user,boardModel); 
             this.DataContext = boardVM;
@@ -65,15 +67,12 @@ namespace IntroSE.Kanban.PresentationLayer.View
 
         private void Button_Add_Task(object sender, RoutedEventArgs e)
         {
-            Task task = new Task(boardVM,this);
+            Task task = new Task(boardVM.Board.Columns[0], user);
             task.Show();
 
         }
 
-        private void Button_Add_Column(object sender, RoutedEventArgs e)
-        {
-           
-        }
+        
         private void PopupBox_OnOpened(object sender,RoutedEventArgs e)
         {
 
@@ -81,6 +80,34 @@ namespace IntroSE.Kanban.PresentationLayer.View
         private void PopupBox_OnClosed(object sender, RoutedEventArgs e)
         {
 
+        }
+
+        private void Remove_Task_Button(object sender, RoutedEventArgs e)
+        {
+            //boardVM.RemoveTask(((Button)sender).Tag);
+        }
+
+        private void Advance_Task_Button(object sender, RoutedEventArgs e)
+        {
+            //boardVM.AdvanceTask();
+        }
+
+        private void Move_Left_Button(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Move_Right_Button(object sender, RoutedEventArgs e)
+        {
+
+        }
+        private void Button_Add_Column(object sender, RoutedEventArgs e)
+        {
+            //boardVM.AddColumn();
+        }
+        private void Remove_Column_Button(object sender, RoutedEventArgs e)
+        {
+            
         }
     }
 }
