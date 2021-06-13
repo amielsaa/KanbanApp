@@ -54,8 +54,8 @@
             <ScrollViewer ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Visible" Margin="0,120,0,0">
 
                 <StackPanel Orientation="Horizontal" Height="Auto" Name="ColumnStackPanel" CanHorizontallyScroll="True" CanVerticallyScroll="True" >
-                    <Label Margin="0,5,5,0" Content="AHAHAHAHAHAHAHAHA"/>
-                    <GroupBox Header="GroupBox" Height="505" Width="257">
+
+                    <GroupBox Header="GroupBox" Height="505" Width="257"  Margin="30,0,0,0">
                         <StackPanel x:Name="TasksPanel">
                             <GroupBox
                                 Header="Default Look"
