@@ -22,7 +22,9 @@
                 ToolTip="PopupBox, Style MaterialDesignMultiFloatingActionPopupBox"
                 Opened="PopupBox_OnOpened"            
                 Closed="PopupBox_OnClosed">
-                <materialDesign:PopupBox.ToggleContent>                    <materialDesign:PackIcon Kind="PlusBox" />                </materialDesign:PopupBox.ToggleContent>
+                <materialDesign:PopupBox.ToggleContent>
+                    <materialDesign:PackIcon Kind="PlusBox" />
+                </materialDesign:PopupBox.ToggleContent>
 
                 <StackPanel>
                     <Button

@@ -8,13 +8,13 @@
         Title="Login" Height="450" Width="800">
     <Grid RenderTransformOrigin="0.507,0.612">
         <Grid.Background>
-            <ImageBrush ImageSource="C:\Users\97254\Desktop\milestone1\milestone1-dank\PresentationLayer\background.jpg" Stretch="UniformToFill" Opacity="0.4"/>
+            <ImageBrush ImageSource="..\background.jpg"  Stretch="UniformToFill" Opacity="0.4"/>
         </Grid.Background>
 
-        <Button Content="Sign in" HorizontalAlignment="Left" Margin="202,347,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.286,0.566" Height="29" Width="130" Click="Button_Click" Foreground="AliceBlue" Background="SteelBlue" />
+        <Button Content="Sign in" HorizontalAlignment="Left" Margin="202,347,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.286,0.566" Height="29" Width="130" Click="Button_Click" Foreground="AliceBlue" Background="SteelBlue"  />
 
         <Label Content="Welcome to Kanban Board" HorizontalAlignment="Center" Margin="0,51,0,0" VerticalAlignment="Top" Width="460" FontSize="36" Height="71" FontWeight="Bold"/>
-        <Button Content="Regiester" HorizontalAlignment="Left" Margin="445,347,0,0" VerticalAlignment="Top" Height="29" Width="137" Click="Button_Click_1" Foreground="AliceBlue" Background="SteelBlue"/>
+        <Button Content="Regiester" HorizontalAlignment="Left" Margin="445,347,0,0" VerticalAlignment="Top" Height="29" Width="137" Click="Button_Click_1" Foreground="AliceBlue" Background="SteelBlue" BorderBrush="Teal"/>
         <Label Content="Username" HorizontalAlignment="Left" Margin="215,154,0,0" VerticalAlignment="Top" Width="103" Height="39" FontSize="20" FontWeight="Bold"/>
         <Label Content="Password" HorizontalAlignment="Left" Margin="215,217,0,0" VerticalAlignment="Top" Width="103" Height="31" FontSize="20" FontWeight="Bold"/>
         <TextBox HorizontalAlignment="Left" Margin="366,154,0,0" Text="{Binding Username}" TextWrapping="Wrap" VerticalAlignment="Top" Width="182" Height="39"/>
