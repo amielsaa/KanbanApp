@@ -12,31 +12,44 @@ namespace IntroSE.Kanban.PresentationLayer.ViewModel
     {
         private Model.BackendController controller;
         private UserModel user;
+        private ColumnModel columnModel;
 
-        private string _title = "";
-        private string _description = "";
+        private string _title;
+        private string _description;
         private DateTime _dueDate;
+        private string _message;
 
-        public string Title { get => _title; set { _title = value; RaisePropertyChanged(""); } }
-        public string Description { get => _description; set { _description = value; RaisePropertyChanged(""); } }
-        public DateTime DueDate { get => _dueDate; set { _dueDate = value; RaisePropertyChanged(""); } }
+        public string Title { get => _title; set { _title = value; RaisePropertyChanged("Title"); } }
+        public string Description { get => _description; set { _description = value; RaisePropertyChanged("Description"); } }
+        public DateTime DueDate { get => _dueDate; set { _dueDate = value; RaisePropertyChanged("DueDate"); } }
 
-
-        internal TaskModel AddTask(ColumnModel columnModel)
+        public string Message
         {
-            //TaskModel taskModel = new TaskModel(controller, user.Email, Title, Description, DueDate);
-            //TaskModel taskModel = new TaskModel(Title, Description, DueDate);
-            //columnModel.AddTask(taskModel);
-            //return taskModel;
-            return null;
+            get => _message;
+            set
+            {
+                _message = value;
+                RaisePropertyChanged("Message");
+            }
         }
 
-        public TaskVM(UserModel user)
+        internal void AddTask()
         {
-            //this.user = user;
-            //this.controller = user.Controller;
+            try
+            {
+                columnModel.AddTask(new TaskModel(controller, user.Email, Title, Description, DueDate,columnModel.ColumnOrdinal,0));
+            }catch(Exception e)
+            {
+                Message = e.Message;
+            }
             
+        }
 
+        public TaskVM(ColumnModel columnModel, UserModel user)
+        {
+            this.user = user;
+            controller = user.Controller;
+            this.columnModel = columnModel;
         }
 
         

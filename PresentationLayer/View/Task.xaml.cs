@@ -23,31 +23,20 @@ namespace IntroSE.Kanban.PresentationLayer.View
     {
         private Board board;
         private TaskVM taskVM;
-        private ColumnModel columnModel;
         public Task()
         {
             InitializeComponent();
         }
-        internal Task(BoardVM boardVM, Board board)
+        public Task(ColumnModel columnModel, UserModel user)
         {
             InitializeComponent();
-            //this.columnModel = boardVM.columns[0];
-            taskVM = new TaskVM(boardVM.user);
+            taskVM = new TaskVM(columnModel, user);
             this.DataContext = taskVM;
-            this.board = board;
-            
-
         }
 
         private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
         {
-            //TaskModel task = taskVM.AddTask(new ColumnModel(null,null));
-            TaskModel task = null;
-            GroupBox taskGroupBox = new GroupBox();
-            taskGroupBox.Header = task.Title;
-            taskGroupBox.Margin = new Thickness(16);
-            taskGroupBox.Content = task.Description;
-            board.TasksPanel.Children.Add(taskGroupBox);
+            taskVM.AddTask();
             this.Close();
         }
     }

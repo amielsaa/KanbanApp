@@ -43,7 +43,7 @@ namespace IntroSE.Kanban.PresentationLayer.Model
             //return new ColumnModel(this, tasks, columnOrdinal);
         }*/
         
-        internal IList<ColumnModel> GetAllColumns(string userEmail,string creatorEmail,string boardName)
+        internal List<ColumnModel> GetAllColumns(string userEmail,string creatorEmail,string boardName)
         {
             /* CODE
             IList<ColumnModel> columnModels = new List<ColumnModel>();
@@ -63,22 +63,14 @@ namespace IntroSE.Kanban.PresentationLayer.Model
 
             //dummy for testing
             DateTime dateTime = new DateTime(2021, 9, 2, 2, 2, 2);
-            IList<ColumnModel> columnModels = new List<ColumnModel>();
+            List<ColumnModel> columnModels = new List<ColumnModel>();
 
-            ObservableCollection<TaskModel> tasks1 = new ObservableCollection<TaskModel>();
-            tasks1.Add(new TaskModel(this, "amiel@gmail.com", "A", "backlog tasks", dateTime));
-            ObservableCollection<TaskModel> tasks2 = new ObservableCollection<TaskModel>();
-            tasks2.Add(new TaskModel(this, "amiel@gmail.com", "B", "inprogress tasks", dateTime));
-            ObservableCollection<TaskModel> tasks3 = new ObservableCollection<TaskModel>();
-            tasks3.Add(new TaskModel(this, "amiel@gmail.com", "C", "done tasks", dateTime));
-            ObservableCollection<TaskModel> tasks4 = new ObservableCollection<TaskModel>();
-            tasks4.Add(new TaskModel(this, "amiel@gmail.com", "D", "done tasks", dateTime));
-            tasks4.Add(new TaskModel(this, "amiel@gmail.com", "G", "done tasks", dateTime));
+            
 
-            columnModels.Add(new ColumnModel(this, tasks1, 0, "backlog"));
-            columnModels.Add(new ColumnModel(this, tasks2, 1, "inprogress"));
-            columnModels.Add(new ColumnModel(this, tasks3, 2, "done"));
-            columnModels.Add(new ColumnModel(this, tasks4, 3, "shit"));
+            columnModels.Add(new ColumnModel(this, 0, "backlog"));
+            columnModels.Add(new ColumnModel(this, 1, "inprogress"));
+            columnModels.Add(new ColumnModel(this, 2, "done"));
+            columnModels.Add(new ColumnModel(this, 3, "shit"));
             return columnModels;
         }
 
@@ -93,7 +85,7 @@ namespace IntroSE.Kanban.PresentationLayer.Model
             }
             return boardModels;
         }*/
-
+        /*
         internal List<string> GetBoardNames(string userEmail)
         {
 
@@ -113,11 +105,40 @@ namespace IntroSE.Kanban.PresentationLayer.Model
             newList.Add("Okay board");
             ///////
             return newList;
+        }*/
+
+        internal List<BoardModel> GetBoards(UserModel user)
+        {
+            List<BoardModel> list = new List<BoardModel>();
+            list.Add(new BoardModel(this, user, "oneboard",user.Email));
+            list.Add(new BoardModel(this, user, "twoboard", user.Email));
+            list.Add(new BoardModel(this, user, "threeboard", user.Email));
+            list.Add(new BoardModel(this, user, "frewag", user.Email));
+            list.Add(new BoardModel(this, user, "asfsa", user.Email));
+            list.Add(new BoardModel(this, user, "thrfxdfeeboard", user.Email));
+            list.Add(new BoardModel(this, user, "thrasfdaeeboard", user.Email));
+            list.Add(new BoardModel(this, user, "thrasfeeboard", user.Email));
+            list.Add(new BoardModel(this, user, "thrfdsfdeeboard", user.Email));
+
+            return list;
         }
 
-        internal TaskModel AddTask(string userEmail, string creatorEmail, string boardName, string title, string description, DateTime dueDate)
+        internal List<TaskModel> GetColumnTask(string userEmail,string creatorEmail,string boardName,int columnOrdinal)
         {
-            throw new NotImplementedException("");
+            List<TaskModel> list = new List<TaskModel>();
+            list.Add(new TaskModel(this, "amiel", "taskone", "makoreahsheli", DateTime.Now,columnOrdinal,0));
+            //list.Add(new TaskModel(this, "amiel", "tasktwo", "makoreahsheli", DateTime.Now));
+            return list;
+        }
+
+        internal bool AddTask(TaskModel task)
+        {
+            return true;
+        }
+
+        internal bool AdvanceTask(string userEmail,string userCreater,string boardName,int columnOrdinal, int taskId)
+        {
+            return true;
         }
 
         internal void AddBoard(string userEmail, string boardName)
@@ -125,21 +146,21 @@ namespace IntroSE.Kanban.PresentationLayer.Model
             /////// testing
             if(boardName == "ok")
             {
-                throw new ArgumentException("what ok hdfhdfhdhd");
+                throw new ArgumentException("fasfdsa");
             }
             ///////
-            
+            /*
             var action = Service.AddBoard(userEmail, boardName);
             if (action.ErrorOccured)
             {
                 throw new ArgumentException(action.ErrorMessage);
-            }
+            }*/
 
         }
 
-        internal void RemoveBoard(string userEmail, string boardName)
+        internal void DeleteBoard(string userEmail,string creatorEmail, string boardName)
         {
-            throw new ArgumentException("shit");
+            
         }
 
         internal void Register(string userEmail, string password)

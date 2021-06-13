@@ -2,9 +2,13 @@
 using PresentationLayer;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace IntroSE.Kanban.PresentationLayer.ViewModel
 {
@@ -12,7 +16,11 @@ namespace IntroSE.Kanban.PresentationLayer.ViewModel
     {
 
         public UserModel user;
-        //public List<BoardModel> boardModels;
+        private BoardModel _selectedBoard;
+        public MainModel Main { get; private set; }
+        public ObservableCollection<BoardModel> Boards { get; set; }
+
+        //
         public List<string> boardNames;
         private Model.BackendController controller;
         private string _newBoardName;
@@ -31,46 +39,65 @@ namespace IntroSE.Kanban.PresentationLayer.ViewModel
             }
         }
 
+        public BoardModel SelectedBoard
+        {
+            get
+            {
+                return _selectedBoard;
+            }
+            set
+            {
+                _selectedBoard = value;
+                //EnableForward = value != null;
+                RaisePropertyChanged("SelectedBoard");
+            }
+        }
+
         public MainWindowVM(UserModel user)
         {
             //boardModels = controller.GetBoards(user);
             this.user = user;
             this.controller = user.Controller;
-            boardNames = controller.GetBoardNames(user.Email);
+            Main = new MainModel(user.Controller,user);
+            //Boards = new ObservableCollection<BoardModel>(controller.GetBoards(user));
+            
+            //boardNames = controller.GetBoardNames(user.Email);
             
         }
 
-        internal BoardModel LoadBoard(string boardName)
-        {
-            return new BoardModel(controller, user, boardName);
-        }
+        
 
-        internal string AddBoard()
+        internal void AddBoard()
         {
             try
             {
-                controller.AddBoard(user.Email, NewBoardName);
-                return NewBoardName;
+                Main.AddBoard(new BoardModel(controller,user,NewBoardName,user.Email));
+                
             } catch(Exception e)
             {
                 Message = e.Message;
-                return null;
+                
             }
             
         }
 
-        internal bool RemoveBoard(string boardName)
+        internal void DeleteBoard()
         {
             try
             {
-                controller.RemoveBoard(user.Email, boardName);
-                return true;
+                Main.DeleteBoard(SelectedBoard);
+
             } catch(Exception e)
             {
-                Message = boardName;
-                return false;
+                Message = e.Message;
+
             }
             
+        }
+
+        internal BoardModel EnterBoard()
+        {
+            return SelectedBoard;
         }
 
 

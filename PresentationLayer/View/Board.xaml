@@ -22,9 +22,7 @@
                 ToolTip="PopupBox, Style MaterialDesignMultiFloatingActionPopupBox"
                 Opened="PopupBox_OnOpened"            
                 Closed="PopupBox_OnClosed">
-                <materialDesign:PopupBox.ToggleContent>
-                    <materialDesign:PackIcon Kind="PlusBox" />
-                </materialDesign:PopupBox.ToggleContent>
+                <materialDesign:PopupBox.ToggleContent>                    <materialDesign:PackIcon Kind="PlusBox" />                </materialDesign:PopupBox.ToggleContent>
 
                 <StackPanel>
                     <Button
@@ -51,22 +49,82 @@
                 Content="addColumn" 
                 Margin="20,0,0,0" Name="AddColumn" Click="Button_Add_Column"/>
             </WrapPanel>
-            <ScrollViewer ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Visible" Margin="0,120,0,0">
+            <ScrollViewer HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible" CanContentScroll="True" Margin="0,20,0,0">
 
-                <StackPanel Orientation="Horizontal" Height="Auto" Name="ColumnStackPanel" CanHorizontallyScroll="True" CanVerticallyScroll="True" >
+                <StackPanel Orientation="Horizontal" Height="550" Name="ColumnStackPanel" CanHorizontallyScroll="True" CanVerticallyScroll="True" >
+                    <ListBox ItemsSource="{Binding Path=Board.Columns}">
+                        <ListBox.ItemContainerStyle>
+                            <Style TargetType="ListBoxItem">
+                                <Style.Resources>
+                                    <Style TargetType="Border" >
+                                        <Setter  Property="CornerRadius" Value="2"/>
+                                    </Style>
+                                </Style.Resources>
+                            </Style>
+                        </ListBox.ItemContainerStyle>
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <WrapPanel/>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Tag="{Binding ColumnOrdinal}" Orientation="Vertical" Margin="5">
+                                    <GroupBox Header="{Binding Title}" Height="450" Width="257">
+                                        <ScrollViewer HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible" CanContentScroll="True" >
+                                            <ListBox ItemsSource="{Binding Path=Tasks}" SelectedItem="{Binding SelectedTask, Mode=TwoWay}">
+                                                <ItemsControl.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <StackPanel>
+                                                            <GroupBox Height="Auto" Header="{Binding Title}" Margin="16">
+                                                                <StackPanel Orientation="Vertical">
+                                                                    <Label Content="{Binding Description}" />
+                                                                    <Label Content="{Binding DueDate}"/>
+                                                                    
+                                                                    <Button Content="Remove" Width="100" Click="Remove_Task_Button" />
+                                                                    <Button Content="Advance" Width="100" Click="Advance_Task_Button"/>
+                                                                </StackPanel>
+                                                            </GroupBox>
+                                                        </StackPanel>
+                                                    </DataTemplate>
+                                                </ItemsControl.ItemTemplate>
 
-                    <GroupBox Header="GroupBox" Height="505" Width="257"  Margin="30,0,0,0">
+                                            </ListBox>
+                                        </ScrollViewer>
+                                    </GroupBox>
+                                    <WrapPanel HorizontalAlignment="Center">
+                                        <Button Content="left" Margin="0,0,20,0"/>
+                                        <Button Content="Remove" HorizontalAlignment="Center" />
+                                        <Button Content="right" Margin="20,0,0,0" />
+                                    </WrapPanel>
+                                        
+                                </StackPanel>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ListBox>
+                    <StackPanel Orientation="Vertical">
+                    <GroupBox Header="GroupBox" Height="450" Width="257">
                         <StackPanel x:Name="TasksPanel">
                             <GroupBox
+                                Height="Auto"
                                 Header="Default Look"
                                 Margin="16">
-                                <TextBlock
-                                    Text="My Content" />
+                                <StackPanel Orientation="Vertical">
+                                    <Label Content="Description" />
+                                    <Label Content="Due Date"/>
+                                    <Button Content="Remove" Width="100" Click="Remove_Task_Button"/>
+                                    <Button Content="Advance" Width="100" Click="Advance_Task_Button" />
+                                </StackPanel>
                             </GroupBox>
                             
                         </StackPanel>
                     </GroupBox>
-
+                        <WrapPanel HorizontalAlignment="Center">
+                            <Button Content="left" Margin="0,0,20,0" Click="Move_Left_Button"/>
+                            <Button Content="Remove" HorizontalAlignment="Center" Click="Remove_Column_Button"/>
+                            <Button Content="right" Margin="20,0,0,0" Click="Move_Right_Button" />
+                        </WrapPanel>
+                    </StackPanel>
 
                 </StackPanel>
             </ScrollViewer>
