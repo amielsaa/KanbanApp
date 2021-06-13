@@ -20,10 +20,11 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
         private int DESCRIPTION_MAX_LENGTH = 300;
         private string description;
         public string assigneeEmail;
+        public bool status;
         //constructor
 
         // create new task constructor
-        public Task(DateTime due_time, string title, string description, int id, int columnOrdinal, string assignee, string email, int boardId)
+        /*public Task(DateTime due_time, string title, string description, int id, int columnOrdinal, string assignee, string email, int boardId)
         {
             creation_time = DateTime.Now;
             if (due_time > DateTime.Now)
@@ -38,7 +39,9 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
             this.boardId = boardId;
             assigneeEmail = assignee;
             (new DTask()).Insert(toDalObject());
+            status = false;
         }
+        */
         //new constructor  for task that insert him to the first column
         public Task(DateTime due_time, string title, string description, int id, string assignee, string email, int boardId)
         {
@@ -54,6 +57,7 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
             this.boardId = boardId;
             assigneeEmail = assignee;
             this.columnOrdinal = 0;
+            status = false;
             (new DTask()).Insert(toDalObject());
         }
         //pull task from database constructor
@@ -67,6 +71,7 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
             this.email = email;
             boardId = boardid;
             assigneeEmail = assignee;
+            status = false;
         }
         //methods
 

@@ -1,5 +1,6 @@
 ﻿using introSE.KanbanBoard.Backend.BuisnessLayer;
 using IntroSE.Kanban.Backend.DataAccessLayer;
+using IntroSE.Kanban.Backend.DataAccessLayer.DalObjects;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -45,8 +46,8 @@ namespace IntroSE.Kanban.Backend.BuisnessLayer
         
         public void pullAllBoards()
         {
-            List<Board> boardList = dBoardController.SelectAllBoards();
-            
+            List<BoardsDTO> boardDTOList = dBoardController.SelectAllBoards();
+            List<Board> boardList = convertDALlistToBL(boardDTOList);
             foreach (Board board in boardList)
             {
                 allBoards.Add(board);
@@ -95,7 +96,53 @@ namespace IntroSE.Kanban.Backend.BuisnessLayer
                 throw new ArgumentException("Board not found.");
             return toReturn;
         }
-      
 
+        private List<Board> convertDALlistToBL(List<BoardsDTO> list)
+        {
+            List<Board> BLlist = new List<Board>();
+            foreach (BoardsDTO board in list)
+            {
+                BLlist.Add(convertToBLBoard(board));
+            }
+            return BLlist;
+        }
+
+        public Board convertToBLBoard(BoardsDTO boardsDTO)
+        {
+            DTask dTask = new DTask();
+            DBoardsController dBoards = new DBoardsController();
+            DColumn column = new DColumn();
+            List<Column> columns = new List<Column>();
+            List<ColumnDTO> columnDTOs = column.SelectAllColumn(boardsDTO.Email, boardsDTO.BoardId);
+            for (int i = 0; i < boardsDTO.ColumnsNumber; i++)
+            {
+                ColumnDTO c = columnDTOs.Find(x => x.ColumnNumber == i);
+                Column column1 = convertToBLColumn(c);
+                columns.Add(column1);
+                if (i == boardsDTO.ColumnsNumber - 1)
+                {
+                    List<introSE.KanbanBoard.Backend.BuisnessLayer.Task> taskList = column1.getTasks();
+                    foreach (introSE.KanbanBoard.Backend.BuisnessLayer.Task task in taskList)
+                        task.status = true;
+                }
+            }
+            List<string> boardUsers = dBoards.SelectAllBoardUsers(boardsDTO.UsersEmail, boardsDTO.BoardId);
+            Board board = new Board(boardsDTO.BoardName, boardsDTO.Email, boardsDTO.BoardId, boardsDTO.TaskId, columns, boardUsers);
+            return board;
+        }
+        public Column convertToBLColumn(ColumnDTO columnDTO)
+        {
+            DTask dTask = new DTask();
+            List<TaskDTO> taskListDTO = dTask.SelectAllTaskByEmailAndColumn(columnDTO.Email, columnDTO.ColumnNumber, columnDTO.BoardId);
+            List<introSE.KanbanBoard.Backend.BuisnessLayer.Task> taskList = new List<introSE.KanbanBoard.Backend.BuisnessLayer.Task>();
+            foreach (TaskDTO t in taskListDTO)
+            {
+                taskList.Add(new introSE.KanbanBoard.Backend.BuisnessLayer.Task(t.Email, t.BoardId, t.TaskId, t.Assignee, t.Column, Convert.ToDateTime(t.CreationTime), t.Description, t.Title, Convert.ToDateTime(t.DueDate)));
+            }
+            Column column = new Column(columnDTO.ColumnName, taskList, columnDTO.TaskLimit);
+            return column;
+        }
     }
+
+   
 }

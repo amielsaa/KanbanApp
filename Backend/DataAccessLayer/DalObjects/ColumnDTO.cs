@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace IntroSE.Kanban.Backend.DataAccessLayer.DalObjects
 {
-    class ColumnDTO : DTO
+    public class ColumnDTO : DTO
     {
         //ColumnNames in db
         public const string BoardIdColumnName = "boardId";
@@ -34,14 +34,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer.DalObjects
             _taskLimit = taskLimit;
             _columnName = columnName;
         }
-        public Column convertToBLColumn()
-        {
-            DTask dTask = new DTask();
-            List<TaskDTO> taskListDTO = dTask.SelectAllTaskByEmailAndColumn(Email, _columnNumber, BoardId);
-            List<introSE.KanbanBoard.Backend.BuisnessLayer.Task> taskList = dTask.convertTasksToBL(taskListDTO);
-            Column column = new Column(_columnName, taskList, _taskLimit);
-            return column;
-        }
+        
     }
 
 }

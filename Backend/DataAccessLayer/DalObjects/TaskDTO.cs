@@ -54,12 +54,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer.DalObjects
             _title = title;
             _dueDate = duedate;
         }
-        public introSE.KanbanBoard.Backend.BuisnessLayer.Task convertToBLTask()
-        {
-
-            introSE.KanbanBoard.Backend.BuisnessLayer.Task task = new introSE.KanbanBoard.Backend.BuisnessLayer.Task(Email, BoardId, TaskId, Assignee, Column, Convert.ToDateTime(CreationTime), Description, Title, Convert.ToDateTime(DueDate));
-            return task;
-        }
+        
 
 
     }

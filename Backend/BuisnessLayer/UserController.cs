@@ -136,7 +136,13 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
             List<UserDTO> userDtoList = dUserController.SelectAllUsers();
             foreach (UserDTO userDTO in userDtoList)
             {
-                User user = new User(userDTO.Email, userDTO.Password, userDTO.getOldPasswords(), userDTO.getMyAssignments(), userDTO.BoardsId);
+                List < TaskDTO > taskDTOList= userDTO.getMyAssignments();
+                List<Task> taskList = new List<Task>();
+                foreach (TaskDTO t in taskDTOList)
+                {
+                    taskList.Add(new Task(t.Email, t.BoardId, t.TaskId, t.Assignee, t.Column, Convert.ToDateTime(t.CreationTime), t.Description, t.Title, Convert.ToDateTime(t.DueDate)));
+                }
+                User user = new User(userDTO.Email, userDTO.Password, userDTO.getOldPasswords(),taskList, userDTO.BoardsId);
                 string email = userDTO.Email;
                 users.Add(user);
                 usersEmail.Add(email);

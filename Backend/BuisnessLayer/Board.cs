@@ -72,7 +72,7 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
         {
             if (columns[0].checkLimit())
             {
-                Task task = new Task(dueDate, title, description, taskId, 0, assignee, creatorEmail, id);
+                Task task = new Task(dueDate, title, description, taskId, assignee, creatorEmail, id);
                 columns[0].addTask(task);
                 taskId++;
                 user.myAssignments.Add(task);
@@ -105,14 +105,14 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
         public void moveTask(Task toMove, int column_of_the_task)
         {
 
-            if (column_of_the_task == 0 | column_of_the_task == 1)
+            if (column_of_the_task >=0 && column_of_the_task<columns.Count-1)
             {
                 columns[column_of_the_task + 1].getTasks().Add(toMove);
                 deleteTask(toMove, column_of_the_task);
                 toMove.columnOrdinal = toMove.columnOrdinal + 1;
                 (new DTask()).Update(creatorEmail, toMove.boardId, toMove.taskId, TaskDTO.ColumnColumnName, column_of_the_task + 1);
             }
-            if (column_of_the_task >= 2)
+            if (column_of_the_task >= columns.Count-1)
                 throw new ArgumentException("Cannot advance task to a column past Done");
         }
 
@@ -120,12 +120,14 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
         public void advanceTask(Task toMove, int column_of_the_task)
         {
 
-            if (column_of_the_task < columns.Count - 1)
+            if (column_of_the_task < columns.Count - 1 && column_of_the_task>=0)
             {
                 columns[column_of_the_task + 1].getTasks().Add(toMove);
                 deleteTask(toMove, column_of_the_task);
                 toMove.columnOrdinal = toMove.columnOrdinal + 1;
                 (new DTask()).Update(creatorEmail, toMove.boardId, toMove.taskId, TaskDTO.ColumnColumnName, column_of_the_task + 1);
+                if (column_of_the_task == columns.Count - 1)
+                    toMove.status = true;
             }
 
             else

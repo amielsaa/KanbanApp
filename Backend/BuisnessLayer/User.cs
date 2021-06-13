@@ -257,7 +257,7 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
             List<Task> list = new List<Task>();
             foreach (Task task in myAssignments)
             {
-                if (task.columnOrdinal == 1)
+                if (task.columnOrdinal <0 & !task.status)
                     list.Add(task);
             }
             return list;

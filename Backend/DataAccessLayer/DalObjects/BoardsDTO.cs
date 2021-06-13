@@ -36,22 +36,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer.DalObjects
             _usersEmail = usersEmail;
             _columnsNumber = columnsNumber;
         }
-        public Board convertToBLBoard()
-        {
-            DTask dTask = new DTask();
-            DBoardsController dBoards = new DBoardsController();
-            DColumn column = new DColumn();
-            List<Column> columns = new List<Column>();
-            List<ColumnDTO> columnDTOs = column.SelectAllColumn(Email,BoardId);
-            for (int i = 0; i < ColumnsNumber; i++)
-            {
-                ColumnDTO c = columnDTOs.Find(x => x.ColumnNumber == i);
-                columns.Add(c.convertToBLColumn());
-            }
-            List<string> boardUsers = dBoards.SelectAllBoardUsers(_usersEmail, BoardId);
-            Board board = new Board(_boardName, Email, BoardId, _taskId, columns ,boardUsers);
-            return board;
-        }
+        
 
 
 

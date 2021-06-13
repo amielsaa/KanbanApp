@@ -204,15 +204,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
             return result;
 
         }
-        public List<introSE.KanbanBoard.Backend.BuisnessLayer.Task> convertTasksToBL(List<TaskDTO> taskDTOs)
-        {
-            List<introSE.KanbanBoard.Backend.BuisnessLayer.Task> TaskList = new List<introSE.KanbanBoard.Backend.BuisnessLayer.Task>();
-            foreach (TaskDTO task in taskDTOs)
-            {
-                TaskList.Add(task.convertToBLTask());
-            }
-            return TaskList;
-        }
+        
         
        
     }

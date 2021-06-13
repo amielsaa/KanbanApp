@@ -89,11 +89,11 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
 
 //-----------------------------------------------Select methods-------------------------------------------------------------------------------
 
-        public List<Board> SelectAllBoards()
+        public List<BoardsDTO> SelectAllBoards()
         {
             string command = $"select * from {BoardsTableName}";
             List<BoardsDTO> list = Select(command).Cast<BoardsDTO>().ToList();
-            return convertDALlistToBL(list);
+            return list;
         }
         public List<string> SelectAllBoardUsers(string creatorEmail,int boardId)
         {
@@ -107,12 +107,13 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
             return usersList ;
         }
         
-        public List<Board> SelectAllBoardsByEmail(string email)
+        public List<BoardsDTO> SelectAllBoardsByEmail(string email)
         {
             string command = $"select * from {BoardsTableName} where email = {email}";
             List<BoardsDTO> list = Select(command).Cast<BoardsDTO>().ToList();
-            return convertDALlistToBL(list);
+            return list;
         }
+       
 
 
 //-------------------------------------------Insert & Delete methods-------------------------------------------------------------------------------
@@ -190,15 +191,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
             return result;
 
         }
-        private List<Board> convertDALlistToBL(List<BoardsDTO> list)
-        {
-            List<Board> BLlist = new List<Board>();
-            foreach (BoardsDTO boards in list)
-            {
-                BLlist.Add(boards.convertToBLBoard());
-            }
-            return BLlist;
-        }
+       
         
     }
 }

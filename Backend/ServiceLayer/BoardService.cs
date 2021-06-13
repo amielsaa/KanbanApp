@@ -233,7 +233,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
                 userController.getUser(userEmail).checkIfLogedIn();
                 Board board = boardController.getBoard(creatorEmail, boardName);
                 Column column = board.getColumn(columnOrdinal);
-                board.moveTask(column.getTaskById(taskId), columnOrdinal);
+                board.advanceTask(column.getTaskById(taskId), columnOrdinal);
                 log.Info("The task moved successfully to the next column");
                 return new Response();
             }catch(Exception e)

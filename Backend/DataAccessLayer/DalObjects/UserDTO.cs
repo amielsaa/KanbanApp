@@ -28,17 +28,18 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer.DalObjects
             _password = password;
         }
 
-        public List<Board> getAllBoards()
+        /*public List<Board> getAllBoards()
         {
             DBoardsController dBoards = new DBoardsController();
             return dBoards.SelectAllBoardsByEmail(Email);
         }
-
-        public List<introSE.KanbanBoard.Backend.BuisnessLayer.Task> getMyAssignments()
+        */
+        public List<TaskDTO> getMyAssignments()
         {
             DTask dTask = new DTask();
             List<TaskDTO> list =dTask.getMyAssignments(Email);
-            return dTask.convertTasksToBL(list);
+            return list;
+
         }
         public List<string> getOldPasswords()
         {
