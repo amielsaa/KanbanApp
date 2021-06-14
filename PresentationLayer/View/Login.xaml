@@ -7,9 +7,7 @@
         mc:Ignorable="d"
         Title="Login" Height="450" Width="800">
     <Grid RenderTransformOrigin="0.507,0.612">
-        <Grid.Background>
-            <ImageBrush ImageSource="..\background.jpg"  Stretch="UniformToFill" Opacity="0.4"/>
-        </Grid.Background>
+        
 
         <Button Content="Sign in" HorizontalAlignment="Left" Margin="202,347,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.286,0.566" Height="29" Width="130" Click="Button_Click" Foreground="AliceBlue" Background="SteelBlue"  />
 

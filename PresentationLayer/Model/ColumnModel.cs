@@ -13,7 +13,7 @@ namespace IntroSE.Kanban.PresentationLayer.Model
 
         public ObservableCollection<TaskModel> Tasks { get; set; }
         public string Title { get => title; set { } }
-        public int ColumnOrdinal { get => columnOrdinal; set { } }
+        public int ColumnOrdinal { get => columnOrdinal; set { columnOrdinal = value; } }
         public TaskModel SelectedTask
         {
             get
