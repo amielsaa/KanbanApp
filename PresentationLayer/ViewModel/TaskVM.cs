@@ -13,11 +13,16 @@ namespace IntroSE.Kanban.PresentationLayer.ViewModel
         private Model.BackendController controller;
         private UserModel user;
         private ColumnModel columnModel;
+        private TaskModel editTask;
 
         private string _title;
         private string _description;
         private DateTime _dueDate;
         private string _message;
+        private string _content;
+        private string _boardName;
+
+
 
         public string Title { get => _title; set { _title = value; RaisePropertyChanged("Title"); } }
         public string Description { get => _description; set { _description = value; RaisePropertyChanged("Description"); } }
@@ -32,12 +37,23 @@ namespace IntroSE.Kanban.PresentationLayer.ViewModel
                 RaisePropertyChanged("Message");
             }
         }
+        
+        
+        public string Content
+        {
+            get => _content;
+            set
+            {
+                _content = value;
+                RaisePropertyChanged("Content");
+            }
+        }
 
         internal void AddTask()
         {
             try
             {
-                columnModel.AddTask(new TaskModel(controller, user.Email, Title, Description, DueDate,columnModel.ColumnOrdinal,0));
+                columnModel.AddTask(new TaskModel(controller, user.Email, Title, Description, DueDate,columnModel.ColumnOrdinal,0,columnModel));
             }catch(Exception e)
             {
                 Message = e.Message;
@@ -45,13 +61,42 @@ namespace IntroSE.Kanban.PresentationLayer.ViewModel
             
         }
 
-        public TaskVM(ColumnModel columnModel, UserModel user)
+        internal void EditTask()
+        {
+            try
+            {
+                editTask.Update(Description,Title,DueDate, _boardName);
+                
+            }catch(Exception e)
+            {
+
+            }
+        }
+
+        //add task constructor
+        public TaskVM(ColumnModel columnModel, UserModel user,string content)
         {
             this.user = user;
             controller = user.Controller;
             this.columnModel = columnModel;
+            this.Content = content;
+            
         }
 
-        
+
+        //edit task constructor
+        public TaskVM(TaskModel task,UserModel user, string content, string boardName)
+        {
+            this.user = user;
+            this.controller = user.Controller;
+            this.Content = content;
+            this.editTask = task;
+            this._boardName = boardName;
+            Title = task.Title;
+            Description = task.Description;
+            DueDate = task.DueDate;
+        }
+
+
     }
 }

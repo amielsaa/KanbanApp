@@ -43,7 +43,7 @@ namespace IntroSE.Kanban.PresentationLayer.Model
             //return new ColumnModel(this, tasks, columnOrdinal);
         }*/
         
-        internal List<ColumnModel> GetAllColumns(string userEmail,string creatorEmail,string boardName)
+        internal List<ColumnModel> GetAllColumns(string userEmail,string creatorEmail,string boardName,BoardModel board)
         {
             /* CODE
             IList<ColumnModel> columnModels = new List<ColumnModel>();
@@ -67,10 +67,10 @@ namespace IntroSE.Kanban.PresentationLayer.Model
 
             
 
-            columnModels.Add(new ColumnModel(this, 0, "backlog"));
-            columnModels.Add(new ColumnModel(this, 1, "inprogress"));
-            columnModels.Add(new ColumnModel(this, 2, "done"));
-            columnModels.Add(new ColumnModel(this, 3, "shit"));
+            columnModels.Add(new ColumnModel(this, board, 0, "backlog"));
+            columnModels.Add(new ColumnModel(this, board, 1, "inprogress"));
+            columnModels.Add(new ColumnModel(this, board, 2, "done"));
+            columnModels.Add(new ColumnModel(this, board, 3, "shit"));
             return columnModels;
         }
 
@@ -123,10 +123,21 @@ namespace IntroSE.Kanban.PresentationLayer.Model
             return list;
         }
 
-        internal List<TaskModel> GetColumnTask(string userEmail,string creatorEmail,string boardName,int columnOrdinal)
+
+        /************************************/
+        /******** TASK FUNCTIONALITY ********/
+        /************************************/
+
+        internal string UpdateDescription(string userEmail, string creatorEmail, string boardName, int columnOrdinal, int taskId, string description)
+        {
+            return "";
+        }
+
+
+        internal List<TaskModel> GetColumnTask(string userEmail,string creatorEmail,string boardName,int columnOrdinal,ColumnModel parentColumn)
         {
             List<TaskModel> list = new List<TaskModel>();
-            list.Add(new TaskModel(this, "amiel", "taskone", "makoreahsheli", DateTime.Now,columnOrdinal,0));
+            list.Add(new TaskModel(this, "amiel", "taskone", "makoreahsheli", DateTime.Now,columnOrdinal,0,parentColumn));
             //list.Add(new TaskModel(this, "amiel", "tasktwo", "makoreahsheli", DateTime.Now));
             return list;
         }

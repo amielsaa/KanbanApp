@@ -29,7 +29,7 @@
                 VerticalAlignment="Center" 
                 BorderBrush="Black"
                 BorderThickness="0.75"
-                Text="{Binding Title,Mode=OneWayToSource}"/>
+                Text="{Binding Title,Mode=TwoWay}"/>
             <TextBox
                 Margin="0,20,0,0"
                 TextWrapping="Wrap"
@@ -40,7 +40,7 @@
                 SpellCheck.IsEnabled="True"
                 materialDesign:HintAssist.Hint="Description"
                 Height="80"
-                Text="{Binding Description, Mode=OneWayToSource}"
+                Text="{Binding Description, Mode=TwoWay}"
                 Width="380"
                 BorderBrush="Black"
                 BorderThickness="0.75"
@@ -50,14 +50,14 @@
                 Width="140"
                 materialDesign:HintAssist.Hint="Due Date"
                 Style="{StaticResource MaterialDesignOutlinedDatePicker}"
-                SelectedDate="{Binding DueDate}"
+                SelectedDate="{Binding DueDate, Mode=TwoWay}"
                 />
             <Label Content="{Binding Message}" Margin="0,20,0,0" Height="20"/>
             <Button
                 Style="{StaticResource MaterialDesignFlatButton}"
                 Click="ButtonBase_OnClick"
                 ToolTip="MaterialDesignFlatButton"
-                Content="CREATE"
+                Content="{Binding Content, Mode=TwoWay}"
                 Width="100"
                 Margin="0,20,0,0"
                 />

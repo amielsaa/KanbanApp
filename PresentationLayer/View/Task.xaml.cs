@@ -23,21 +23,32 @@ namespace IntroSE.Kanban.PresentationLayer.View
     {
         private Board board;
         private TaskVM taskVM;
-        public Task()
+        public Task(TaskModel task, UserModel user ,string content, string boardName)
         {
             InitializeComponent();
+            taskVM = new TaskVM(task, user, content,boardName);
+            this.DataContext = taskVM;
         }
-        public Task(ColumnModel columnModel, UserModel user)
+        public Task(ColumnModel columnModel, UserModel user ,string content )
         {
             InitializeComponent();
-            taskVM = new TaskVM(columnModel, user);
+            taskVM = new TaskVM(columnModel, user,content);
             this.DataContext = taskVM;
         }
 
         private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
         {
-            taskVM.AddTask();
-            this.Close();
+            if(((Button)sender).Content == "CREATE")
+            {
+                taskVM.AddTask();
+                this.Close();
+            }
+            else
+            {
+                taskVM.EditTask();
+                this.Close();
+            }
+                
         }
     }
 }

@@ -13,6 +13,8 @@ namespace IntroSE.Kanban.PresentationLayer.Model
         private readonly UserModel user;
         private string _boardName;
         private string _creator;
+        private TaskModel _backwardTask;
+
         public string BoardName
         {
             get => _boardName;
@@ -31,6 +33,16 @@ namespace IntroSE.Kanban.PresentationLayer.Model
                 RaisePropertyChanged("Creator");
             }
         }
+
+        public TaskModel BackwardTask
+        {
+            get => _backwardTask;
+            set
+            {
+                this._backwardTask = value;
+                RaisePropertyChanged("BackwardTask");
+            }
+        }
         
 
         public ObservableCollection<ColumnModel> Columns { get; set; }
@@ -46,7 +58,7 @@ namespace IntroSE.Kanban.PresentationLayer.Model
             this.user = user;
             this.BoardName = boardName;
             this.Creator = creatorEmail;
-            Columns = new ObservableCollection<ColumnModel>(controller.GetAllColumns(user.Email,user.Email,boardName));
+            Columns = new ObservableCollection<ColumnModel>(controller.GetAllColumns(user.Email,user.Email,boardName,this));
             //Columns.CollectionChanged += HandleChange;
             //laasot getboard me ha backendcontroller
         }
@@ -61,7 +73,12 @@ namespace IntroSE.Kanban.PresentationLayer.Model
 
         public void RemoveColumn(ColumnModel selectedColumn)
         {
-            
+
+            if (selectedColumn == null)
+            {
+                throw new ArgumentException("You must choose a column first.");
+            }
+
             Columns.Remove(selectedColumn);
            
         }
@@ -69,7 +86,9 @@ namespace IntroSE.Kanban.PresentationLayer.Model
         internal void MoveRight(ColumnModel selectedColumn)
         {
             
-            
+            if(selectedColumn==null) {
+                throw new ArgumentException("You must choose a column first.");
+            }
             
             
             if (Columns.Count-1 > selectedColumn.ColumnOrdinal)
@@ -86,6 +105,11 @@ namespace IntroSE.Kanban.PresentationLayer.Model
 
         internal void MoveLeft(ColumnModel selectedColumn)
         {
+            if (selectedColumn == null)
+            {
+                throw new ArgumentException("You must choose a column first.");
+            }
+
             if (selectedColumn.ColumnOrdinal>0)
             {
                 selectedColumn.ColumnOrdinal -= 1;

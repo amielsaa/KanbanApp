@@ -51,10 +51,7 @@ namespace IntroSE.Kanban.PresentationLayer.ViewModel
 
 
 
-        internal IList<ColumnModel> Load()
-        {
-            return controller.GetAllColumns(user.Email, user.Email, "somefuckingboard");
-        }
+        
 
         internal void Logout()
         {
@@ -86,6 +83,18 @@ namespace IntroSE.Kanban.PresentationLayer.ViewModel
                 Message = e.Message;
             }
         }*/
+
+        internal TaskModel EditTask()
+        {
+            try
+            {
+                var task_to_edit = Board.BackwardTask;
+                return task_to_edit;
+            }catch(Exception e)
+            {
+                return null;
+            }
+        }
 
         internal void MoveRight()
         {
