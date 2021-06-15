@@ -96,7 +96,7 @@ namespace IntroSE.Kanban.PresentationLayer.View
 
         private void Advance_Task_Button(object sender, RoutedEventArgs e)
         {
-            //boardVM.AdvanceTask();
+            boardVM.AdvanceTask();
         }
 
         private void Move_Left_Button(object sender, RoutedEventArgs e)
@@ -108,10 +108,7 @@ namespace IntroSE.Kanban.PresentationLayer.View
         {
             boardVM.MoveRight();
         }
-        private void Button_Add_Column(object sender, RoutedEventArgs e)
-        {
-            //boardVM.AddColumn();
-        }
+        
         private void Remove_Column_Button(object sender, RoutedEventArgs e)
         {
             boardVM.RemoveColumn();

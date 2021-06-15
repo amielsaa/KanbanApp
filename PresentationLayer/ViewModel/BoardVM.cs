@@ -85,6 +85,17 @@ namespace IntroSE.Kanban.PresentationLayer.ViewModel
             }
         }*/
 
+        internal void AdvanceTask()
+        {
+            try
+            {
+                Board.AdvanceTask();
+            }catch(Exception e)
+            {
+
+            }
+        }
+
         internal void AssignTask()
         {
             try
@@ -153,7 +164,7 @@ namespace IntroSE.Kanban.PresentationLayer.ViewModel
                 Board.AddColumn(NewColumnName,Int32.Parse(NewColumnOrd));
             }catch(Exception e)
             {
-
+                Message = e.Message;
             }
         }
 

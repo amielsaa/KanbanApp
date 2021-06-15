@@ -26,17 +26,7 @@
                     <materialDesign:PackIcon Kind="PlusBox" />
                 </materialDesign:PopupBox.ToggleContent>
 
-                <StackPanel>
-                    <Button
-                        ToolTip="One with custom opacity"
-                        Content="Add Task" 
-                        Click="Button_Add_Task"
-                       />
-                    <Button
-                        ToolTip="Two"
-                        Content="Add Column"
-                        Click="Button_Add_Column"/>
-                </StackPanel>
+                
             </materialDesign:PopupBox>
 
             <WrapPanel Margin="0,0,0,0" HorizontalAlignment="Center">
@@ -44,16 +34,13 @@
                 <Button Content="left" Margin="20,0,0,0" Click="Move_Left_Button"/>
                 <Button Content="Remove" Margin="20,0,0,0" Click="Remove_Column_Button" />
                 <Button Content="right" Margin="20,0,0,0" Click="Move_Right_Button" />
+                <Button Content="Advance Task" Margin="20,0,0,0" Click="Advance_Task_Button" />
                 <Button
                 Style="{StaticResource MaterialDesignFlatAccentBgButton}"
                 ToolTip="MaterialDesignFlatAccentBackgroundButton"
                 Content="addTask"
                  Name="AddTask" Margin="20,0,0,0" Click="Button_Add_Task"/>
-                <Button
-                Style="{StaticResource MaterialDesignFlatAccentBgButton}"
-                ToolTip="MaterialDesignFlatAccentBackgroundButton"
-                Content="addColumn" 
-                Margin="20,0,0,0" Name="AddColumn" Click="Button_Add_Column"/>
+                
             </WrapPanel>
             <ScrollViewer HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible" CanContentScroll="True" Margin="0,20,0,0">
 

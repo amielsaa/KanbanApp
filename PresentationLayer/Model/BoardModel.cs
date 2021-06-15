@@ -134,9 +134,15 @@ namespace IntroSE.Kanban.PresentationLayer.Model
             }
         }
 
-        public void AddTask(TaskModel task)
+        internal void AdvanceTask()
         {
-            Columns[0].Tasks.Add(task);
+            int columnOrdinal = BackwardTask.ColumnOrdinal;
+            var backTask = BackwardTask;
+            Controller.AdvanceTask(user.Email,Creator,BoardName,columnOrdinal,BackwardTask.Id);
+            
+            Columns[columnOrdinal].Tasks.Remove(backTask);
+            Columns[columnOrdinal + 1].Tasks.Add(backTask);
+            backTask.parentColumn = Columns[columnOrdinal + 1];
         }
 
         private void HandleChange(object sender, NotifyCollectionChangedEventArgs e)

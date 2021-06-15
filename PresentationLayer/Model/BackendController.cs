@@ -139,6 +139,15 @@ namespace IntroSE.Kanban.PresentationLayer.Model
 
         internal void AddColumn(string userEmail, string creatorEmail, string boardName, int columnOrdinal, string columnName)
         {
+            if(columnName == "SEMEK")
+            {
+                throw new ArgumentException("MAKORE");
+            }
+            
+        }
+
+        internal void AdvanceTask(string userEmail, string creatorEmail, string boardName, int columnOrdinal, int taskId)
+        {
 
         }
 
@@ -172,10 +181,7 @@ namespace IntroSE.Kanban.PresentationLayer.Model
             return true;
         }
 
-        internal bool AdvanceTask(string userEmail,string userCreater,string boardName,int columnOrdinal, int taskId)
-        {
-            return true;
-        }
+        
 
         internal void AddBoard(string userEmail, string boardName)
         {

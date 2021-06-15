@@ -79,6 +79,8 @@ namespace IntroSE.Kanban.PresentationLayer.Model
             }
         }*/
 
+        
+
         public void AddTask(TaskModel task)
         {
             var res = Controller.AddTask(task);

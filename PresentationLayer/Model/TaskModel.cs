@@ -8,7 +8,7 @@ namespace IntroSE.Kanban.PresentationLayer.Model
 {
     public class TaskModel : NotifiableModelObject
     {
-        private ColumnModel parentColumn;
+        public ColumnModel parentColumn;
         private string _email;
         private string _title;
         private string _description;
