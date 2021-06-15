@@ -64,12 +64,17 @@ namespace IntroSE.Kanban.PresentationLayer.View
             boardWindow.Show();
             this.Close();
         }
+
+        private void Join_Board_Button(object sender, RoutedEventArgs e)
+        {
+            mainWindowVM.JoinBoard();
+        }
         /* GroupBox Example
 <WrapPanel Orientation="Vertical" VerticalAlignment="Center" Width="200">
-      <GroupBox Header="BoardName" Height="200"  Margin="10,0,10,5" Content="fsdafasd"/>
-      <Button  Content="Enter Board" Tag="BoardName" Width="200" Margin="0,0,0,5" Click="Enter_Button"/>
-      <Button  Content="Remove Board" Width="200" Click="Remove_Button" />
-  </WrapPanel>
+<GroupBox Header="BoardName" Height="200"  Margin="10,0,10,5" Content="fsdafasd"/>
+<Button  Content="Enter Board" Tag="BoardName" Width="200" Margin="0,0,0,5" Click="Enter_Button"/>
+<Button  Content="Remove Board" Width="200" Click="Remove_Button" />
+</WrapPanel>
 
 <StackPanel x:Name="BoardStackPanel" Margin="0,0,0,0" Orientation="Horizontal" Width="Auto" Height="350"  >
 

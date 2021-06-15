@@ -40,6 +40,12 @@ namespace IntroSE.Kanban.PresentationLayer.Model
         }
 
         
+        internal void JoinBoard(string creatorEmail,string boardName)
+        {
+            var board = Controller.GetBoard(creatorEmail,boardName,user);
+            Boards.Add(board);
+        }
+
         public void DeleteBoard(BoardModel selectedBoard)
         {
             if(selectedBoard.Creator != user.Email)
