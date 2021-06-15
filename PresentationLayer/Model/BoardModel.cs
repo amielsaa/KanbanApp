@@ -59,6 +59,42 @@ namespace IntroSE.Kanban.PresentationLayer.Model
             //Columns.CollectionChanged += HandleChange;
         }
 
+        public void RemoveColumn(ColumnModel selectedColumn)
+        {
+            
+            Columns.Remove(selectedColumn);
+           
+        }
+
+        internal void MoveRight(ColumnModel selectedColumn)
+        {
+            
+            
+            
+            
+            if (Columns.Count-1 > selectedColumn.ColumnOrdinal)
+            {
+                selectedColumn.ColumnOrdinal += 1;
+                int newIndex = selectedColumn.ColumnOrdinal;
+                Columns[newIndex].ColumnOrdinal -= 1;
+                Columns.Move(newIndex - 1, newIndex);
+            }
+            
+           
+            
+        }
+
+        internal void MoveLeft(ColumnModel selectedColumn)
+        {
+            if (selectedColumn.ColumnOrdinal>0)
+            {
+                selectedColumn.ColumnOrdinal -= 1;
+                int newIndex = selectedColumn.ColumnOrdinal;
+                Columns[newIndex].ColumnOrdinal += 1;
+                Columns.Move(newIndex + 1, newIndex);
+            }
+        }
+
         public void AddColumn(ColumnModel column)
         {
             Columns.Add(column);

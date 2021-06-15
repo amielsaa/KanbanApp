@@ -131,6 +131,11 @@ namespace IntroSE.Kanban.PresentationLayer.Model
             return list;
         }
 
+        internal bool RemoveColumn(ColumnModel columnModel)
+        {
+            return true;
+        }
+
         internal bool AddTask(TaskModel task)
         {
             return true;

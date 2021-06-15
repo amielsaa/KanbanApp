@@ -94,12 +94,12 @@ namespace IntroSE.Kanban.PresentationLayer.View
 
         private void Move_Left_Button(object sender, RoutedEventArgs e)
         {
-
+            boardVM.MoveLeft();
         }
 
         private void Move_Right_Button(object sender, RoutedEventArgs e)
         {
-
+            boardVM.MoveRight();
         }
         private void Button_Add_Column(object sender, RoutedEventArgs e)
         {
@@ -107,7 +107,7 @@ namespace IntroSE.Kanban.PresentationLayer.View
         }
         private void Remove_Column_Button(object sender, RoutedEventArgs e)
         {
-            
+            boardVM.RemoveColumn();
         }
     }
 }
