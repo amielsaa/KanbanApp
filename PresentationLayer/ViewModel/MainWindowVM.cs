@@ -19,9 +19,9 @@ namespace IntroSE.Kanban.PresentationLayer.ViewModel
         private BoardModel _selectedBoard;
         public MainModel Main { get; private set; }
         public ObservableCollection<BoardModel> Boards { get; set; }
-
+        
         //
-        public List<string> boardNames;
+
         private Model.BackendController controller;
         private string _newBoardName;
         private string _boardIndex;

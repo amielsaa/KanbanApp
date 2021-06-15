@@ -13,7 +13,7 @@
         TextOptions.TextRenderingMode="Auto"
         Background="{DynamicResource MaterialDesignPaper}"
         FontFamily="{DynamicResource MaterialDesignFont}"
-        Title="Board" Height="675" Width="1200">
+        Title="Board" Height="850" Width="1200">
     <Grid>
         <StackPanel Orientation="Vertical">
             <WrapPanel HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,20,0,0">
@@ -61,9 +61,14 @@
                 </WrapPanel>
             </StackPanel>
             <WrapPanel Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="20">
-                <Label Content="In Progress Tasks" FontSize="30"  Margin="5"/>
+                <Label Content="In Progress Tasks" FontSize="30" HorizontalAlignment="Center" Margin="5"/>
                 <ScrollViewer HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible"  CanContentScroll="True" >
-                    <ListBox ItemsSource="{Binding Path=InProgressTasks}" SelectedItem="{Binding SelectedTask, Mode=TwoWay}">
+                    <ListBox ItemsSource="{Binding Path=Main.InProgressTasks}" SelectedItem="{Binding SelectedTask, Mode=TwoWay}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <WrapPanel/>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
                                 <StackPanel>

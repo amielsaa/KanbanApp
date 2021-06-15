@@ -34,14 +34,7 @@ namespace IntroSE.Kanban.PresentationLayer.View
             //LoadBoards();
         }
 
-        private void LoadBoards()
-        {
-            var boardNames = mainWindowVM.boardNames;
-            foreach(string boardName in boardNames)
-            {
-                //AddBoardToView(boardName);
-            }
-        }
+        
 
 
         

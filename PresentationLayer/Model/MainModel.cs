@@ -12,7 +12,7 @@ namespace IntroSE.Kanban.PresentationLayer.Model
     {
         private readonly UserModel user;
         public ObservableCollection<BoardModel> Boards { get; set; }
-
+        public ObservableCollection<TaskModel> InProgressTasks { get; set; }
         private string _title;
         public string Title
         {
@@ -36,10 +36,27 @@ namespace IntroSE.Kanban.PresentationLayer.Model
             this.user = user;
             this.Boards = new ObservableCollection<BoardModel>(controller.GetBoards(user));
             Boards.Add(new BoardModel(controller, user, "SHH", user.Email));
+            InProgressTasks = GetInProgressTasks();
             //Boards.CollectionChanged += HandleChange;
         }
 
-        
+        private ObservableCollection<TaskModel> GetInProgressTasks()
+        {
+            ObservableCollection<TaskModel> taskModels = new ObservableCollection<TaskModel>();
+            foreach(BoardModel boardModel in Boards)
+            {
+                for(int columnOrdinal = 1;columnOrdinal<boardModel.Columns.Count-1;columnOrdinal++)
+                {
+                    foreach(TaskModel taskModel in boardModel.Columns[columnOrdinal].Tasks)
+                    {
+                        taskModels.Add(taskModel);
+                    }
+                }
+            }
+            return taskModels;
+        }
+
+
         internal void JoinBoard(string creatorEmail,string boardName)
         {
             var board = Controller.GetBoard(creatorEmail,boardName,user);
