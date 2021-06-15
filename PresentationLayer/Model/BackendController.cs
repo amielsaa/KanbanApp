@@ -71,6 +71,9 @@ namespace IntroSE.Kanban.PresentationLayer.Model
             columnModels.Add(new ColumnModel(this, board, 1, "inprogress"));
             columnModels.Add(new ColumnModel(this, board, 2, "done"));
             columnModels.Add(new ColumnModel(this, board, 3, "shit"));
+            columnModels.Add(new ColumnModel(this, board, 4, "done"));
+            columnModels.Add(new ColumnModel(this, board, 5, "shit"));
+
             return columnModels;
         }
 
@@ -134,6 +137,16 @@ namespace IntroSE.Kanban.PresentationLayer.Model
         }
 
 
+        internal void AddColumn(string userEmail, string creatorEmail, string boardName, int columnOrdinal, string columnName)
+        {
+
+        }
+
+        internal void LimitColumn(string userEmail, string creatorEmail, string boardName, int columnOrdinal, int limit)
+        {
+
+        }
+
         internal List<TaskModel> GetColumnTask(string userEmail,string creatorEmail,string boardName,int columnOrdinal,ColumnModel parentColumn)
         {
             List<TaskModel> list = new List<TaskModel>();
@@ -145,6 +158,13 @@ namespace IntroSE.Kanban.PresentationLayer.Model
         internal bool RemoveColumn(ColumnModel columnModel)
         {
             return true;
+        }
+
+        internal void AssignTask(string userEmail, string creatorEmail, string boardName, int columnOrdinal, int taskId, string emailAssignee)
+        {
+            // if(res=="") else throw exception that boardVM catches
+            //Service.AssignTask()
+            
         }
 
         internal bool AddTask(TaskModel task)

@@ -119,17 +119,17 @@ namespace IntroSE.Kanban.PresentationLayer.View
 
         private void Assign_Task_Button(object sender, RoutedEventArgs e)
         {
-
+            boardVM.AssignTask();
         }
 
         private void Add_Column_Button(object sender, RoutedEventArgs e)
         {
-
+            boardVM.AddColumn();
         }
 
         private void Limit_Column_Button(object sender, RoutedEventArgs e)
         {
-
+            boardVM.LimitColumn();
         }
     }
 }

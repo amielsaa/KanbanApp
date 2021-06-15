@@ -11,7 +11,7 @@ namespace IntroSE.Kanban.PresentationLayer.Model
         private string title;
         private TaskModel _selectedTask;
         private bool _enableForward = false;
-        private BoardModel parent;
+        public BoardModel parent;
 
         public ObservableCollection<TaskModel> Tasks { get; set; }
         public string Title { get => title; set { } }

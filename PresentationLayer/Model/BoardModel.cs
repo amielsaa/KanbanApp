@@ -119,9 +119,19 @@ namespace IntroSE.Kanban.PresentationLayer.Model
             }
         }
 
-        public void AddColumn(ColumnModel column)
+        internal void LimitColumn(int columnLimit, ColumnModel column)
         {
-            Columns.Add(column);
+            Controller.LimitColumn(user.Email,Creator,BoardName,column.ColumnOrdinal,columnLimit);
+        }
+
+        public void AddColumn(string columnName, int columnOrdinal)
+        {
+            Controller.AddColumn(user.Email, Creator, BoardName, columnOrdinal, columnName);
+            Columns.Insert(columnOrdinal,new ColumnModel(Controller, this, columnOrdinal, columnName));
+            for(int i = columnOrdinal + 1; i < Columns.Count; i++)
+            {
+                Columns[columnOrdinal].ColumnOrdinal += 1;
+            }
         }
 
         public void AddTask(TaskModel task)
