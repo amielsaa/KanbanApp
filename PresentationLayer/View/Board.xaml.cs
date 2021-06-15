@@ -67,12 +67,19 @@ namespace IntroSE.Kanban.PresentationLayer.View
 
         private void Button_Add_Task(object sender, RoutedEventArgs e)
         {
-            Task task = new Task(boardVM.Board.Columns[0], user);
+            Task task = new Task(boardVM.Board.Columns[0], user,"CREATE");
             task.Show();
 
         }
 
-        
+        private void Edit_Task_Button(object sender, RoutedEventArgs e)
+        {
+            TaskModel task_to_edit = boardVM.EditTask();
+            Task task = new Task(task_to_edit,user,"CONFIRM",boardVM.Board.BoardName);
+            task.Show();
+        }
+
+
         private void PopupBox_OnOpened(object sender,RoutedEventArgs e)
         {
 
@@ -89,7 +96,7 @@ namespace IntroSE.Kanban.PresentationLayer.View
 
         private void Advance_Task_Button(object sender, RoutedEventArgs e)
         {
-            //boardVM.AdvanceTask();
+            boardVM.AdvanceTask();
         }
 
         private void Move_Left_Button(object sender, RoutedEventArgs e)
@@ -101,13 +108,25 @@ namespace IntroSE.Kanban.PresentationLayer.View
         {
             boardVM.MoveRight();
         }
-        private void Button_Add_Column(object sender, RoutedEventArgs e)
-        {
-            //boardVM.AddColumn();
-        }
+        
         private void Remove_Column_Button(object sender, RoutedEventArgs e)
         {
             boardVM.RemoveColumn();
+        }
+
+        private void Assign_Task_Button(object sender, RoutedEventArgs e)
+        {
+            boardVM.AssignTask();
+        }
+
+        private void Add_Column_Button(object sender, RoutedEventArgs e)
+        {
+            boardVM.AddColumn();
+        }
+
+        private void Limit_Column_Button(object sender, RoutedEventArgs e)
+        {
+            boardVM.LimitColumn();
         }
     }
 }

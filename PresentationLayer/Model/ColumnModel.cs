@@ -10,10 +10,12 @@ namespace IntroSE.Kanban.PresentationLayer.Model
         private int columnOrdinal;
         private string title;
         private TaskModel _selectedTask;
+        private bool _enableForward = false;
+        public BoardModel parent;
 
         public ObservableCollection<TaskModel> Tasks { get; set; }
         public string Title { get => title; set { } }
-        public int ColumnOrdinal { get => columnOrdinal; set { columnOrdinal = value; } }
+        public int ColumnOrdinal { get => columnOrdinal; set { columnOrdinal = value; RaisePropertyChanged("ColumnOrdinal"); } }
         public TaskModel SelectedTask
         {
             get
@@ -23,10 +25,22 @@ namespace IntroSE.Kanban.PresentationLayer.Model
             set
             {
                 _selectedTask = value;
-                //EnableForward = value != null;
+                EnableForward = value != null;
+                parent.BackwardTask = SelectedTask;
                 RaisePropertyChanged("SelectedTask");
             }
         }
+
+        public bool EnableForward
+        {
+            get => _enableForward;
+            private set
+            {
+                _enableForward = value;
+                RaisePropertyChanged("EnableForward");
+            }
+        }
+
 
         private ColumnModel(BackendController controller, ObservableCollection<TaskModel> tasks, int columnOrdinal) : base(controller)
         {
@@ -36,11 +50,12 @@ namespace IntroSE.Kanban.PresentationLayer.Model
 
 
         //loading data constructor
-        public ColumnModel(BackendController controller, int columnOrdinal, string title) : base(controller)
+        public ColumnModel(BackendController controller,BoardModel parentBoard, int columnOrdinal, string title) : base(controller)
         {
             this.columnOrdinal = columnOrdinal;
             this.title = title;
-            Tasks = new ObservableCollection<TaskModel>(controller.GetColumnTask("", "", "", columnOrdinal));
+            Tasks = new ObservableCollection<TaskModel>(controller.GetColumnTask("", "", "", columnOrdinal,this));
+            this.parent = parentBoard;
             
         }
 
@@ -63,6 +78,8 @@ namespace IntroSE.Kanban.PresentationLayer.Model
                 return SelectedTask;
             }
         }*/
+
+        
 
         public void AddTask(TaskModel task)
         {

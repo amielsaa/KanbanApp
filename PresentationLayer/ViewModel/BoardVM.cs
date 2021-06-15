@@ -15,8 +15,18 @@ namespace IntroSE.Kanban.PresentationLayer.ViewModel
         public ColumnModel _columnModel;
         public BoardModel Board { get; private set; }
         private string _message;
-
+        private string _newAssignee;
+        private string _newColumnName;
+        private string _newColumnLimit;
+        private string _newColumnOrd;
         private bool _enableForward = false;
+
+
+        public string NewAssignee { get => _newAssignee; set { _newAssignee = value; } }
+        public string NewColumnName { get => _newColumnName; set { _newColumnName = value; } }
+        public string NewColumnOrd { get => _newColumnOrd; set { _newColumnOrd = value; } }
+        public string NewColumnLimit { get => _newColumnLimit; set { _newColumnLimit = value; } }
+
         public bool EnableForward
         {
             get => _enableForward;
@@ -51,18 +61,6 @@ namespace IntroSE.Kanban.PresentationLayer.ViewModel
 
 
 
-        internal IList<ColumnModel> Load()
-        {
-            return controller.GetAllColumns(user.Email, user.Email, "somefuckingboard");
-        }
-
-        internal void Logout()
-        {
-
-        }
-
-        
-
 
 
         public BoardVM(UserModel user, BoardModel board) 
@@ -86,6 +84,44 @@ namespace IntroSE.Kanban.PresentationLayer.ViewModel
                 Message = e.Message;
             }
         }*/
+
+        internal void AdvanceTask()
+        {
+            try
+            {
+                Board.AdvanceTask();
+            }catch(Exception e)
+            {
+
+            }
+        }
+
+        internal void AssignTask()
+        {
+            try
+            {
+                if(Board.BackwardTask == null)
+                {
+                    throw new ArgumentException("You must choose a task first.");
+                }
+                Board.BackwardTask.Assign(NewAssignee);
+            }catch(Exception e)
+            {
+                Message = e.Message;
+            }
+        }
+
+        internal TaskModel EditTask()
+        {
+            try
+            {
+                var task_to_edit = Board.BackwardTask;
+                return task_to_edit;
+            }catch(Exception e)
+            {
+                return null;
+            }
+        }
 
         internal void MoveRight()
         {
@@ -115,6 +151,28 @@ namespace IntroSE.Kanban.PresentationLayer.ViewModel
             try
             {
                 Board.RemoveColumn(SelectedColumn);
+            }catch(Exception e)
+            {
+
+            }
+        }
+
+        internal void AddColumn()
+        {
+            try
+            {
+                Board.AddColumn(NewColumnName,Int32.Parse(NewColumnOrd));
+            }catch(Exception e)
+            {
+                Message = e.Message;
+            }
+        }
+
+        internal void LimitColumn()
+        {
+            try
+            {
+                Board.LimitColumn(Int32.Parse(NewColumnLimit), SelectedColumn);
             }catch(Exception e)
             {
 
