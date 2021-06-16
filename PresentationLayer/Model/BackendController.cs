@@ -27,7 +27,10 @@ namespace IntroSE.Kanban.PresentationLayer.Model
         //dummy
         internal UserModel Login(string userEmail, string password)
         {
-            return new UserModel(this, userEmail);
+            Response<User> response =Service.Login(userEmail, password);
+            if (response.ErrorOccured)
+                throw new ArgumentException(response.ErrorMessage);
+            return new UserModel(this, response.Value.Email);
         }
 
         //dummy

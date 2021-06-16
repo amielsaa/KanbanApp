@@ -16,7 +16,7 @@ namespace IntroSE.Kanban.PresentationLayer.ViewModel
         private string _password;
         public string Username { get; set; } = "";
         public string Password { get; set; } = "";
-        private string message = "";
+        private string message;
         public string Message
         {
             get => message;
@@ -29,7 +29,7 @@ namespace IntroSE.Kanban.PresentationLayer.ViewModel
 
         internal UserModel Login()
         {
-            Message = "";
+            
             try
             {
                 return Controller.Login(Username, Password);

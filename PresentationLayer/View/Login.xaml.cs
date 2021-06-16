@@ -31,9 +31,11 @@ namespace IntroSE.Kanban.PresentationLayer.View
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             var user = loginVM.Login();
-            MainWindow main = new MainWindow(user);
-            main.Show();
-            this.Close();
+            if (user != null) { 
+                MainWindow main = new MainWindow(user);
+                main.Show();
+                this.Close();
+            }
         }
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
