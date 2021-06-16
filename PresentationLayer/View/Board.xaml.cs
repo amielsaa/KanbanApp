@@ -128,5 +128,10 @@ namespace IntroSE.Kanban.PresentationLayer.View
         {
             boardVM.LimitColumn();
         }
+
+        private void StackPanel_Scroll(object sender, System.Windows.Controls.Primitives.ScrollEventArgs e)
+        {
+
+        }
     }
 }

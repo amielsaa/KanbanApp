@@ -42,7 +42,7 @@ namespace IntroSE.Kanban.PresentationLayer.ViewModel
         }
         internal void Register()
         {
-            Message = "";
+            
             try
             {
                 Controller.Register(Username, Password);

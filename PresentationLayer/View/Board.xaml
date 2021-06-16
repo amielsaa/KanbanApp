@@ -14,7 +14,11 @@
         Background="{DynamicResource MaterialDesignPaper}"
         FontFamily="{DynamicResource MaterialDesignFont}"
         Title="Board" Height="850" Width="1200">
+
     <Grid RenderTransformOrigin="0.507,0.612" >
+        <Grid.Background>
+            <ImageBrush ImageSource="\Images\Background.jpg"  Stretch="UniformToFill" />
+        </Grid.Background>
         <StackPanel Orientation="Vertical">
             <materialDesign:PopupBox
                 PlacementMode="BottomAndAlignCentres"
@@ -26,80 +30,91 @@
                     <materialDesign:PackIcon Kind="PlusBox" />
                 </materialDesign:PopupBox.ToggleContent>
 
-                
+
             </materialDesign:PopupBox>
 
             <WrapPanel Margin="0,0,0,0" HorizontalAlignment="Center">
-                <Button Content="edit task" Margin="20,0,0,0" Click="Edit_Task_Button" />
-                <Button Content="left" Margin="20,0,0,0" Click="Move_Left_Button"/>
-                <Button Content="Remove" Margin="20,0,0,0" Click="Remove_Column_Button" />
-                <Button Content="right" Margin="20,0,0,0" Click="Move_Right_Button" />
-                <Button Content="Advance Task" Margin="20,0,0,0" Click="Advance_Task_Button" />
+                <Button Content="edit task" Margin="20,0,0,0" Click="Edit_Task_Button" Background="SteelBlue"/>
+                <Button Content="left" Margin="20,0,0,0" Click="Move_Left_Button" Background="SteelBlue"/>
+                <Button Content="Remove" Margin="20,0,0,0" Click="Remove_Column_Button" Background="SteelBlue" />
+                <Button Content="right" Margin="20,0,0,0" Click="Move_Right_Button" Background="SteelBlue"/>
+                <Button Content="Advance Task" Margin="20,0,0,0" Click="Advance_Task_Button" Background="SteelBlue"/>
                 <Button
                 Style="{StaticResource MaterialDesignFlatAccentBgButton}"
                 ToolTip="MaterialDesignFlatAccentBackgroundButton"
                 Content="addTask"
-                 Name="AddTask" Margin="20,0,0,0" Click="Button_Add_Task"/>
-                
+                 Name="AddTask" Margin="20,0,0,0" Click="Button_Add_Task" Background="LightBlue" BorderBrush="Black" FontWeight="Bold"/>
+
             </WrapPanel>
             <ScrollViewer HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible" CanContentScroll="True" Margin="0,20,0,0">
 
-                
-                    <ListBox ItemsSource="{Binding Path=Board.Columns}" SelectedItem="{Binding SelectedColumn, Mode=TwoWay}">
-                        <ListBox.ItemContainerStyle>
-                            <Style TargetType="ListBoxItem">
-                                <Style.Resources>
-                                    <Style TargetType="Border" >
-                                        <Setter Property="CornerRadius" Value="2"/>
-                                    </Style>
-                                </Style.Resources>
-                            </Style>
-                        </ListBox.ItemContainerStyle>
-                        <ItemsControl.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <WrapPanel/>
-                            </ItemsPanelTemplate>
-                        </ItemsControl.ItemsPanel>
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <StackPanel  Tag="{Binding ColumnOrdinal}" Orientation="Vertical" Margin="5">
-                                    <GroupBox Header="{Binding Title}" Height="450" Width="257">
-                                        <ScrollViewer HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible"  CanContentScroll="True" >
-                                            <ListBox ItemsSource="{Binding Path=Tasks}" SelectedItem="{Binding SelectedTask, Mode=TwoWay}">
-                                                <ItemsControl.ItemTemplate>
-                                                    <DataTemplate>
-                                                        <StackPanel>
-                                                            <GroupBox Height="Auto" Header="{Binding Title}" Margin="16">
-                                                                <StackPanel Orientation="Vertical">
-                                                                    <Label Content="{Binding Description}" />
-                                                                    <Label Content="{Binding DueDate}"/>
-                                                                    <Label Content="{Binding Assignee, Mode=TwoWay}"/>
-                                                                    <Label Content="{Binding ColumnOrdinal, Mode=TwoWay}"/>
-                                                                </StackPanel>
-                                                            </GroupBox>
-                                                        </StackPanel>
-                                                    </DataTemplate>
-                                                </ItemsControl.ItemTemplate>
 
-                                            </ListBox>
-                                        </ScrollViewer>
-                                    </GroupBox>
-                                    
-                                        
-                                </StackPanel>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ListBox>
-                    
+                <ListBox ItemsSource="{Binding Path=Board.Columns}" SelectedItem="{Binding SelectedColumn, Mode=TwoWay}" Foreground="SteelBlue">
+                    <ListBox.ItemContainerStyle>
+                        <Style TargetType="ListBoxItem">
+                            <Style.Resources>
+                                <Style TargetType="Border" >
+                                    <Setter Property="CornerRadius" Value="2"/>
+                                </Style>
+                            </Style.Resources>
+                        </Style>
+                    </ListBox.ItemContainerStyle>
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel  Tag="{Binding ColumnOrdinal}" Orientation="Vertical" Margin="5" >
 
-                
+                                <GroupBox  Height="450" Width="257" materialDesign:ColorZoneAssist.Mode="Custom" materialDesign:ColorZoneAssist.Background="CornflowerBlue" materialDesign:ColorZoneAssist.Foreground="Black">
+                                    <GroupBox.Header>
+                                        <TextBlock Text="{Binding Title}" TextAlignment="Center" Foreground="Black" FontWeight="Bold"/>
+                                    </GroupBox.Header>
+                                    <GroupBox.Background>
+                                        <ImageBrush ImageSource="\Images\columnBackground.jpeg"  Stretch="UniformToFill" />
+                                    </GroupBox.Background>
+
+                                    <ScrollViewer HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible"  CanContentScroll="True" >
+                                        <ListBox ItemsSource="{Binding Path=Tasks}" SelectedItem="{Binding SelectedTask, Mode=TwoWay}" >
+                                            <ItemsControl.ItemTemplate>
+                                                <DataTemplate>
+                                                    <StackPanel>
+
+                                                        <GroupBox Header="{Binding Title}" FontWeight="Bold" Height="Auto"  Margin="16" Background="AliceBlue" materialDesign:ColorZoneAssist.Mode="Custom" materialDesign:ColorZoneAssist.Background="{Binding TaskColor}" materialDesign:ColorZoneAssist.Foreground="Black" >
+                                                            <StackPanel Orientation="Vertical" >
+                                                                <Label Content="{Binding Description}" />
+                                                                <Label Content="{Binding DueDate}"/>
+                                                                <Label Content="{Binding Assignee, Mode=TwoWay}"/>
+                                                                <Label Content="{Binding ColumnOrdinal, Mode=TwoWay}"/>
+                                                            </StackPanel>
+
+                                                        </GroupBox>
+
+                                                    </StackPanel>
+                                                </DataTemplate>
+                                            </ItemsControl.ItemTemplate>
+
+                                        </ListBox>
+                                    </ScrollViewer>
+                                </GroupBox>
+
+
+                            </StackPanel>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ListBox>
+
+
+
             </ScrollViewer>
             <Label Content="{Binding Message, Mode=OneWay}" FontSize="15" HorizontalAlignment="Center" Foreground="Red" />
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <WrapPanel Orientation="Vertical">
                     <Label Content="Assign Task" FontSize="30" Margin="10"/>
                     <TextBox Text="{Binding NewAssignee, Mode=OneWayToSource}" Margin="10" />
-                    <Button Content="Assign"  Click="Assign_Task_Button" Margin="10"/>
+                    <Button Content="Assign"  Click="Assign_Task_Button" Margin="10" Background="SteelBlue"/>
                 </WrapPanel >
                 <WrapPanel Orientation="Vertical" Margin="20,0,0,0">
                     <Label Content="Add Column" FontSize="30" Margin="10"/>
@@ -107,15 +122,16 @@
                         <TextBox  Width="100" Text="{Binding NewColumnName, Mode=OneWayToSource}" Margin="10" />
                         <TextBox  Width="50" Text="{Binding NewColumnOrd, Mode=OneWayToSource}" Margin="10" />
                     </WrapPanel>
-                    
-                    <Button Content="Add"  Click="Add_Column_Button" Margin="10"/>
+
+                    <Button Content="Add"  Click="Add_Column_Button" Margin="10" Background="SteelBlue"/>
                 </WrapPanel>
                 <WrapPanel Orientation="Vertical" Margin="20,0,0,0">
                     <Label Content="Limit Column" FontSize="30" Margin="10"/>
                     <TextBox Text="{Binding NewColumnLimit, Mode=OneWayToSource}" Margin="10" />
-                    <Button Content="Limit"  Click="Limit_Column_Button" Margin="10"/>
+                    <Button Content="Limit"  Click="Limit_Column_Button" Margin="10" Background="SteelBlue"/>
                 </WrapPanel>
             </StackPanel>
         </StackPanel>
     </Grid>
+
 </Window>
