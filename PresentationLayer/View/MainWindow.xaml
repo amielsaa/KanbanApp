@@ -16,19 +16,17 @@
         Title="Board" Height="675" Width="1200">
     <Grid>
         <StackPanel Orientation="Vertical">
-            <WrapPanel HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,50,0,0">
-                <Label FontSize="25" Content="Enter new board name: "/>
-                <TextBox x:Name="text_box" HorizontalAlignment="Left" Text="{Binding NewBoardName, Mode=OneWayToSource}" TextWrapping="Wrap" VerticalAlignment="Top" Width="182" Height="39"/>
-                <Button Content="Add Board" Height="40" Click="Add_Board_Button"/>
+            <WrapPanel HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,20,0,0">
+                
                 <Button Content="Delete Board" Height="40" Click="Delete_Board_Button" Margin="10,0,0,0"/>
                 <Button Content="Enter Board" Height="40" Click="Enter_Board_Button" Margin="10,0,0,0"/>
             </WrapPanel> 
             <WrapPanel Height="30" Width="Auto" HorizontalAlignment="Center">
                 <Label Content="{Binding Message ,Mode=OneWay}" FontSize="15"  Foreground="Red" FontStyle="Italic" Opacity="0.8" Margin="0,0,0,0"/>
             </WrapPanel>
-            
-            <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Visible" Width="500" Height="350" CanContentScroll="True">
-                <ListBox ItemsSource="{Binding Path=Main.Boards}" SelectedItem="{Binding Path=SelectedBoard, Mode=TwoWay}">
+            <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+            <ScrollViewer  HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Visible" Width="500" Height="350" CanContentScroll="True">
+                <ListBox  ItemsSource="{Binding Path=Main.Boards}" SelectedItem="{Binding Path=SelectedBoard, Mode=TwoWay}">
                     <ListBox.ItemsPanel>
                         <ItemsPanelTemplate>
                             <WrapPanel/>
@@ -47,14 +45,42 @@
                 </ListBox>
                 
             </ScrollViewer>
-            
-            <WrapPanel HorizontalAlignment="Center">
-                <Label Content="Join Board" FontSize="30" />
-            </WrapPanel>
-            <WrapPanel HorizontalAlignment="Center" Margin="0,10,0,0">
-                <Label Content="Enter board creator email: " FontSize="25"/>
-                <TextBox HorizontalAlignment="Left" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="182" Height="39"/>
-                <Button Content="Join" Margin="15,0,0,0"/>
+                <WrapPanel Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="20">
+                    <Label Content="Join Board" FontSize="30" HorizontalAlignment="Center"  Margin="5"/>
+                    <Label Content="Creator Email" HorizontalAlignment="Center" FontSize="15" Margin="5"/>
+                    <TextBox Text="{Binding CreatorBoard, Mode=OneWayToSource}"  Width="182"  Margin="5"/>
+                    <Label Content="Board Name" HorizontalAlignment="Center" FontSize="15" Margin="5"/>
+                    <TextBox Text="{Binding JoinBoardName, Mode=OneWayToSource}"  Width="182" Margin="5" />
+                    <Button Content="Join" Width="100"  Click="Join_Board_Button" Margin="5"/>
+                </WrapPanel>
+                <WrapPanel Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="20">
+                    <Label Content="Add Board" FontSize="30" HorizontalAlignment="Center" Margin="5"/>
+                    <Label FontSize="15" Content="Board Name" HorizontalAlignment="Center" Margin="5"/>
+                    <TextBox x:Name="text_box" HorizontalAlignment="Center" Text="{Binding NewBoardName, Mode=OneWayToSource}"  Width="182" Margin="5"/>
+                    <Button Content="Add Board" HorizontalAlignment="Center" Width="100" Click="Add_Board_Button" Margin="5"/>
+                </WrapPanel>
+            </StackPanel>
+            <WrapPanel Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="20">
+                <Label Content="In Progress Tasks" FontSize="30"  Margin="5"/>
+                <ScrollViewer HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible"  CanContentScroll="True" >
+                    <ListBox ItemsSource="{Binding Path=InProgressTasks}" SelectedItem="{Binding SelectedTask, Mode=TwoWay}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel>
+                                    <GroupBox Height="Auto" Header="{Binding Title}" Margin="16">
+                                        <StackPanel Orientation="Vertical">
+                                            <Label Content="{Binding Description}" />
+                                            <Label Content="{Binding DueDate}"/>
+                                            <Label Content="{Binding Assignee, Mode=TwoWay}"/>
+                                            <Label Content="{Binding ColumnOrdinal, Mode=TwoWay}"/>
+                                        </StackPanel>
+                                    </GroupBox>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+
+                    </ListBox>
+                </ScrollViewer>
             </WrapPanel>
         </StackPanel>
     </Grid>

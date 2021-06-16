@@ -26,9 +26,12 @@ namespace IntroSE.Kanban.PresentationLayer.ViewModel
         private string _newBoardName;
         private string _boardIndex;
         private string _message;
-
+        private string _creatorBoard;
+        private string _joinBoardName;
         public string NewBoardName { get => _newBoardName; set { _newBoardName = value; } }
         public string BoardIndex { get => _boardIndex; set { _boardIndex = value; } }
+        public string CreatorBoard { get => _creatorBoard; set { _creatorBoard = value; } }
+        public string JoinBoardName { get => _joinBoardName; set { _joinBoardName = value; } }
         public string Message
         {
             get => _message;
@@ -66,7 +69,16 @@ namespace IntroSE.Kanban.PresentationLayer.ViewModel
         }
 
         
+        internal void JoinBoard()
+        {
+            try
+            {
+                Main.JoinBoard(CreatorBoard,JoinBoardName);
+            }catch(Exception e)
+            {
 
+            }
+        }
         internal void AddBoard()
         {
             try

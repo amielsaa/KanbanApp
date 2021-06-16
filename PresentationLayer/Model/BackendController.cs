@@ -203,6 +203,13 @@ namespace IntroSE.Kanban.PresentationLayer.Model
 
         }
 
+        internal BoardModel GetBoard(string creatorEmail,string boardName,UserModel user)
+        {
+
+            //implement in service N add IFS
+            return new BoardModel(this, user, boardName, creatorEmail);
+        }
+
         internal void DeleteBoard(string userEmail,string creatorEmail, string boardName)
         {
             
