@@ -20,12 +20,12 @@ namespace IntroSE.Kanban.PresentationLayer.ViewModel
         private string _newColumnLimit;
         private string _newColumnOrd;
         private bool _enableForward = false;
-
+        private bool _enableButton = false;
 
         public string NewAssignee { get => _newAssignee; set { _newAssignee = value; } }
-        public string NewColumnName { get => _newColumnName; set { _newColumnName = value; } }
+        public string NewColumnName { get => _newColumnName; set { _newColumnName = value; EnableButton = NewColumnName != ""; } }
         public string NewColumnOrd { get => _newColumnOrd; set { _newColumnOrd = value; } }
-        public string NewColumnLimit { get => _newColumnLimit; set { _newColumnLimit = value; } }
+        public string NewColumnLimit { get => _newColumnLimit; set { _newColumnLimit = value; EnableButton = value.Length >2; RaisePropertyChanged("NewColumnLimit"); } }
 
         public bool EnableForward
         {
@@ -33,6 +33,16 @@ namespace IntroSE.Kanban.PresentationLayer.ViewModel
             private set
             {
                 _enableForward = value;
+                RaisePropertyChanged("EnableForward");
+            }
+        }
+
+        public bool EnableButton
+        {
+            get => _enableButton;
+            set
+            {
+                _enableButton = value;
                 RaisePropertyChanged("EnableForward");
             }
         }
@@ -54,7 +64,7 @@ namespace IntroSE.Kanban.PresentationLayer.ViewModel
             set
             {
                 _columnModel = value;
-                //EnableForward = value != null;
+                EnableForward = value != null;
                 RaisePropertyChanged("SelectedColumn");
             }
         }

@@ -14,6 +14,7 @@ namespace IntroSE.Kanban.PresentationLayer.Model
         private string _boardName;
         private string _creator;
         private TaskModel _backwardTask;
+        private bool _enableForward = false;
 
         public string BoardName
         {
@@ -34,12 +35,23 @@ namespace IntroSE.Kanban.PresentationLayer.Model
             }
         }
 
+        public bool EnableForward
+        {
+            get => _enableForward;
+            private set
+            {
+                _enableForward = value;
+                RaisePropertyChanged("EnableForward");
+            }
+        }
+
         public TaskModel BackwardTask
         {
             get => _backwardTask;
             set
             {
                 this._backwardTask = value;
+                EnableForward = value != null;
                 RaisePropertyChanged("BackwardTask");
             }
         }
