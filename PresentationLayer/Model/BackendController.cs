@@ -24,10 +24,20 @@ namespace IntroSE.Kanban.PresentationLayer.Model
         }
 
 
-        //dummy
+        
         internal UserModel Login(string userEmail, string password)
         {
-            return new UserModel(this, userEmail);
+            Response<User> response =Service.Login(userEmail, password);
+            if (response.ErrorOccured)
+                throw new ArgumentException(response.ErrorMessage);
+            return new UserModel(this, response.Value.Email);
+        }
+        internal void Register(string userEmail, string password)
+        {
+            Response response = Service.Register(userEmail, password);
+            if (response.ErrorOccured)
+                throw new ArgumentException(response.ErrorMessage);
+
         }
 
         //dummy
@@ -42,7 +52,7 @@ namespace IntroSE.Kanban.PresentationLayer.Model
             }
             //return new ColumnModel(this, tasks, columnOrdinal);
         }*/
-        
+
         internal List<ColumnModel> GetAllColumns(string userEmail,string creatorEmail,string boardName,BoardModel board)
         {
             /* CODE
@@ -212,10 +222,7 @@ namespace IntroSE.Kanban.PresentationLayer.Model
             
         }
 
-        internal void Register(string userEmail, string password)
-        {
-
-        }
+        
 
     }
 }
