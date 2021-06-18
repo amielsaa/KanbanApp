@@ -57,7 +57,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
         }
         public List<ColumnDTO> SelectAllColumn(string email, int boardId)
         {
-            List<ColumnDTO> results = null;
+            List<ColumnDTO> results = new List<ColumnDTO>();
             using (var connection = new SQLiteConnection(_connectionString))
             {
                 SQLiteCommand command = new SQLiteCommand(null, connection);
@@ -68,7 +68,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
                 {
                     connection.Open();
                     dataReader = command.ExecuteReader();
-                    while (dataReader.Read() & dataReader != null)
+                    while (dataReader != null && dataReader.Read() )
                     {
                         results.Add((ColumnDTO)ConvertReaderToObject(dataReader));
 

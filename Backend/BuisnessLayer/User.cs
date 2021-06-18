@@ -100,7 +100,7 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
             checkIfLogedIn();
             if (email != board.creatorEmail)
                 throw new ArgumentException("only the creator can delete his board");
-            boards.removeBoard(board);
+            //boards.removeBoard(board);
             boardController.deleteBoard(board);
         }
 

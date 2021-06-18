@@ -9,6 +9,7 @@ namespace IntroSE.Kanban.PresentationLayer.Model
         private readonly UserModel user;
         private int columnOrdinal;
         private string title;
+        private string userEmail;
         private TaskModel _selectedTask;
         private bool _enableForward = false;
         public BoardModel parent;
@@ -50,11 +51,12 @@ namespace IntroSE.Kanban.PresentationLayer.Model
 
 
         //loading data constructor
-        public ColumnModel(BackendController controller,BoardModel parentBoard, int columnOrdinal, string title) : base(controller)
+        public ColumnModel(BackendController controller,BoardModel parentBoard, string userEmail,int columnOrdinal, string title) : base(controller)
         {
             this.columnOrdinal = columnOrdinal;
             this.title = title;
-            Tasks = new ObservableCollection<TaskModel>(controller.GetColumnTask("", "", "", columnOrdinal,this));
+            this.userEmail = userEmail;
+            Tasks = new ObservableCollection<TaskModel>(controller.GetColumnTask(userEmail, parentBoard.Creator,parentBoard.BoardName, columnOrdinal,this));
             this.parent = parentBoard;
             
         }
@@ -83,11 +85,8 @@ namespace IntroSE.Kanban.PresentationLayer.Model
 
         public void AddTask(TaskModel task)
         {
-            var res = Controller.AddTask(task);
-            if(res)
-            {
-                Tasks.Add(task);
-            }
+            Controller.AddTask(task,userEmail,parent.Creator,parent.BoardName);
+            Tasks.Add(task);
         }
 
         public void RemoveMessage(TaskModel t)

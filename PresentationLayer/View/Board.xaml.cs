@@ -34,36 +34,6 @@ namespace IntroSE.Kanban.PresentationLayer.View
             this.DataContext = boardVM;
         }
 
-        /*
-        private void Load()
-        {
-            var columns = boardVM.Load();
-
-            foreach(var column in columns)
-            {
-                StackPanel stackPanel = new StackPanel();
-                Name = $"column{column.ColumnOrdinal}column";
-
-                foreach (var task in column.Tasks)
-                {
-                    GroupBox taskBox = new GroupBox();
-                    taskBox.Header = task.Title;
-                    taskBox.Margin = new Thickness(16);
-                    taskBox.Content = new TextBlock() { Text = task.Description};
-                    stackPanel.Children.Add(taskBox);
-                }
-
-                GroupBox groupBox = new GroupBox();
-                groupBox.Header = column.Title;
-                groupBox.Height = 505;
-                groupBox.Width = 257;
-                groupBox.Margin = new Thickness(16);
-                groupBox.Content = stackPanel;
-
-                this.ColumnStackPanel.Children.Add(groupBox);
-            }
-            
-        }*/
 
         private void Button_Add_Task(object sender, RoutedEventArgs e)
         {
@@ -132,6 +102,13 @@ namespace IntroSE.Kanban.PresentationLayer.View
         private void StackPanel_Scroll(object sender, System.Windows.Controls.Primitives.ScrollEventArgs e)
         {
 
+        }
+
+        private void Back_Button(object sender, RoutedEventArgs e)
+        {
+            MainWindow main = new MainWindow(user);
+            main.Show();
+            this.Close();
         }
     }
 }

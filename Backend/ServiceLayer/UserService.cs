@@ -153,7 +153,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             try
             {
                 var user = userController.getUser(userEmail);
-                Board board = boardController.getBoard(creatorEmail, boardName);
+                var board = boardController.getBoard(creatorEmail, boardName);
                 user.removeBoard(board);
                 log.Info("User removed the board successfully");
                 return new Response();
@@ -216,6 +216,20 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
                 log.Error("Something went wrong during get board names");
                 return Response<IList<String>>.FromError(e.Message);
             }
+        }
+
+        public Response<Board> GetBoardCreator(string creatorEmail, string boardName)
+        {
+            try
+            {
+                var user = userController.getUser(creatorEmail);
+                var board = user.getBoardByName(boardName);
+                return Response<Board>.FromValue(new Board(board.name, board.creatorEmail,board.taskId));
+            } catch(Exception e)
+            {
+                return Response<Board>.FromError(e.Message);
+            }
+
         }
 
 

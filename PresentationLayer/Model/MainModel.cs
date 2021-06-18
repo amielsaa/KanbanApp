@@ -35,7 +35,6 @@ namespace IntroSE.Kanban.PresentationLayer.Model
         {
             this.user = user;
             this.Boards = new ObservableCollection<BoardModel>(controller.GetBoards(user));
-            Boards.Add(new BoardModel(controller, user, "SHH", user.Email));
             InProgressTasks = GetInProgressTasks();
             //Boards.CollectionChanged += HandleChange;
         }
@@ -59,23 +58,20 @@ namespace IntroSE.Kanban.PresentationLayer.Model
 
         internal void JoinBoard(string creatorEmail,string boardName)
         {
-            var board = Controller.GetBoard(creatorEmail,boardName,user);
+            var board = Controller.GetBoardCreator(creatorEmail,boardName,user);
             Boards.Add(board);
         }
 
         public void DeleteBoard(BoardModel selectedBoard)
         {
-            if(selectedBoard.Creator != user.Email)
-            {
-                throw new Exception("Only board creator can delete its boards.");
-            }
+            Controller.DeleteBoard(user.Email,selectedBoard.Creator,selectedBoard.BoardName);
             Boards.Remove(selectedBoard);
         }
         
-        public void AddBoard(BoardModel newBoard)
+        public void AddBoard(string newBoardName)
         {
-            Controller.AddBoard(user.Email, newBoard.BoardName);
-            Boards.Add(newBoard);
+            Controller.AddBoard(user.Email,newBoardName);
+            Boards.Add(new BoardModel(Controller,user,newBoardName,user.Email,0));
 
         }
         private void HandleChange(object sender, NotifyCollectionChangedEventArgs e)
@@ -86,7 +82,7 @@ namespace IntroSE.Kanban.PresentationLayer.Model
                 foreach (BoardModel y in e.OldItems)
                 {
 
-                    Controller.DeleteBoard(user.Email,y.Creator,y.BoardName);
+                    
                 }
 
             }

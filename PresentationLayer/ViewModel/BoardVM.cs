@@ -25,7 +25,7 @@ namespace IntroSE.Kanban.PresentationLayer.ViewModel
         public string NewAssignee { get => _newAssignee; set { _newAssignee = value; } }
         public string NewColumnName { get => _newColumnName; set { _newColumnName = value; EnableButton = NewColumnName != ""; } }
         public string NewColumnOrd { get => _newColumnOrd; set { _newColumnOrd = value; } }
-        public string NewColumnLimit { get => _newColumnLimit; set { _newColumnLimit = value; EnableButton = value.Length >2; RaisePropertyChanged("NewColumnLimit"); } }
+        public string NewColumnLimit { get => _newColumnLimit; set { _newColumnLimit = value; RaisePropertyChanged("NewColumnLimit"); } }
 
         public bool EnableForward
         {
@@ -102,7 +102,7 @@ namespace IntroSE.Kanban.PresentationLayer.ViewModel
                 Board.AdvanceTask();
             }catch(Exception e)
             {
-
+                Message = e.Message;
             }
         }
 

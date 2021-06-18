@@ -46,6 +46,8 @@
                 BorderThickness="0.75"
                 />
             <DatePicker
+                
+                IsTodayHighlighted="True" 
                 Margin="0,20,0,0"
                 Width="140"
                 materialDesign:HintAssist.Hint="Due Date"

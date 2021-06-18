@@ -15,7 +15,17 @@ namespace IntroSE.Kanban.PresentationLayer.Model
         private string _creator;
         private TaskModel _backwardTask;
         private bool _enableForward = false;
+        private int _taskIdCount;
 
+        public int TaskIdCount
+        {
+            get => _taskIdCount;
+            set
+            {
+                this._taskIdCount = value;
+                RaisePropertyChanged("TaskIdCount");
+            }
+        }
         public string BoardName
         {
             get => _boardName;
@@ -65,11 +75,12 @@ namespace IntroSE.Kanban.PresentationLayer.Model
             Columns.CollectionChanged += HandleChange;
         }
 
-        public BoardModel(BackendController controller, UserModel user,string boardName, string creatorEmail) : base(controller)
+        public BoardModel(BackendController controller, UserModel user,string boardName, string creatorEmail,int taskIdCounter) : base(controller)
         {
             this.user = user;
             this.BoardName = boardName;
             this.Creator = creatorEmail;
+            this.TaskIdCount = taskIdCounter;
             Columns = new ObservableCollection<ColumnModel>(controller.GetAllColumns(user.Email,user.Email,boardName,this));
             //Columns.CollectionChanged += HandleChange;
             //laasot getboard me ha backendcontroller
@@ -139,7 +150,7 @@ namespace IntroSE.Kanban.PresentationLayer.Model
         public void AddColumn(string columnName, int columnOrdinal)
         {
             Controller.AddColumn(user.Email, Creator, BoardName, columnOrdinal, columnName);
-            Columns.Insert(columnOrdinal,new ColumnModel(Controller, this, columnOrdinal, columnName));
+            Columns.Insert(columnOrdinal,new ColumnModel(Controller, this,user.Email, columnOrdinal, columnName));
             for(int i = columnOrdinal + 1; i < Columns.Count; i++)
             {
                 Columns[columnOrdinal].ColumnOrdinal += 1;

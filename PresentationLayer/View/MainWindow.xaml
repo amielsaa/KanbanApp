@@ -60,6 +60,7 @@
                     <Button Content="Add Board" HorizontalAlignment="Center" Width="100" Click="Add_Board_Button" Margin="5"/>
                 </WrapPanel>
             </StackPanel>
+            <Label HorizontalAlignment="Center" Content="{Binding Message}" FontSize="15" Foreground="Red" />
             <WrapPanel Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="20">
                 <Label Content="In Progress Tasks" FontSize="30" HorizontalAlignment="Center" Margin="5"/>
                 <ScrollViewer HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible"  CanContentScroll="True" >

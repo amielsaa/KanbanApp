@@ -40,13 +40,21 @@ namespace IntroSE.Kanban.PresentationLayer.View
         {
             if(((Button)sender).Content == "CREATE")
             {
-                taskVM.AddTask();
-                this.Close();
+                var res = taskVM.AddTask();
+                if (res)
+                {
+                    this.Close();
+                }
+                
             }
             else
             {
-                taskVM.EditTask();
-                this.Close();
+                var res = taskVM.EditTask();
+                if (res)
+                {
+                    this.Close();
+                }
+                
             }
                 
         }

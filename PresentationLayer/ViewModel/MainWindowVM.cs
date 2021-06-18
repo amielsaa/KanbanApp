@@ -61,7 +61,14 @@ namespace IntroSE.Kanban.PresentationLayer.ViewModel
             //boardModels = controller.GetBoards(user);
             this.user = user;
             this.controller = user.Controller;
-            Main = new MainModel(user.Controller,user);
+            try
+            {
+                Main = new MainModel(user.Controller, user);
+            }catch(Exception e)
+            {
+                Message = e.Message;
+            }
+            
             //Boards = new ObservableCollection<BoardModel>(controller.GetBoards(user));
             
             //boardNames = controller.GetBoardNames(user.Email);
@@ -83,7 +90,7 @@ namespace IntroSE.Kanban.PresentationLayer.ViewModel
         {
             try
             {
-                Main.AddBoard(new BoardModel(controller,user,NewBoardName,user.Email));
+                Main.AddBoard(NewBoardName); 
                 
             } catch(Exception e)
             {

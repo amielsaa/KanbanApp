@@ -27,13 +27,13 @@ namespace IntroSE.Kanban.PresentationLayer.Model
         public int Id { get => _id; set {_id = value; RaisePropertyChanged("Id"); }}
         public string TaskColor { get => color;set { color = value; RaisePropertyChanged("TaskColor"); } }
 
-        public TaskModel(BackendController controller, string email,string title,string description, DateTime dueDate, int columnOrdinal, int id,ColumnModel parentColumn) : base(controller)
+        public TaskModel(BackendController controller, string email,string assignee,string title,string description, DateTime dueDate, int columnOrdinal, int id,ColumnModel parentColumn) : base(controller)
         {
             this._email = email;
             this.Title = title;
             this.Description = description;
             this.DueDate = dueDate;
-            this.Assignee = email;
+            this.Assignee = assignee;
             //this.ColumnOrdinal = parentColumn.ColumnOrdinal;
             this.Id = id;
             this.parentColumn = parentColumn;
@@ -41,7 +41,7 @@ namespace IntroSE.Kanban.PresentationLayer.Model
 
         internal void Update(string description,string title,DateTime DueDate, string boardName)
         {
-            //Controller.UpdateDescription()
+            Controller.Update(_email,parentColumn.parent.Creator,parentColumn.parent.BoardName,parentColumn.ColumnOrdinal,Id,title,description,DueDate);
             this.Description = description;
             this.Title = title;
             this.DueDate = DueDate;

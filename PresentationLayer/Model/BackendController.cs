@@ -55,36 +55,21 @@ namespace IntroSE.Kanban.PresentationLayer.Model
 
         internal List<ColumnModel> GetAllColumns(string userEmail,string creatorEmail,string boardName,BoardModel board)
         {
-            /* CODE
-            IList<ColumnModel> columnModels = new List<ColumnModel>();
+            
+            List<ColumnModel> columnModels = new List<ColumnModel>();
             ObservableCollection<TaskModel> taskModels = new ObservableCollection<TaskModel>();
             int columnIndex = 0;
             var column = Service.GetColumn(userEmail, creatorEmail, boardName, columnIndex);
-            while(column.ErrorOccured.Equals(""))
+            while (!column.ErrorOccured)
             {
-                foreach(var task in column.Value)
-                {
-                    taskModels.Add(new TaskModel(this, task.emailAssignee, task.Title, task.Description, task.DueDate));
-                }
-                columnModels.Add(new ColumnModel(this, taskModels, columnIndex, Service.GetColumnName(userEmail, creatorEmail, boardName, columnIndex).Value));
+                var col = new ColumnModel(this, board,userEmail, columnIndex, Service.GetColumnName(userEmail, creatorEmail, boardName, columnIndex).Value);
+                columnModels.Add(col);
                 columnIndex++;
+                column = Service.GetColumn(userEmail, creatorEmail, boardName, columnIndex);
             }
-            return columnModels;*/
-
-            //dummy for testing
-            DateTime dateTime = new DateTime(2021, 9, 2, 2, 2, 2);
-            List<ColumnModel> columnModels = new List<ColumnModel>();
+            return columnModels;
 
             
-
-            columnModels.Add(new ColumnModel(this, board, 0, "backlog"));
-            columnModels.Add(new ColumnModel(this, board, 1, "inprogress"));
-            columnModels.Add(new ColumnModel(this, board, 2, "done"));
-            columnModels.Add(new ColumnModel(this, board, 3, "shit"));
-            columnModels.Add(new ColumnModel(this, board, 4, "done"));
-            columnModels.Add(new ColumnModel(this, board, 5, "shit"));
-
-            return columnModels;
         }
 
         /*
@@ -120,64 +105,132 @@ namespace IntroSE.Kanban.PresentationLayer.Model
             return newList;
         }*/
 
+        /**************************************/
+        /******** BOARD FUNCTIONALITY *********/
+        /**************************************/
+
         internal List<BoardModel> GetBoards(UserModel user)
         {
+
             List<BoardModel> list = new List<BoardModel>();
-            list.Add(new BoardModel(this, user, "oneboard",user.Email));
-            list.Add(new BoardModel(this, user, "twoboard", user.Email));
-            list.Add(new BoardModel(this, user, "threeboard", user.Email));
-            list.Add(new BoardModel(this, user, "frewag", user.Email));
-            list.Add(new BoardModel(this, user, "asfsa", user.Email));
-            list.Add(new BoardModel(this, user, "thrfxdfeeboard", user.Email));
-            list.Add(new BoardModel(this, user, "thrasfdaeeboard", user.Email));
-            list.Add(new BoardModel(this, user, "thrasfeeboard", user.Email));
-            list.Add(new BoardModel(this, user, "thrfdsfdeeboard", user.Email));
+            var res = Service.GetBoards(user.Email);
+            if (res.ErrorOccured)
+            {
+                throw new ArgumentException(res.ErrorMessage);
+            }
+            foreach(var board in res.Value)
+            {
+                list.Add(new BoardModel(this, user,board.BoardName,board.CreatorEmail,board.TaskId));
+            }
 
             return list;
         }
 
-
-        /************************************/
-        /******** TASK FUNCTIONALITY ********/
-        /************************************/
-
-        internal string UpdateDescription(string userEmail, string creatorEmail, string boardName, int columnOrdinal, int taskId, string description)
+        internal void AddBoard(string userEmail, string boardName)
         {
-            return "";
+            var action = Service.AddBoard(userEmail, boardName);
+            if (action.ErrorOccured)
+            {
+                throw new ArgumentException(action.ErrorMessage);
+            }
+
         }
 
+        internal BoardModel GetBoardCreator(string creatorEmail, string boardName, UserModel user)
+        {
+            var board = Service.GetBoardCreator(creatorEmail, boardName);
+            if (board.ErrorOccured)
+            {
+                throw new ArgumentException(board.ErrorMessage);
+            }
+            return new BoardModel(this,user,boardName,creatorEmail,board.Value.TaskId);
+        }
+
+        internal void DeleteBoard(string userEmail, string creatorEmail, string boardName)
+        {
+            var res = Service.RemoveBoard(userEmail, creatorEmail, boardName);
+            if(res.ErrorOccured)
+            {
+                throw new ArgumentException(res.ErrorMessage);
+            }
+        }
+
+
+
+
+
+        /**************************************/
+        /******** COLUMN FUNCTIONALITY ********/
+        /**************************************/
 
         internal void AddColumn(string userEmail, string creatorEmail, string boardName, int columnOrdinal, string columnName)
         {
-            if(columnName == "SEMEK")
+            var res = Service.AddColumn(userEmail, creatorEmail, boardName, columnOrdinal, columnName);
+            if (res.ErrorOccured)
             {
-                throw new ArgumentException("MAKORE");
+                throw new ArgumentException(res.ErrorMessage);
             }
             
-        }
-
-        internal void AdvanceTask(string userEmail, string creatorEmail, string boardName, int columnOrdinal, int taskId)
-        {
-
-        }
-
-        internal void LimitColumn(string userEmail, string creatorEmail, string boardName, int columnOrdinal, int limit)
-        {
-
-        }
-
-        internal List<TaskModel> GetColumnTask(string userEmail,string creatorEmail,string boardName,int columnOrdinal,ColumnModel parentColumn)
-        {
-            List<TaskModel> list = new List<TaskModel>();
-            list.Add(new TaskModel(this, "amiel", "taskone", "makoreahsheli", DateTime.Now,columnOrdinal,0,parentColumn));
-            //list.Add(new TaskModel(this, "amiel", "tasktwo", "makoreahsheli", DateTime.Now));
-            return list;
         }
 
         internal bool RemoveColumn(ColumnModel columnModel)
         {
             return true;
         }
+
+
+        internal void LimitColumn(string userEmail, string creatorEmail, string boardName, int columnOrdinal, int limit)
+        {
+            var res = Service.LimitColumn(userEmail, creatorEmail, boardName, columnOrdinal, limit);
+            if (res.ErrorOccured)
+            {
+                throw new ArgumentException(res.ErrorMessage);
+            }
+        }
+
+
+        internal List<TaskModel> GetColumnTask(string userEmail,string creatorEmail,string boardName,int columnOrdinal,ColumnModel parentColumn)
+        {
+            var res = Service.GetColumn(userEmail, creatorEmail, boardName, columnOrdinal);
+            if (res.ErrorOccured)
+            {
+                throw new ArgumentException(res.ErrorMessage);
+            }
+            List<TaskModel> list = new List<TaskModel>();
+            foreach(var task in res.Value)
+            {
+                list.Add(new TaskModel(this, userEmail, task.emailAssignee, task.Title, task.Description, task.DueDate, columnOrdinal, task.Id, parentColumn));
+            }
+            return list;
+        }
+
+        
+
+        /************************************/
+        /******** TASK FUNCTIONALITY ********/
+        /************************************/
+
+        internal void AdvanceTask(string userEmail, string creatorEmail, string boardName, int columnOrdinal, int taskId)
+        {
+            var res = Service.AdvanceTask(userEmail, creatorEmail, boardName, columnOrdinal, taskId);
+            if (res.ErrorOccured)
+            {
+                throw new ArgumentException(res.ErrorMessage);
+            }
+        }
+
+        internal void Update(string userEmail, string creatorEmail, string boardName, int columnOrdinal, int taskId, string title,string description,DateTime dueDate)
+        {
+            var desc = Service.UpdateTaskDescription(userEmail, creatorEmail, boardName, columnOrdinal, taskId, description);
+            var ti = Service.UpdateTaskTitle(userEmail, creatorEmail, boardName, columnOrdinal, taskId, title);
+            var due = Service.UpdateTaskDueDate(userEmail, creatorEmail, boardName, columnOrdinal, taskId, dueDate);
+            if(desc.ErrorOccured | ti.ErrorOccured | due.ErrorOccured)
+            {
+                throw new ArgumentException(desc.ErrorMessage + "\n" + ti.ErrorMessage + "\n" + due.ErrorMessage);
+            }
+        }
+
+        
 
         internal void AssignTask(string userEmail, string creatorEmail, string boardName, int columnOrdinal, int taskId, string emailAssignee)
         {
@@ -186,41 +239,20 @@ namespace IntroSE.Kanban.PresentationLayer.Model
             
         }
 
-        internal bool AddTask(TaskModel task)
+        internal void AddTask(TaskModel task,string userEmail,string creatorEmail,string boardName)
         {
-            return true;
+            var res = Service.AddTask(userEmail, creatorEmail, boardName, task.Title, task.Description, task.DueDate);
+            if (res.ErrorOccured)
+            {
+                throw new ArgumentException(res.ErrorMessage);
+            }
         }
 
         
 
-        internal void AddBoard(string userEmail, string boardName)
-        {
-            /////// testing
-            if(boardName == "ok")
-            {
-                throw new ArgumentException("fasfdsa");
-            }
-            ///////
-            /*
-            var action = Service.AddBoard(userEmail, boardName);
-            if (action.ErrorOccured)
-            {
-                throw new ArgumentException(action.ErrorMessage);
-            }*/
+        
 
-        }
-
-        internal BoardModel GetBoard(string creatorEmail,string boardName,UserModel user)
-        {
-
-            //implement in service N add IFS
-            return new BoardModel(this, user, boardName, creatorEmail);
-        }
-
-        internal void DeleteBoard(string userEmail,string creatorEmail, string boardName)
-        {
-            
-        }
+        
 
         
 

@@ -49,27 +49,31 @@ namespace IntroSE.Kanban.PresentationLayer.ViewModel
             }
         }
 
-        internal void AddTask()
+        internal bool AddTask()
         {
             try
             {
-                columnModel.AddTask(new TaskModel(controller, user.Email, Title, Description, DueDate,columnModel.ColumnOrdinal,0,columnModel));
+                columnModel.AddTask(new TaskModel(controller, user.Email,user.Email, Title, Description, DueDate,columnModel.ColumnOrdinal,0,columnModel));
+                return true;
             }catch(Exception e)
             {
                 Message = e.Message;
+                return false;
             }
             
         }
 
-        internal void EditTask()
+        internal bool EditTask()
         {
             try
             {
                 editTask.Update(Description,Title,DueDate, _boardName);
+                return true;
                 
             }catch(Exception e)
             {
-
+                Message = e.Message;
+                return false;
             }
         }
 
@@ -80,7 +84,7 @@ namespace IntroSE.Kanban.PresentationLayer.ViewModel
             controller = user.Controller;
             this.columnModel = columnModel;
             this.Content = content;
-            
+            this.DueDate = DateTime.Now;
         }
 
 

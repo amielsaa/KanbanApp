@@ -41,7 +41,6 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
             this.name = name;
             creatorEmail = creator;
             this.id = id;
-            columns = new List<Column>();
             this.columns = columns;
             boardUsers = bUsers;
             this.taskId = taskId;
@@ -253,7 +252,7 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
         /// <returns>A column with the given index</returns>
         public Column getColumn(int index)
         {
-            if (index > 2| index<0)
+            if (index > columns.Count| index<0)
                 throw new IndexOutOfRangeException("there is no column in this range");
             return columns[index];
         }

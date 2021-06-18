@@ -44,7 +44,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             try
             {
                 userController.getUser(userEmail).checkIfLogedIn();
-                Board board = boardController.getBoard(creatorEmail, boardName);
+                var board = boardController.getBoard(creatorEmail, boardName);
                 var task = board.getColumn(columnOrdinal).getTaskById(taskId);
                 if (task == null)
                     throw new ArgumentException("there is no task with this id");
@@ -74,7 +74,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             try
             {
                 userController.getUser(userEmail).checkIfLogedIn();
-                Board board = boardController.getBoard(creatorEmail, boardName);
+                var board = boardController.getBoard(creatorEmail, boardName);
                 var task = board.getColumn(columnOrdinal).getTaskById(taskId);
                 userController.isUserAssignee(userEmail, task.taskId, task.boardId, creatorEmail);
                 task.setTitle(title);
@@ -102,7 +102,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             try
             {
                 userController.getUser(userEmail).checkIfLogedIn();
-                Board board = boardController.getBoard(creatorEmail, boardName);
+                var board = boardController.getBoard(creatorEmail, boardName);
                 var task = board.getColumn(columnOrdinal).getTaskById(taskId);
                 userController.isUserAssignee(userEmail, task.taskId, task.boardId, creatorEmail);
                 task.setDescription(description);
@@ -130,7 +130,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             try
             {
                 userController.getUser(userEmail).checkIfLogedIn();
-                Board board = boardController.getBoard(creatorEmail, boardName);
+                var board = boardController.getBoard(creatorEmail, boardName);
                 log.Info("Get column limit");
                 return Response<int>.FromValue(board.getColumn(columnOrdinal).Limit);
             }catch(Exception e)
@@ -153,7 +153,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             try
             {
                 userController.getUser(userEmail).checkIfLogedIn();
-                Board board = boardController.getBoard(creatorEmail, boardName);
+                var board = boardController.getBoard(creatorEmail, boardName);
                 log.Info("Get column name");
                 return Response<string>.FromValue(board.getColumn(columnOrdinal).Title);
             }catch(Exception e)
@@ -177,8 +177,8 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             try
             {
                 var user = userController.getUser(userEmail);
-                Board board = boardController.getBoard(creatorEmail, boardName);
-                Column column = board.getColumn(columnOrdinal);
+                var board = boardController.getBoard(creatorEmail, boardName);
+                var column = board.getColumn(columnOrdinal);
                 user.ChangeColumnLimit(column, board, limit,creatorEmail);
                 log.Info("limit successfully");
                 return new Response();
@@ -206,7 +206,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             try
             {
                 userController.getUser(userEmail).checkIfLogedIn();
-                Board board = boardController.getBoard(creatorEmail, boardName);
+                var board = boardController.getBoard(creatorEmail, boardName);
                 var task = board.addTask(dueDate, title, description,userEmail,userController.getUser(userEmail));
                 log.Info("Added task successfully");
                 return Response<Task>.FromValue(new Task(task.taskId, task.getCreationTime(), task.getTitle(), task.getDescription(), task.getDueTime(),task.assigneeEmail));
@@ -231,8 +231,8 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             try
             {
                 userController.getUser(userEmail).checkIfLogedIn();
-                Board board = boardController.getBoard(creatorEmail, boardName);
-                Column column = board.getColumn(columnOrdinal);
+                var board = boardController.getBoard(creatorEmail, boardName);
+                var column = board.getColumn(columnOrdinal);
                 board.advanceTask(column.getTaskById(taskId), columnOrdinal);
                 log.Info("The task moved successfully to the next column");
                 return new Response();
@@ -249,8 +249,8 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             try
             {
                 userController.getUser(userEmail).checkIfLogedIn();
-                Board board = boardController.getBoard(creatorEmail, boardName);
-                Column column = board.getColumn(columnOrdinal);
+                var board = boardController.getBoard(creatorEmail, boardName);
+                var column = board.getColumn(columnOrdinal);
                 board.advanceTask(column.getTaskById(taskId), columnOrdinal);
                 log.Info("The task moved successfully to the next column");
                 return new Response();
@@ -274,8 +274,8 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             try
             {
                 userController.getUser(userEmail).checkIfLogedIn();
-                Board board = boardController.getBoard(creatorEmail, boardName);
-                Column column = board.getColumn(columnOrdinal);
+                var board = boardController.getBoard(creatorEmail, boardName);
+                var column = board.getColumn(columnOrdinal);
                 board.RemoveColumn( column,columnOrdinal);
                 log.Info("The column removed successfully");
                 return new Response();
@@ -302,8 +302,8 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             try
             {
                 userController.getUser(userEmail).checkIfLogedIn();
-                Board board = boardController.getBoard(creatorEmail, boardName);
-                Column column = board.getColumn(columnOrdinal);
+                var board = boardController.getBoard(creatorEmail, boardName);
+                var column = board.getColumn(columnOrdinal);
                 column.Title = newColumnName;
                 log.Info("The column name changed successfully");
                 return new Response();
@@ -330,8 +330,8 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             try
             {
                 userController.getUser(userEmail).checkIfLogedIn();
-                Board board = boardController.getBoard(creatorEmail, boardName);
-                Column column = board.getColumn(columnOrdinal);
+                var board = boardController.getBoard(creatorEmail, boardName);
+                var column = board.getColumn(columnOrdinal);
                 board.MoveColumn(column,shiftSize) ;
                 log.Info("The column moved successfully");
                 return new Response();
@@ -359,8 +359,8 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             try
             {
                 userController.getUser(userEmail).checkIfLogedIn();
-                Board board = boardController.getBoard(creatorEmail, boardName);
-                Column column = new Column(columnName,columnOrdinal);
+                var board = boardController.getBoard(creatorEmail, boardName);
+                var column = new Column(columnName,columnOrdinal);
                 board.AddColumn(column, columnOrdinal);
                 log.Info("The column added successfully");
                 return new Response();
@@ -419,7 +419,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             try
             {
                 userController.getUser(userEmail).checkIfLogedIn();
-                Column column = boardController.getBoard(creatorEmail, boardName).getColumn(columnOrdinal);
+                var column = boardController.getBoard(creatorEmail, boardName).getColumn(columnOrdinal);
                 var taskList = column.getTasks();
                 IList<Task> tasks = new List<Task>();
                 foreach(var task in taskList)
@@ -435,9 +435,29 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
                 return Response<IList<Task>>.FromError(e.Message);
             }
         }
+
         
 
-            
+
+        public Response<List<Board>> GetBoards(string userEmail)
+        {
+            try
+            {
+                List<Board> list = new List<Board>();
+                var boards = boardController.getAllUserBoards(userEmail);
+                foreach(var board in boards)
+                {
+                    list.Add(new Board(board.name, board.creatorEmail,board.taskId));
+                }
+                return Response<List<Board>>.FromValue(list);
+            }catch(Exception e)
+            {
+                return Response<List<Board>>.FromError(e.Message);
+            }
         }
+
+
+
+    }
 
 }
