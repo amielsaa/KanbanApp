@@ -6,10 +6,10 @@ namespace IntroSE.Kanban.PresentationLayer.Model
     public class ColumnModel : NotifiableModelObject
     {
 
-        private readonly UserModel user;
+        public readonly UserModel user;
         private int columnOrdinal;
         private string title;
-        private string userEmail;
+        public string userEmail;
         private TaskModel _selectedTask;
         private bool _enableForward = false;
         public BoardModel parent;
@@ -61,12 +61,15 @@ namespace IntroSE.Kanban.PresentationLayer.Model
             
         }
 
-        public ColumnModel(BackendController controller, UserModel user,int columnOrdinal) : base(controller)
+        public ColumnModel(BackendController controller, BoardModel parentBoard, string userEmail, int columnOrdinal, string title, bool indicator) : base(controller)
         {
-            this.user = user;
             this.columnOrdinal = columnOrdinal;
+            this.title = title;
+            this.userEmail = userEmail;
+            Tasks = new ObservableCollection<TaskModel>();
+            this.parent = parentBoard;
             //Tasks = new ObservableCollection<ColumnModel>(controller.GetAllMessagesIds(user.Email).
-               // Select((c, i) => new ColumnModel(controller, controller.GetMessage(user.Email, i), user)).ToList());
+            // Select((c, i) => new ColumnModel(controller, controller.GetMessage(user.Email, i), user)).ToList());
             //Tasks.CollectionChanged += HandleChange;
         }
 

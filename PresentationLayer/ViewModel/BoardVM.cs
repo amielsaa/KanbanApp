@@ -127,8 +127,10 @@ namespace IntroSE.Kanban.PresentationLayer.ViewModel
             {
                 var task_to_edit = Board.BackwardTask;
                 return task_to_edit;
-            }catch(Exception e)
+            }
+            catch(Exception e)
             {
+                Message = e.Message;
                 return null;
             }
         }
@@ -140,7 +142,7 @@ namespace IntroSE.Kanban.PresentationLayer.ViewModel
                 Board.MoveRight(SelectedColumn);
             }catch(Exception e)
             {
-
+                Message = e.Message;
             }
         }
 
@@ -152,7 +154,7 @@ namespace IntroSE.Kanban.PresentationLayer.ViewModel
             }
             catch (Exception e)
             {
-
+                Message = e.Message;
             }
         }
 
@@ -163,7 +165,7 @@ namespace IntroSE.Kanban.PresentationLayer.ViewModel
                 Board.RemoveColumn(SelectedColumn);
             }catch(Exception e)
             {
-
+                Message = e.Message;
             }
         }
 
@@ -185,7 +187,7 @@ namespace IntroSE.Kanban.PresentationLayer.ViewModel
                 Board.LimitColumn(Int32.Parse(NewColumnLimit), SelectedColumn);
             }catch(Exception e)
             {
-
+                Message = e.Message;
             }
         }
 

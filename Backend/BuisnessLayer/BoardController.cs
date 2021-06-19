@@ -139,7 +139,7 @@ namespace IntroSE.Kanban.Backend.BuisnessLayer
             {
                 taskList.Add(new introSE.KanbanBoard.Backend.BuisnessLayer.Task(t.Email, t.BoardId, t.TaskId, t.Assignee, t.Column, Convert.ToDateTime(t.CreationTime), t.Description, t.Title, Convert.ToDateTime(t.DueDate)));
             }
-            Column column = new Column(columnDTO.ColumnName, taskList, columnDTO.TaskLimit);
+            Column column = new Column(columnDTO.ColumnName, taskList, columnDTO.TaskLimit, columnDTO.ColumnNumber);
             return column;
         }
     }

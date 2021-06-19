@@ -20,32 +20,14 @@
             <ImageBrush ImageSource="\Images\Background.jpg"  Stretch="UniformToFill" />
         </Grid.Background>
         <StackPanel Orientation="Vertical">
-            <materialDesign:PopupBox
-                PlacementMode="BottomAndAlignCentres"
-                ToolTipService.Placement="Right"
-                ToolTip="PopupBox, Style MaterialDesignMultiFloatingActionPopupBox"
-                Opened="PopupBox_OnOpened"            
-                Closed="PopupBox_OnClosed">
-                <materialDesign:PopupBox.ToggleContent>
-                    <materialDesign:PackIcon Kind="PlusBox" />
-                </materialDesign:PopupBox.ToggleContent>
-
-
-            </materialDesign:PopupBox>
-
             <WrapPanel Margin="0,0,0,0" HorizontalAlignment="Center">
-                <Button Content="Back" Click="Back_Button"/>
-                <Button IsEnabled="{Binding Path=Board.EnableForward}" Content="edit task" Margin="20,0,0,0" Click="Edit_Task_Button" />
-                <Button IsEnabled="{Binding EnableForward}" Content="left" Margin="20,0,0,0" Click="Move_Left_Button"/>
-                <Button IsEnabled="{Binding EnableForward}" Content="Remove" Margin="20,0,0,0" Click="Remove_Column_Button" />
-                <Button IsEnabled="{Binding EnableForward}" Content="right" Margin="20,0,0,0" Click="Move_Right_Button" />
-                    <Button IsEnabled="{Binding Path=Board.EnableForward}" Content="Advance Task" Margin="20,0,0,0" Click="Advance_Task_Button" />
-                    <Button Content="edit task" Margin="20,0,0,0" Click="Edit_Task_Button" Background="SteelBlue"/>
-                <Button Content="left" Margin="20,0,0,0" Click="Move_Left_Button" Background="SteelBlue"/>
-                <Button Content="Remove" Margin="20,0,0,0" Click="Remove_Column_Button" Background="SteelBlue" />
-                <Button Content="right" Margin="20,0,0,0" Click="Move_Right_Button" Background="SteelBlue"/>
-                    <Button Content="Advance Task" Margin="20,0,0,0" Click="Advance_Task_Button" Background="SteelBlue"/>
-                    <Button
+                <Button Content="Back" Click="Back_Button" Background="SteelBlue"/>
+                <Button IsEnabled="{Binding Path=Board.EnableForward}" Content="edit task" Margin="20,10,0,0" Click="Edit_Task_Button" Background="SteelBlue" />
+                <Button IsEnabled="{Binding EnableForward}" Content="left" Margin="20,10,0,0" Click="Move_Left_Button" Background="SteelBlue"/>
+                <Button IsEnabled="{Binding EnableForward}" Content="Remove" Margin="20,10,0,0" Click="Remove_Column_Button" Background="SteelBlue"/>
+                <Button IsEnabled="{Binding EnableForward}" Content="right" Margin="20,10,0,0" Click="Move_Right_Button" Background="SteelBlue" />
+                <Button IsEnabled="{Binding Path=Board.EnableForward}" Content="Advance Task" Margin="20,10,0,0" Click="Advance_Task_Button" Background="SteelBlue"/>
+                <Button
                 Style="{StaticResource MaterialDesignFlatAccentBgButton}"
                 ToolTip="MaterialDesignFlatAccentBackgroundButton"
                 Content="addTask"
@@ -120,29 +102,21 @@
                 <WrapPanel Orientation="Vertical">
                     <Label Content="Assign Task" FontSize="30" Margin="10"/>
                     <TextBox IsEnabled="{Binding Path=Board.EnableForward}" Text="{Binding NewAssignee, Mode=OneWayToSource}" Margin="10" />
-                    <Button IsEnabled="{Binding Path=Board.EnableForward}" Content="Assign"  Click="Assign_Task_Button" Margin="10"/>
-                    <TextBox Text="{Binding NewAssignee, Mode=OneWayToSource}" Margin="10" />
-                    <Button Content="Assign"  Click="Assign_Task_Button" Margin="10" Background="SteelBlue"/>
+                    <Button IsEnabled="{Binding Path=Board.EnableForward}" Content="Assign"  Click="Assign_Task_Button" Margin="10" Background="SteelBlue"/>
                 </WrapPanel >
                 <WrapPanel Orientation="Vertical" Margin="20,0,0,0">
                     <Label Content="Add Column" FontSize="30" Margin="10"/>
                     <WrapPanel Orientation="Horizontal">
                         <TextBox Width="100" Text="{Binding NewColumnName, Mode=OneWayToSource}" Margin="10" />
-                        <TextBox Width="50" Text="{Binding NewColumnOrd, Mode=OneWayToSource}" Margin="10" />
+                        <TextBox Width="50" Text="{Binding NewColumnOrd, Mode=OneWayToSource}" Margin="10" TextChanged="TextBox_TextChanged" />
                     </WrapPanel>
 
-                    <Button Content="Add"  Click="Add_Column_Button" Margin="10"/>
-                </WrapPanel>
-                <WrapPanel Orientation="Vertical" Margin="20,0,0,0">
-                    <Label Content="Limit Column" FontSize="30" Margin="10"/>
-                    <TextBox IsEnabled="{Binding EnableForward}" Text="{Binding NewColumnLimit, Mode=TwoWay}" Margin="10" />
-                    <Button IsEnabled="{Binding EnableButton, Mode=OneWayToSource}" Content="Limit"  Click="Limit_Column_Button" Margin="10"/>
                     <Button Content="Add"  Click="Add_Column_Button" Margin="10" Background="SteelBlue"/>
                 </WrapPanel>
                 <WrapPanel Orientation="Vertical" Margin="20,0,0,0">
                     <Label Content="Limit Column" FontSize="30" Margin="10"/>
-                    <TextBox Text="{Binding NewColumnLimit, Mode=OneWayToSource}" Margin="10" />
-                    <Button Content="Limit"  Click="Limit_Column_Button" Margin="10" Background="SteelBlue"/>
+                    <TextBox IsEnabled="{Binding EnableForward}" Text="{Binding NewColumnLimit, Mode=TwoWay}" Margin="10" />
+                    <Button IsEnabled="{Binding EnableButton, Mode=OneWayToSource}" Content="Limit"  Click="Limit_Column_Button" Margin="10" Background="SteelBlue"/>
                 </WrapPanel>
             </StackPanel>
         </StackPanel>
