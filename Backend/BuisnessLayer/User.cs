@@ -8,9 +8,13 @@ using System.Text.RegularExpressions;
 using IntroSE.Kanban.Backend.DataAccessLayer.DalObjects;
 using IntroSE.Kanban.Backend.BuisnessLayer;
 using IntroSE.Kanban.Backend.DataAccessLayer;
+using System.Runtime.CompilerServices;
+
+[assembly: InternalsVisibleTo("Tests")]
 
 namespace introSE.KanbanBoard.Backend.BuisnessLayer
 {
+
 
     public class User
     {
@@ -25,18 +29,20 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
         public readonly int passMinLen = 4;
         public readonly int passMaxLen = 20;
         private BoardController boardController;
+        private UserController userController;
        
         //constructor
 
         //create new user constructor
-        public User(string em, string pw )
+        public User(string em, string pw, UserController userController, BoardController boardController)
         {
             oldPassword = new List<string>();
             if (!validatePasswordRules(pw))
                 throw new ArgumentException("this password doesn't stand in the password rules");
             email = em;
             password = pw;
-            this.boardController = BoardController.getInstance();
+            this.boardController = boardController;
+            this.userController = userController;
             List<Board> boardList = new List<Board>() ;
             boards = new Boards(boardList ,0);
             boardController.AddBoardsToBC(email, boards);
@@ -46,13 +52,14 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
         }
 
         // pull info from dal constructor
-        public User(string em, string pw, List<string> oldPw, List<Task> myAssignments, int boardsId  )
+        public User(string em, string pw, List<string> oldPw, List<Task> myAssignments, int boardsId ,UserController userController, BoardController boardController )
         {
             email = em;
             password = pw;
             oldPassword = oldPw;
             this.myAssignments = myAssignments;
-            this.boardController = BoardController.getInstance();
+            this.boardController = boardController;
+            this.userController = userController;
             List<Board> boardList = this.boardController.getAllUserBoards(email);
             this.boards = new Boards(boardList, boardsId);
             boardController.AddBoardsToBC(email, boards);
@@ -100,7 +107,7 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
             checkIfLogedIn();
             if (email != board.creatorEmail)
                 throw new ArgumentException("only the creator can delete his board");
-            //boards.removeBoard(board);
+            boards.removeBoard(board);
             boardController.deleteBoard(board);
         }
 
@@ -257,7 +264,7 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
             List<Task> list = new List<Task>();
             foreach (Task task in myAssignments)
             {
-                if (task.columnOrdinal <0 & !task.status)
+                if (task.columnOrdinal == 1)
                     list.Add(task);
             }
             return list;
