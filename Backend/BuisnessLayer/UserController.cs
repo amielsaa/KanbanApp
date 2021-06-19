@@ -8,6 +8,9 @@ using IntroSE.Kanban.Backend.DataAccessLayer;
 using IntroSE.Kanban.Backend.DataAccessLayer.DalObjects;
 using IntroSE.Kanban.Backend.BuisnessLayer;
 using System.Text.RegularExpressions;
+using System.Runtime.CompilerServices;
+
+[assembly: InternalsVisibleTo("KanbanTests")]
 
 namespace introSE.KanbanBoard.Backend.BuisnessLayer
 {

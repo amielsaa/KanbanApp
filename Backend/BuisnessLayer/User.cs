@@ -8,9 +8,13 @@ using System.Text.RegularExpressions;
 using IntroSE.Kanban.Backend.DataAccessLayer.DalObjects;
 using IntroSE.Kanban.Backend.BuisnessLayer;
 using IntroSE.Kanban.Backend.DataAccessLayer;
+using System.Runtime.CompilerServices;
+
+[assembly: InternalsVisibleTo("KanbanTests")]
 
 namespace introSE.KanbanBoard.Backend.BuisnessLayer
 {
+
 
     public class User
     {
