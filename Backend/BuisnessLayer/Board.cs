@@ -74,6 +74,7 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
                 Task task = new Task(dueDate, title, description, taskId, assignee, creatorEmail, id);
                 columns[0].addTask(task);
                 taskId++;
+                UpdateBoard();
                 user.myAssignments.Add(task);
                 return task;
             }
@@ -284,6 +285,13 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
             {
                 dColumn.Insert(i, id, i.ColumnOrdinal, creatorEmail);
             }
+        }
+        private void UpdateBoard() 
+        {
+            DBoardsController dBoardsController = new DBoardsController();
+            BoardsDTO boardsDTO = dBoardsController.SelectBoard(creatorEmail, id);
+            boardsDTO.TaskId = taskId;
+
         }
 
     }
