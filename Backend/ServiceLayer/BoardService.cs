@@ -436,8 +436,18 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             }
         }
 
-        
-
+        /*
+        public Response<int> GetBoardTaskId(string userEmail,string creatorEmail,string boardName)
+        {
+            try
+            {
+                var user = userController.getUser(creatorEmail);
+                return Response<int>.FromValue(user.getBoardByName(boardName).taskId);
+            }catch(Exception e)
+            {
+                return Response<int>.FromError(e.Message);
+            }
+        }*/
 
         public Response<List<Board>> GetBoards(string userEmail)
         {

@@ -156,12 +156,22 @@ namespace IntroSE.Kanban.PresentationLayer.Model
         }
 
 
+        internal void JoinBoard()
+        {
+
+        }
+
 
 
 
         /**************************************/
         /******** COLUMN FUNCTIONALITY ********/
         /**************************************/
+
+        internal void RenameColumn()
+        {
+
+        }
 
         internal void AddColumn(string userEmail, string creatorEmail, string boardName, int columnOrdinal, string columnName)
         {
@@ -234,8 +244,11 @@ namespace IntroSE.Kanban.PresentationLayer.Model
 
         internal void AssignTask(string userEmail, string creatorEmail, string boardName, int columnOrdinal, int taskId, string emailAssignee)
         {
-            // if(res=="") else throw exception that boardVM catches
-            //Service.AssignTask()
+            var res = Service.AssignTask(userEmail, creatorEmail, boardName, columnOrdinal, taskId, emailAssignee);
+            if(res.ErrorOccured)
+            {
+                throw new ArgumentException(res.ErrorMessage);
+            }
             
         }
 
@@ -247,6 +260,8 @@ namespace IntroSE.Kanban.PresentationLayer.Model
                 throw new ArgumentException(res.ErrorMessage);
             }
         }
+
+        
 
         
 

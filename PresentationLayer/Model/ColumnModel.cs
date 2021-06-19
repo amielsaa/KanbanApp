@@ -87,6 +87,7 @@ namespace IntroSE.Kanban.PresentationLayer.Model
         {
             Controller.AddTask(task,userEmail,parent.Creator,parent.BoardName);
             Tasks.Add(task);
+            parent.TaskIdCount++;
         }
 
         public void RemoveMessage(TaskModel t)

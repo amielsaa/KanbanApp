@@ -111,7 +111,8 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
         /// <returns> returns a board with the defines name.</returns>
         public Board getBoardByName(string name)
         {
-            return boards.getBoardByName(email, name);
+            return boardController.getBoard(email, name);
+            //return boards.getBoardByName(email, name);
         }
 
         /// <summary>

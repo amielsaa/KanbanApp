@@ -53,7 +53,7 @@ namespace IntroSE.Kanban.PresentationLayer.ViewModel
         {
             try
             {
-                columnModel.AddTask(new TaskModel(controller, user.Email,user.Email, Title, Description, DueDate,columnModel.ColumnOrdinal,0,columnModel));
+                columnModel.AddTask(new TaskModel(controller, user.Email,user.Email, Title, Description, DueDate,columnModel.ColumnOrdinal,columnModel.parent.TaskIdCount,columnModel));
                 return true;
             }catch(Exception e)
             {
