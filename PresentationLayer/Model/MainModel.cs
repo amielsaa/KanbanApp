@@ -36,7 +36,7 @@ namespace IntroSE.Kanban.PresentationLayer.Model
             this.user = user;
             this.Boards = new ObservableCollection<BoardModel>(controller.GetBoards(user));
             InProgressTasks = GetInProgressTasks();
-            //Boards.CollectionChanged += HandleChange;
+            Boards.CollectionChanged += HandleChange;
         }
 
         private ObservableCollection<TaskModel> GetInProgressTasks()

@@ -106,7 +106,19 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
             }
             return usersList ;
         }
-        
+        public BoardsDTO SelectBoard(string creatorEmail, int boardId)
+        {
+            string command = $"select * from {BoardsTableName} where boardId = {boardId} and email = '{creatorEmail}'";
+            List<BoardsDTO> list = Select(command).Cast<BoardsDTO>().ToList();
+            BoardsDTO boardsDTO = null;
+            if (list.Count != 0)
+            {
+                boardsDTO = list[0];
+            }
+            return boardsDTO;
+        }
+
+
         public List<BoardsDTO> SelectAllBoardsByEmail(string email)
         {
             string command = $"select * from {BoardsTableName} where email = {email}";
@@ -175,6 +187,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
             DeleteAll("Column");
             DeleteAll("Tasks");
         }
+
 
         
 

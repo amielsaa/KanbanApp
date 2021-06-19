@@ -82,7 +82,7 @@ namespace IntroSE.Kanban.PresentationLayer.Model
             this.Creator = creatorEmail;
             this.TaskIdCount = taskIdCounter;
             Columns = new ObservableCollection<ColumnModel>(controller.GetAllColumns(user.Email,user.Email,boardName,this));
-            //Columns.CollectionChanged += HandleChange;
+            Columns.CollectionChanged += HandleChange;
             //laasot getboard me ha backendcontroller
         }
 
@@ -112,14 +112,15 @@ namespace IntroSE.Kanban.PresentationLayer.Model
             if(selectedColumn==null) {
                 throw new ArgumentException("You must choose a column first.");
             }
-            
-            
+
             if (Columns.Count-1 > selectedColumn.ColumnOrdinal)
             {
-                selectedColumn.ColumnOrdinal += 1;
                 int newIndex = selectedColumn.ColumnOrdinal;
-                Columns[newIndex].ColumnOrdinal -= 1;
-                Columns.Move(newIndex - 1, newIndex);
+                Controller.moveColumn(user.Email, Creator, BoardName, newIndex, 1);
+                selectedColumn.ColumnOrdinal += 1;
+                Columns[newIndex+1].ColumnOrdinal -= 1;
+                Columns.Move(newIndex , newIndex+1);
+                
             }
             
            
@@ -135,10 +136,13 @@ namespace IntroSE.Kanban.PresentationLayer.Model
 
             if (selectedColumn.ColumnOrdinal>0)
             {
-                selectedColumn.ColumnOrdinal -= 1;
+                
+                Controller.moveColumn(user.Email, Creator, BoardName, selectedColumn.ColumnOrdinal, -1);
                 int newIndex = selectedColumn.ColumnOrdinal;
-                Columns[newIndex].ColumnOrdinal += 1;
-                Columns.Move(newIndex + 1, newIndex);
+                selectedColumn.ColumnOrdinal -= 1;
+                Columns[newIndex-1].ColumnOrdinal += 1;
+                Columns.Move(newIndex , newIndex-1);
+               
             }
         }
 
@@ -149,11 +153,11 @@ namespace IntroSE.Kanban.PresentationLayer.Model
 
         public void AddColumn(string columnName, int columnOrdinal)
         {
-            Controller.AddColumn(user.Email, Creator, BoardName, columnOrdinal, columnName);
-            Columns.Insert(columnOrdinal,new ColumnModel(Controller, this,user.Email, columnOrdinal, columnName));
+            //Controller.AddColumn(user.Email, Creator, BoardName, columnOrdinal, columnName);
+            Columns.Insert(columnOrdinal,new ColumnModel(Controller, this,user.Email, columnOrdinal, columnName, true));
             for(int i = columnOrdinal + 1; i < Columns.Count; i++)
             {
-                Columns[columnOrdinal].ColumnOrdinal += 1;
+                Columns[i].ColumnOrdinal += 1;
             }
         }
 
@@ -177,16 +181,16 @@ namespace IntroSE.Kanban.PresentationLayer.Model
                 foreach (ColumnModel y in e.OldItems)
                 {
 
-                    //Controller.RemoveMessage(user.Email, y.Id);
+                    Controller.RemoveColumn(y,user.Email);
                 }
 
             }
             if (e.Action == NotifyCollectionChangedAction.Add)
             {
-                foreach (ColumnModel y in e.OldItems)
+                foreach (ColumnModel y in e.NewItems)
                 {
 
-                    //Controller.addColumn(user.Email, y.Id);
+                    Controller.AddColumn(user.Email, Creator, BoardName, y.ColumnOrdinal, y.Title);
                 }
 
             }

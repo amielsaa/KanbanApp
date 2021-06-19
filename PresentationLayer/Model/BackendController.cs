@@ -183,8 +183,13 @@ namespace IntroSE.Kanban.PresentationLayer.Model
             
         }
 
-        internal bool RemoveColumn(ColumnModel columnModel)
+        internal bool RemoveColumn(ColumnModel columnModel, string userEmail)
         {
+            var res = Service.RemoveColumn(userEmail, columnModel.userEmail, columnModel.parent.BoardName, columnModel.ColumnOrdinal);
+            if (res.ErrorOccured)
+            {
+                throw new ArgumentException(res.ErrorMessage);
+            }
             return true;
         }
 
@@ -192,6 +197,14 @@ namespace IntroSE.Kanban.PresentationLayer.Model
         internal void LimitColumn(string userEmail, string creatorEmail, string boardName, int columnOrdinal, int limit)
         {
             var res = Service.LimitColumn(userEmail, creatorEmail, boardName, columnOrdinal, limit);
+            if (res.ErrorOccured)
+            {
+                throw new ArgumentException(res.ErrorMessage);
+            }
+        }
+        internal void moveColumn(string userEmail, string creatorEmail, string boardName, int columnOrdinal, int shiftSize)
+        {
+            var res = Service.MoveColumn(userEmail, creatorEmail, boardName, columnOrdinal, shiftSize);
             if (res.ErrorOccured)
             {
                 throw new ArgumentException(res.ErrorMessage);

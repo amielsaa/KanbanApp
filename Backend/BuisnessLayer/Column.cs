@@ -25,16 +25,17 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
         public Column(string title, int columnOrdinal)
         {
             this.title = title;
-            this.columnOrdinal = columnOrdinal;
+            ColumnOrdinal = columnOrdinal;
             tasks = new List<Task>();
         }
 
         //pull column from database constructor
-        public Column(string title, List<Task> tasks , int limit)
+        public Column(string title, List<Task> tasks , int limit ,int columnOrdinal)
         {
             this.title = title;
             this.tasks = tasks;
             limit_task_num = limit;
+            ColumnOrdinal = columnOrdinal;
         }
         //------------------------------------------------------------methods-------------------------------------------------------------------------------------
 

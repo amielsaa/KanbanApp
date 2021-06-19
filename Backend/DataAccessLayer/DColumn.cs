@@ -110,7 +110,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
                 {
                     connection.Open();
                     command.CommandText = $"INSERT INTO {ColumnTableName} ({ColumnDTO.EmailColumnName} ,{ColumnDTO.BoardIdColumnName},{ColumnDTO.ColumnNumberColumnName}, {ColumnDTO.TaskLimitColumnName},{ColumnDTO.ColumnNameColumnName}) " +
-                        $"VALUES ('{columnDTO.Email}',{columnDTO.BoardId},{columnDTO.ColumnNumber},{columnDTO.TaskLimit},'{columnDTO.ColumnName}' ); ";
+                        $"VALUES ('{columnDTO.Email}',{columnDTO.BoardId},{columnNumber},{columnDTO.TaskLimit},'{column.Title}' ); ";
 
                     /*SQLiteParameter newEmail = new SQLiteParameter(@"creatorEmail", columnDTO.Email);
                     SQLiteParameter newBoardId = new SQLiteParameter(@"boardId", columnDTO.BoardId);
@@ -219,6 +219,12 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
 
             }
             return res > 0;
+        }
+
+        public void deleteColumn(ColumnDTO columnDTO)
+        {
+            string commandTxt = $"delete from {ColumnTableName} where email='{columnDTO.Email}' and boardId = {columnDTO.BoardId} and columnNumber = {columnDTO.ColumnNumber}";
+            Delete(commandTxt);
         }
 
     }

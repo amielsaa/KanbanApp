@@ -8,24 +8,30 @@ using IntroSE.Kanban.Backend.DataAccessLayer;
 using IntroSE.Kanban.Backend.DataAccessLayer.DalObjects;
 using IntroSE.Kanban.Backend.BuisnessLayer;
 using System.Text.RegularExpressions;
+using System.Runtime.CompilerServices;
+
+[assembly: InternalsVisibleTo("Tests")]
 
 namespace introSE.KanbanBoard.Backend.BuisnessLayer
 {
     public class UserController
     {
         //fields
-        private static UserController instance;
+        //private static UserController instance;
         public List<string> usersEmail;
         public List<User> users;
         private DUserController dUserController;
         private UserDTO newUser;
+        public BoardController boardController;
 
         //constructor
-        private UserController()
+        public UserController()
         {
             usersEmail = new List<string>();
             users = new List<User>();
             dUserController = new DUserController();
+            boardController = new BoardController(this);
+            //boardsController = BoardController.getInstance();
 
         }
         //methods
@@ -34,7 +40,7 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
         /// using UserController as a singletone 
         /// </summary>
         /// <returns>it returns the instance of it therefor there's only one instance of it in the whole program </returns>
-        public static UserController getInstance()
+        /*public static UserController getInstance()
         {
             if (instance == null)
             {
@@ -42,7 +48,7 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
             }
             return instance;
         }
-        
+        */
 
 
         /// <summary>
@@ -55,7 +61,7 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
         {
             email = validateEmail(email);
             email = checkExistance(email);
-            User user = new User(email, password);
+            User user = new User(email, password, this, boardController);
             users.Add(user);
             usersEmail.Add(email);
             newUser = new UserDTO(email, password,0);
@@ -136,13 +142,7 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
             List<UserDTO> userDtoList = dUserController.SelectAllUsers();
             foreach (UserDTO userDTO in userDtoList)
             {
-                List < TaskDTO > taskDTOList= userDTO.getMyAssignments();
-                List<Task> taskList = new List<Task>();
-                foreach (TaskDTO t in taskDTOList)
-                {
-                    taskList.Add(new Task(t.Email, t.BoardId, t.TaskId, t.Assignee, t.Column, Convert.ToDateTime(t.CreationTime), t.Description, t.Title, Convert.ToDateTime(t.DueDate)));
-                }
-                User user = new User(userDTO.Email, userDTO.Password, userDTO.getOldPasswords(),taskList, userDTO.BoardsId);
+                User user = new User(userDTO.Email, userDTO.Password, userDTO.getOldPasswords(), userDTO.getMyAssignments(), userDTO.BoardsId,  this , boardController);
                 string email = userDTO.Email;
                 users.Add(user);
                 usersEmail.Add(email);

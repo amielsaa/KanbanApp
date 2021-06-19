@@ -31,7 +31,7 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
             columns.Add(backlog);
             columns.Add(inProgress);
             columns.Add(done);
-            InsertColumsToDal(columns);
+            InsertColumnsToDal(columns);
             boardUsers = new List<string>();
         }
 
@@ -141,12 +141,15 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
             {
                 nextColumn =getColumn(columnOrdinal + 1);
                 int nextColumnEmptyPlace = nextColumn.Limit - nextColumn.getTasks().Count;
-                if (nextColumnEmptyPlace < column.getTasks().Count)
+                if (nextColumn.Limit != -1 && nextColumnEmptyPlace < column.getTasks().Count)
                     throw new Exception("Exceed the limit");
                 else
                 {
                     foreach (Task task in column.getTasks())
+                    {
+                        nextColumn.addTask(task);
                         task.columnOrdinal = columnOrdinal + 1;
+                    }
                     columns.RemoveAt(columnOrdinal);
                     
                 }
@@ -155,22 +158,40 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
             {
                 nextColumn = getColumn(columnOrdinal - 1);
                 int nextColumnEmptyPlace = nextColumn.Limit - nextColumn.getTasks().Count;
-                if (nextColumnEmptyPlace < column.getTasks().Count)
+                if (nextColumn.Limit!=-1 && nextColumnEmptyPlace < column.getTasks().Count)
                     throw new Exception("Exceed the limit");
                 else
                 {
                     foreach (Task task in column.getTasks())
+                    {
+                        nextColumn.addTask(task);
                         task.columnOrdinal = columnOrdinal - 1;
+                    }
                     columns.RemoveAt(columnOrdinal);
                 }
             }
-            for (int i = columnOrdinal; i < columns.Count; i++)
+            DBoardsController dBoards = new DBoardsController();
+            BoardsDTO boardsDTO = dBoards.SelectBoard(creatorEmail, id);
+            boardsDTO.ColumnsNumber = columns.Count;
+            DColumn dColumn = new DColumn();
+            ColumnDTO columnDTO = dColumn.SelectColumn(creatorEmail, id, columnOrdinal);
+            dColumn.deleteColumn(columnDTO);
+            for (int i = columnOrdinal; i <columns.Count; i++)
                 columns[i].changeColumnOrdinal(i, creatorEmail, id);
-            
+
+
         }
 
         public void MoveColumn(Column column, int shiftSize)
         {
+            if (column.getTasks().Count != 0)
+            {
+                throw new ArgumentException("you can move only empty columns");
+            }
+            DColumn dColumn = new DColumn();
+            ColumnDTO columnDTO = dColumn.SelectColumn(creatorEmail, id, column.ColumnOrdinal);
+            dColumn.deleteColumn(columnDTO);
+            columns.Remove(column);
             int columnIndex = column.ColumnOrdinal;
             if (shiftSize > 0)
             {
@@ -178,18 +199,9 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
                     throw new Exception("Too many right shifts");
                 else
                 {
-                    for (int i = columnIndex; i <= columnIndex + shiftSize; i = i + 1)
+                    for (int i = columnIndex; i < columnIndex + shiftSize; i = i + 1)
                     {
-                        if (i == columnIndex + shiftSize)
-                        {
-                            columns[columnIndex + shiftSize] = column;
-                            column.changeColumnOrdinal(columnIndex + shiftSize, creatorEmail, id);
-                        }
-                        else
-                        {
-                            columns[i] = columns[i + 1];
-                            columns[i].changeColumnOrdinal(i, creatorEmail,id);
-                        }
+                        columns[i].changeColumnOrdinal(i, creatorEmail,id);
                     }
                 }
             }
@@ -201,19 +213,16 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
                 {
                     for (int i = columnIndex; i > columnIndex + shiftSize; i = i - 1)
                     {
-                        if (i == columnIndex + shiftSize)
-                        {
-                            columns[columnIndex + shiftSize] = column;
-                            column.changeColumnOrdinal(columnIndex + shiftSize, creatorEmail, id);
-                        }
-                        else
-                        {
-                            columns[i - 1] = columns[i];
-                            columns[i-1].changeColumnOrdinal(i-1, creatorEmail, id);
-                        }
+                            columns[i-1].changeColumnOrdinal(i, creatorEmail, id);
                     }
                 }
             }
+            List<Column> list = new List<Column>();
+            column.ColumnOrdinal = columnIndex + shiftSize;
+            list.Add(column);
+            InsertColumnsToDal(list);
+            columns.Insert(columnIndex + shiftSize, column);
+            column.changeColumnOrdinal(columnIndex + shiftSize, creatorEmail, id);
         }
 
         public void AddColumn (Column column, int columnOrdinal)
@@ -221,14 +230,20 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
             if (columnOrdinal >= 0 & columnOrdinal <= columns.Count)
             {
                 columns.Insert(columnOrdinal, column);
-                for (int index = columnOrdinal+1; index < columns.Count; index = index + 1)
+                List<Column> list = new List<Column>();
+                list.Add(column);
+                for (int index = columns.Count-1; index >columnOrdinal; index = index -1)
                 {
-                    columns[index].changeColumnOrdinal(columnOrdinal, creatorEmail, id);
+                    columns[index].changeColumnOrdinal(index, creatorEmail, id);
                 }
-                
+                InsertColumnsToDal(list);
+
             }
             else
                 throw new Exception("Invalid column ordinal");
+            DBoardsController dBoards = new DBoardsController();
+            BoardsDTO boardsDTO = dBoards.SelectBoard(creatorEmail, id);
+            boardsDTO.ColumnsNumber = columns.Count;
         }
 
         /// <summary>
@@ -262,12 +277,12 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
         /// </summary>
         /// <param name="columns">all the column that needed to be added </param>
         /// <returns>nothing, only insert the column through Dal</returns>
-        private void InsertColumsToDal(List<Column> columns)
+        private void InsertColumnsToDal(List<Column> columns)
         {
             DColumn dColumn = new DColumn();
             foreach (Column i in columns)
             {
-                dColumn.Insert(i, id, columns.IndexOf(i), creatorEmail);
+                dColumn.Insert(i, id, i.ColumnOrdinal, creatorEmail);
             }
         }
 

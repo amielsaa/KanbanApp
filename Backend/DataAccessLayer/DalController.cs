@@ -108,7 +108,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
                     connection.Open();
                     dataReader = command.ExecuteReader();
 
-                    while (dataReader.Read()& dataReader!=null)
+                    while (dataReader.Read() & dataReader != null)
                     {
                         results.Add(ConvertReaderToObject(dataReader));
 
@@ -229,6 +229,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
             return res > 0;
         }
 
+
         public bool DeleteAll(string tablename)
         {
             int res = -1;
@@ -258,7 +259,35 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
             }
             return res > 0;
         }
+        public void Delete(string commandTxt)
+        {
+            int res = -1;
 
+            using (var connection = new SQLiteConnection(_connectionString))
+            {
+                var command = new SQLiteCommand
+                {
+                    Connection = connection,
+                    CommandText = commandTxt
+                };
+                try
+                {
+                    connection.Open();
+                    res = command.ExecuteNonQuery();
+                }
+                catch (Exception e)
+                {
+                    throw new ArgumentException("deletion in database failed");
+                }
+                finally
+                {
+                    command.Dispose();
+                    connection.Close();
+                }
+
+            }
+
+        }
     }
 
 

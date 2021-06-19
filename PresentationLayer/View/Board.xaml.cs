@@ -110,5 +110,10 @@ namespace IntroSE.Kanban.PresentationLayer.View
             main.Show();
             this.Close();
         }
+
+        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+        }
     }
 }
