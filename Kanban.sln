@@ -12,6 +12,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PresentationLayer", "Presen
 		{47FB76DC-5F2C-4928-9E6B-A6D7CE70D696} = {47FB76DC-5F2C-4928-9E6B-A6D7CE70D696}
 	EndProjectSection
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tests", "Tests\Tests.csproj", "{CEE2F86C-10B1-4142-83BB-80C6B765CC54}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -44,6 +46,14 @@ Global
 		{FB916502-CBC9-4690-8052-49E10D6D4E37}.Release|Any CPU.Build.0 = Release|Any CPU
 		{FB916502-CBC9-4690-8052-49E10D6D4E37}.Release|x86.ActiveCfg = Release|x86
 		{FB916502-CBC9-4690-8052-49E10D6D4E37}.Release|x86.Build.0 = Release|x86
+		{CEE2F86C-10B1-4142-83BB-80C6B765CC54}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CEE2F86C-10B1-4142-83BB-80C6B765CC54}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CEE2F86C-10B1-4142-83BB-80C6B765CC54}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{CEE2F86C-10B1-4142-83BB-80C6B765CC54}.Debug|x86.Build.0 = Debug|Any CPU
+		{CEE2F86C-10B1-4142-83BB-80C6B765CC54}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CEE2F86C-10B1-4142-83BB-80C6B765CC54}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CEE2F86C-10B1-4142-83BB-80C6B765CC54}.Release|x86.ActiveCfg = Release|Any CPU
+		{CEE2F86C-10B1-4142-83BB-80C6B765CC54}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -42,7 +42,7 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
             }
             return instance;
         }
-        
+
 
 
         /// <summary>
@@ -58,7 +58,7 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
             User user = new User(email, password);
             users.Add(user);
             usersEmail.Add(email);
-            newUser = new UserDTO(email, password,0);
+            newUser = new UserDTO(email, password, 0);
             user.dtoUser = newUser;
             dUserController = new DUserController();
             bool check = dUserController.Insert(newUser);
@@ -66,7 +66,7 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
             {
                 throw new ArgumentException("insertion to dataBase failed");
             }
-        } 
+        }
 
         /// <summary>
         /// loggin the user to his account 
@@ -79,7 +79,7 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
             if (email == null | password == null)
             {
                 throw new ArgumentException("input can't be null");
-            }    
+            }
             email = validateEmail(email);
             User user = getUser(email);
             if (user == null)
@@ -88,8 +88,8 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
             }
             else
             {
-                if (user.login|| !user.equalPasswords(password))
-                    throw new ArgumentException("User is already logged in or password is incorrect");      
+                if (user.login || !user.equalPasswords(password))
+                    throw new ArgumentException("User is already logged in or password is incorrect");
                 else
                     user.login = true;
             }
@@ -110,7 +110,7 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
         /// <returns>A user if it exist in the users list, returns null otherwise</returns>
         public User getUser(string email)
         {
-            
+
             var user = users.Find(x => x.email.Equals(email));
             if (user == null)
                 throw new ArgumentException("User not found.");
@@ -136,13 +136,13 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
             List<UserDTO> userDtoList = dUserController.SelectAllUsers();
             foreach (UserDTO userDTO in userDtoList)
             {
-                List < TaskDTO > taskDTOList= userDTO.getMyAssignments();
+                List<TaskDTO> taskDTOList = userDTO.getMyAssignments();
                 List<Task> taskList = new List<Task>();
                 foreach (TaskDTO t in taskDTOList)
                 {
                     taskList.Add(new Task(t.Email, t.BoardId, t.TaskId, t.Assignee, t.Column, Convert.ToDateTime(t.CreationTime), t.Description, t.Title, Convert.ToDateTime(t.DueDate)));
                 }
-                User user = new User(userDTO.Email, userDTO.Password, userDTO.getOldPasswords(),taskList, userDTO.BoardsId);
+                User user = new User(userDTO.Email, userDTO.Password, userDTO.getOldPasswords(), taskList, userDTO.BoardsId);
                 string email = userDTO.Email;
                 users.Add(user);
                 usersEmail.Add(email);
@@ -150,11 +150,11 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
 
         }
 
-        public void isUserAssignee(string email, int taskId,int boardId,string creatorEmail)
+        public void isUserAssignee(string email, int taskId, int boardId, string creatorEmail)
         {
             var user = getUser(email);
             user.checkIfLogedIn();
-            if (!(user.myAssignments.Exists(x => x.taskId == taskId & x.boardId == boardId & x.email == creatorEmail)) )
+            if (!(user.myAssignments.Exists(x => x.taskId == taskId & x.boardId == boardId & x.email == creatorEmail)))
             {
                 throw new ArgumentException("The user is'nt the assignee of the current task");
             }

@@ -156,12 +156,22 @@ namespace IntroSE.Kanban.PresentationLayer.Model
         }
 
 
+        internal void JoinBoard()
+        {
+
+        }
+
 
 
 
         /**************************************/
         /******** COLUMN FUNCTIONALITY ********/
         /**************************************/
+
+        internal void RenameColumn()
+        {
+
+        }
 
         internal void AddColumn(string userEmail, string creatorEmail, string boardName, int columnOrdinal, string columnName)
         {
@@ -265,6 +275,8 @@ namespace IntroSE.Kanban.PresentationLayer.Model
                 throw new ArgumentException(res.ErrorMessage);
             }
         }
+
+        
 
         
 
