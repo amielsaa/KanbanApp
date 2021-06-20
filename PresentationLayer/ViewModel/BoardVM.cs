@@ -21,11 +21,12 @@ namespace IntroSE.Kanban.PresentationLayer.ViewModel
         private string _newColumnOrd;
         private bool _enableForward = false;
         private bool _enableButton = false;
-
+        private string _taskKeyWord;
         public string NewAssignee { get => _newAssignee; set { _newAssignee = value; } }
         public string NewColumnName { get => _newColumnName; set { _newColumnName = value; EnableButton = NewColumnName != ""; } }
         public string NewColumnOrd { get => _newColumnOrd; set { _newColumnOrd = value; } }
         public string NewColumnLimit { get => _newColumnLimit; set { _newColumnLimit = value; RaisePropertyChanged("NewColumnLimit"); } }
+        public string TaskKeyWord { get => _taskKeyWord; set { _taskKeyWord = value;RaisePropertyChanged("TaskKeyWord"); } }
 
         public bool EnableForward
         {
@@ -196,7 +197,27 @@ namespace IntroSE.Kanban.PresentationLayer.ViewModel
             
         }
 
+        internal void SortTasks()
+        {
+            try
+            {
+                SelectedColumn.SortTasks();
+            }catch(Exception e)
+            {
+                Message = e.Message;
+            }
+        }
 
+        internal void SearchTasks()
+        {
+            try
+            {
+                Board.SearchTasks(TaskKeyWord);
+            }catch(Exception e)
+            {
+                Message = e.Message;
+            }
+        }
 
 
     }

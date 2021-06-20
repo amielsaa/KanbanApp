@@ -115,5 +115,21 @@ namespace IntroSE.Kanban.PresentationLayer.View
         {
 
         }
+
+        private void Sort_DueDate_Button(object sender, RoutedEventArgs e)
+        {
+            boardVM.SortTasks();
+        }
+
+        private void Search_Task_Button(object sender, RoutedEventArgs e)
+        {
+            boardVM.SearchTasks();
+        }
+
+        private void Reset_Task_Filter_Button(object sender, RoutedEventArgs e)
+        {
+            boardVM.TaskKeyWord = "";
+            boardVM.SearchTasks();
+        }
     }
 }

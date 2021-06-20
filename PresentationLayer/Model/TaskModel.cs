@@ -18,8 +18,10 @@ namespace IntroSE.Kanban.PresentationLayer.Model
         private DateTime _duedate;
         private string color = "CornflowerBlue";
         private DateTime _creationTime;
+        private string _visible = "Visible";
 
 
+        public string Visible { get => _visible; set { _visible = value; RaisePropertyChanged("Visible"); } }
         public string Title { get => _title; set { _title = value; RaisePropertyChanged("Title"); } }
         public string Description { get => _description; set { _description = value; RaisePropertyChanged("Description"); } }
         public DateTime DueDate { get => _duedate; set { _duedate = value; RaisePropertyChanged("DueDate"); } }

@@ -22,6 +22,7 @@
         <StackPanel Orientation="Vertical">
             <WrapPanel Margin="0,0,0,0" HorizontalAlignment="Center">
                 <Button Content="Back" Click="Back_Button" Background="SteelBlue"/>
+                <Button IsEnabled="{Binding EnableForward}" Content="Sort By Due Date" Click="Sort_DueDate_Button" Margin="20,10,0,0" Background="SteelBlue"/>
                 <Button IsEnabled="{Binding Path=Board.EnableForward}" Content="edit task" Margin="20,10,0,0" Click="Edit_Task_Button" Background="SteelBlue" />
                 <Button IsEnabled="{Binding EnableForward}" Content="left" Margin="20,10,0,0" Click="Move_Left_Button" Background="SteelBlue"/>
                 <Button IsEnabled="{Binding EnableForward}" Content="Remove" Margin="20,10,0,0" Click="Remove_Column_Button" Background="SteelBlue"/>
@@ -37,7 +38,7 @@
             <ScrollViewer HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible" CanContentScroll="True" Margin="0,20,0,0">
 
 
-                <ListBox ItemsSource="{Binding Path=Board.Columns}" SelectedItem="{Binding SelectedColumn, Mode=TwoWay}" Foreground="SteelBlue">
+                <ListBox x:Name="ColumnsIds" ItemsSource="{Binding Path=Board.Columns}" SelectedItem="{Binding SelectedColumn, Mode=TwoWay}" Foreground="SteelBlue">
                     <ListBox.ItemContainerStyle>
                         <Style TargetType="ListBoxItem">
                             <Style.Resources>
@@ -65,12 +66,12 @@
                                     </GroupBox.Background>
 
                                     <ScrollViewer HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible"  CanContentScroll="True" >
-                                        <ListBox ItemsSource="{Binding Path=Tasks}" SelectedItem="{Binding SelectedTask, Mode=TwoWay}" >
+                                        <ListBox x:Name="TasksIds" ItemsSource="{Binding Path=Tasks}" SelectedItem="{Binding SelectedTask, Mode=TwoWay}" >
                                             <ItemsControl.ItemTemplate>
                                                 <DataTemplate>
                                                     <StackPanel>
 
-                                                        <GroupBox Header="{Binding Title}" FontWeight="Bold" Height="Auto"  Margin="16" Background="AliceBlue" materialDesign:ColorZoneAssist.Mode="Custom" materialDesign:ColorZoneAssist.Background="{Binding TaskColor}" materialDesign:ColorZoneAssist.Foreground="Black" >
+                                                        <GroupBox Visibility="{Binding Visible, Mode=TwoWay}" Header="{Binding Title}" FontWeight="Bold" Height="Auto"  Margin="16" Background="AliceBlue" materialDesign:ColorZoneAssist.Mode="Custom" materialDesign:ColorZoneAssist.Background="{Binding TaskColor}" materialDesign:ColorZoneAssist.Foreground="Black" >
                                                             <StackPanel Orientation="Vertical" >
                                                                 <Label Content="{Binding Description}" />
                                                                 <Label Content="{Binding DueDate}"/>
@@ -117,6 +118,12 @@
                     <Label Content="Limit Column" FontSize="30" Margin="10"/>
                     <TextBox IsEnabled="{Binding EnableForward}" Text="{Binding NewColumnLimit, Mode=TwoWay}" Margin="10" />
                     <Button IsEnabled="{Binding EnableButton, Mode=OneWayToSource}" Content="Limit"  Click="Limit_Column_Button" Margin="10" Background="SteelBlue"/>
+                </WrapPanel>
+                <WrapPanel Orientation="Vertical" Margin="20,0,0,0">
+                    <Label Content="Search Task" FontSize="30" Margin="10"/>
+                    <TextBox Text="{Binding TaskKeyWord, Mode=TwoWay}" Margin="10" />
+                    <Button Content="Filter"  Click="Search_Task_Button" Margin="10" Background="SteelBlue"/>
+                    <Button Content="Reset"  Click="Reset_Task_Filter_Button" Margin="10" Background="SteelBlue"/>
                 </WrapPanel>
             </StackPanel>
         </StackPanel>

@@ -102,6 +102,21 @@ namespace IntroSE.Kanban.PresentationLayer.Model
             //Columns.CollectionChanged += HandleChange;
         }
 
+        internal void SearchTasks(string keyWord)
+        {
+            foreach(var column in Columns)
+            {
+                foreach(var task in column.Tasks)
+                {
+                    task.Visible = "Collapsed";
+                    if(task.Description.Contains(keyWord) | task.Title.Contains(keyWord))
+                    {
+                        task.Visible = "Visible";
+                    }
+                }
+            }
+        }
+
         public void RemoveColumn(ColumnModel selectedColumn)
         {
 

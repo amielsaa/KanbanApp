@@ -100,6 +100,20 @@ namespace IntroSE.Kanban.PresentationLayer.Model
 
         }
 
+        internal void SortTasks()
+        {
+            for(int i=Tasks.Count-1;i>=0;i--)
+            {
+                for(int j = Tasks.Count - 1; j >= 0; j--)
+                {
+                    if(Tasks[i].DueDate.CompareTo(Tasks[j].DueDate) > 0)
+                    {
+                        Tasks.Move(i, j);
+                    }
+                }
+            }
+        }
+
         private void HandleChange(object sender, NotifyCollectionChangedEventArgs e)
         {
             //read more here: https://stackoverflow.com/questions/4279185/what-is-the-use-of-observablecollection-in-net/4279274#4279274
