@@ -48,7 +48,8 @@ namespace IntroSE.Kanban.PresentationLayer.Model
                 {
                     foreach(TaskModel taskModel in boardModel.Columns[columnOrdinal].Tasks)
                     {
-                        taskModels.Add(taskModel);
+                        if(taskModel.Assignee==user.Email)
+                            taskModels.Add(taskModel);
                     }
                 }
             }

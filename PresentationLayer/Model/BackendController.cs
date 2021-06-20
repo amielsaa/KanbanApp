@@ -138,7 +138,7 @@ namespace IntroSE.Kanban.PresentationLayer.Model
 
         internal BoardModel GetBoardCreator(string creatorEmail, string boardName, UserModel user)
         {
-            var board = Service.GetBoardCreator(creatorEmail, boardName);
+            var board = Service.GetBoardCreator(creatorEmail, boardName, user.Email);
             if (board.ErrorOccured)
             {
                 throw new ArgumentException(board.ErrorMessage);
@@ -212,7 +212,7 @@ namespace IntroSE.Kanban.PresentationLayer.Model
             List<TaskModel> list = new List<TaskModel>();
             foreach(var task in res.Value)
             {
-                list.Add(new TaskModel(this, userEmail, task.emailAssignee, task.Title, task.Description, task.DueDate, columnOrdinal, task.Id, parentColumn));
+                list.Add(new TaskModel(this, userEmail, task.emailAssignee, task.Title, task.Description, task.DueDate, task.CreationTime,columnOrdinal, task.Id, parentColumn));
             }
             return list;
         }
@@ -247,9 +247,14 @@ namespace IntroSE.Kanban.PresentationLayer.Model
 
         internal void AssignTask(string userEmail, string creatorEmail, string boardName, int columnOrdinal, int taskId, string emailAssignee)
         {
-            // if(res=="") else throw exception that boardVM catches
-            //Service.AssignTask()
             
+            var res = Service.AssignTask(userEmail,creatorEmail,boardName,columnOrdinal,taskId,emailAssignee);
+            if (res.ErrorOccured)
+            {
+                throw new ArgumentException(res.ErrorMessage);
+            }
+
+
         }
 
         internal void AddTask(TaskModel task,string userEmail,string creatorEmail,string boardName)

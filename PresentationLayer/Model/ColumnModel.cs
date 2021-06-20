@@ -43,12 +43,12 @@ namespace IntroSE.Kanban.PresentationLayer.Model
         }
 
 
-        private ColumnModel(BackendController controller, ObservableCollection<TaskModel> tasks, int columnOrdinal) : base(controller)
+       /* private ColumnModel(BackendController controller, ObservableCollection<TaskModel> tasks, int columnOrdinal) : base(controller)
         {
             this.Tasks = tasks;
             Tasks.CollectionChanged += HandleChange;
         }
-
+       */
 
         //loading data constructor
         public ColumnModel(BackendController controller,BoardModel parentBoard, string userEmail,int columnOrdinal, string title) : base(controller)

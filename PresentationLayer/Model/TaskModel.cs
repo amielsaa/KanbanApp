@@ -17,6 +17,7 @@ namespace IntroSE.Kanban.PresentationLayer.Model
         private int _id;
         private DateTime _duedate;
         private string color = "CornflowerBlue";
+        private DateTime _creationTime;
 
 
         public string Title { get => _title; set { _title = value; RaisePropertyChanged("Title"); } }
@@ -25,9 +26,10 @@ namespace IntroSE.Kanban.PresentationLayer.Model
         public string Assignee { get => _assignee; set { _assignee = value; RaisePropertyChanged("Assignee"); } }
         public int ColumnOrdinal { get => parentColumn.ColumnOrdinal; set {  } }
         public int Id { get => _id; set {_id = value; RaisePropertyChanged("Id"); }}
+        public DateTime CreationTime { get => _creationTime; set { _creationTime = value; RaisePropertyChanged("CreationTime"); } }
         public string TaskColor { get => color;set { color = value; RaisePropertyChanged("TaskColor"); } }
 
-        public TaskModel(BackendController controller, string email,string assignee,string title,string description, DateTime dueDate, int columnOrdinal, int id,ColumnModel parentColumn) : base(controller)
+        public TaskModel(BackendController controller, string email,string assignee,string title,string description, DateTime dueDate, DateTime creationTime,int columnOrdinal, int id,ColumnModel parentColumn) : base(controller)
         {
             this._email = email;
             this.Title = title;
@@ -36,7 +38,9 @@ namespace IntroSE.Kanban.PresentationLayer.Model
             this.Assignee = assignee;
             //this.ColumnOrdinal = parentColumn.ColumnOrdinal;
             this.Id = id;
+            this.CreationTime = creationTime;
             this.parentColumn = parentColumn;
+            setColor(dueDate);
         }
 
         internal void Update(string description,string title,DateTime DueDate, string boardName)
@@ -45,13 +49,32 @@ namespace IntroSE.Kanban.PresentationLayer.Model
             this.Description = description;
             this.Title = title;
             this.DueDate = DueDate;
+            setColor(DueDate);
         }
 
         internal void Assign(string newAssignee)
         {
-            Controller.AssignTask(_email, parentColumn.parent.Creator, parentColumn.parent.BoardName, ColumnOrdinal, Id, newAssignee);
+            Controller.AssignTask(parentColumn.parent.user.Email, parentColumn.parent.Creator, parentColumn.parent.BoardName, ColumnOrdinal, Id, newAssignee);
             this.Assignee = newAssignee;
 
+        }
+        private void setColor(DateTime dueDate)
+        {
+            DateTime today = DateTime.Now;
+            TimeSpan timeLeft = dueDate.Subtract(today);
+            TimeSpan timePassed = today.Subtract(CreationTime);
+            TimeSpan timeSpan = dueDate.Subtract(CreationTime);
+            double timePassedDays = timePassed.Days;
+            double timeSpanDays = timeSpan.Days;
+            double presentage = 0;
+            if (timeSpanDays != 0 )
+                presentage = (timePassedDays / timeSpanDays);
+            if (timeLeft.Days < 0)
+                TaskColor = "Maroon";
+            else if  (presentage>0.75)
+                TaskColor = "OrangeRed";
+            else
+                TaskColor = "CornflowerBlue";
         }
         
     }

@@ -72,6 +72,7 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
             boardId = boardid;
             assigneeEmail = assignee;
             status = false;
+            this.taskId = taskid;
         }
         //methods
 

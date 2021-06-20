@@ -25,8 +25,8 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         public Response LoadData()
         {
             try {
-                userService.userController.pullAllUsers();
                 userService.boardController.pullAllBoards();
+                userService.userController.pullAllUsers();
                 
                 return new Response();
             } catch(Exception e)
@@ -342,9 +342,9 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         /// <param name="userEmail">Email of the current user. Must be logged in</param>
         /// <param name="boardName">The name of the board</param>
         /// <returns>A response object. The response should contain a error message in case of an error</returns>
-        public Response<Board> GetBoardCreator(string creatorEmail, string boardName)
+        public Response<Board> GetBoardCreator(string creatorEmail, string boardName, string userEmail)
         {
-            return userService.GetBoardCreator(creatorEmail, boardName);
+            return userService.GetBoardCreator(creatorEmail, boardName, userEmail);
         }
 
         

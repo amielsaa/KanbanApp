@@ -16,17 +16,24 @@
         Title="Board" Height="850" Width="1200">
     <Grid>
         <StackPanel Orientation="Vertical">
-            <WrapPanel HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,20,0,0">
-                
-                <Button Content="Delete Board" Height="40" Click="Delete_Board_Button" Margin="10,0,0,0"/>
-                <Button Content="Enter Board" Height="40" Click="Enter_Board_Button" Margin="10,0,0,0"/>
+            <StackPanel.Background>
+                <ImageBrush ImageSource="\Images\Background.jpg"  Stretch="UniformToFill" />
+            </StackPanel.Background>
+            <WrapPanel  Margin="235,70,0,0">
+
+                <Button Content="Delete Board" Height="40" Click="Delete_Board_Button" Margin="0,0,0,0"  Background="SteelBlue"/>
+                <Button Content="Enter Board" Height="40" Click="Enter_Board_Button" Margin="20,0,0,0"  Background="SteelBlue"/>
             </WrapPanel> 
-            <WrapPanel Height="30" Width="Auto" HorizontalAlignment="Center">
+            <WrapPanel  Width="Auto" HorizontalAlignment="Center">
                 <Label Content="{Binding Message ,Mode=OneWay}" FontSize="15"  Foreground="Red" FontStyle="Italic" Opacity="0.8" Margin="0,0,0,0"/>
             </WrapPanel>
-            <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+            <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" >
             <ScrollViewer  HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Visible" Width="500" Height="350" CanContentScroll="True">
-                <ListBox  ItemsSource="{Binding Path=Main.Boards}" SelectedItem="{Binding Path=SelectedBoard, Mode=TwoWay}">
+                <ListBox  ItemsSource="{Binding Path=Main.Boards}" SelectedItem="{Binding Path=SelectedBoard, Mode=TwoWay}" Margin="0,20,0,0" >
+                        
+                        <ListBox.Background>
+                            <ImageBrush ImageSource="\Images\columnBackground2.jpeg"  Stretch="UniformToFill" />
+                        </ListBox.Background>
                     <ListBox.ItemsPanel>
                         <ItemsPanelTemplate>
                             <WrapPanel/>
@@ -34,10 +41,10 @@
                     </ListBox.ItemsPanel>
                     <ListBox.ItemTemplate>
                         <DataTemplate>
-                            <Border BorderBrush="#FF003CFF" BorderThickness="1">
-                                <StackPanel Orientation="Vertical" Width="100" >
-                                    <Label Content="{Binding Path=BoardName, Mode=TwoWay}" BorderBrush="{x:Null}"/>
-                                    <Label Content="{Binding Path=Creator, Mode=TwoWay}" BorderBrush="{x:Null}"/>
+                            <Border>
+                                <StackPanel Orientation="Vertical" Width="100" Background="AliceBlue" >
+                                        <Label Content="{Binding Path=BoardName, Mode=TwoWay}" BorderBrush="{x:Null}" HorizontalAlignment="Center" FontWeight="Bold"/>
+                                        <Label Content="{Binding Path=Creator, Mode=TwoWay}" BorderBrush="{x:Null}" HorizontalAlignment="Center"/>
                                 </StackPanel>
                             </Border>
                         </DataTemplate>
@@ -51,13 +58,13 @@
                     <TextBox Text="{Binding CreatorBoard, Mode=OneWayToSource}"  Width="182"  Margin="5"/>
                     <Label Content="Board Name" HorizontalAlignment="Center" FontSize="15" Margin="5"/>
                     <TextBox Text="{Binding JoinBoardName, Mode=OneWayToSource}"  Width="182" Margin="5" />
-                    <Button Content="Join" Width="100"  Click="Join_Board_Button" Margin="5"/>
+                    <Button Content="Join" Width="100"  Click="Join_Board_Button" Margin="5"  Background="SteelBlue"/>
                 </WrapPanel>
                 <WrapPanel Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="20">
                     <Label Content="Add Board" FontSize="30" HorizontalAlignment="Center" Margin="5"/>
                     <Label FontSize="15" Content="Board Name" HorizontalAlignment="Center" Margin="5"/>
                     <TextBox x:Name="text_box" HorizontalAlignment="Center" Text="{Binding NewBoardName, Mode=OneWayToSource}"  Width="182" Margin="5"/>
-                    <Button Content="Add Board" HorizontalAlignment="Center" Width="100" Click="Add_Board_Button" Margin="5"/>
+                    <Button Content="Add Board" HorizontalAlignment="Center" Width="100" Click="Add_Board_Button" Margin="5"  Background="SteelBlue"/>
                 </WrapPanel>
             </StackPanel>
             <Label HorizontalAlignment="Center" Content="{Binding Message}" FontSize="15" Foreground="Red" />
@@ -73,7 +80,7 @@
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
                                 <StackPanel>
-                                    <GroupBox Height="Auto" Header="{Binding Title}" Margin="16">
+                                    <GroupBox Height="Auto" Header="{Binding Title}" Margin="16"  materialDesign:ColorZoneAssist.Mode="Custom"  materialDesign:ColorZoneAssist.Background="CornflowerBlue" materialDesign:ColorZoneAssist.Foreground="Black">
                                         <StackPanel Orientation="Vertical">
                                             <Label Content="{Binding Description}" />
                                             <Label Content="{Binding DueDate}"/>

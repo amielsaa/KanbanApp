@@ -218,12 +218,13 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             }
         }
 
-        public Response<Board> GetBoardCreator(string creatorEmail, string boardName)
+        public Response<Board> GetBoardCreator(string creatorEmail, string boardName, string userEmail)
         {
             try
             {
-                var user = userController.getUser(creatorEmail);
-                var board = user.getBoardByName(boardName);
+                var creator = userController.getUser(creatorEmail);
+                var user = userController.getUser(userEmail);
+                var board = user.joinBoard(creator, boardName);
                 return Response<Board>.FromValue(new Board(board.name, board.creatorEmail,board.taskId));
             } catch(Exception e)
             {

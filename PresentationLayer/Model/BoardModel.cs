@@ -10,7 +10,7 @@ namespace IntroSE.Kanban.PresentationLayer.Model
 {
     public class BoardModel : NotifiableModelObject
     {
-        private readonly UserModel user;
+        public readonly UserModel user;
         private string _boardName;
         private string _creator;
         private TaskModel _backwardTask;
@@ -81,7 +81,15 @@ namespace IntroSE.Kanban.PresentationLayer.Model
             this.BoardName = boardName;
             this.Creator = creatorEmail;
             this.TaskIdCount = taskIdCounter;
-            Columns = new ObservableCollection<ColumnModel>(controller.GetAllColumns(user.Email,user.Email,boardName,this));
+            if(user.Email != creatorEmail)
+            {
+                Columns = new ObservableCollection<ColumnModel>(controller.GetAllColumns(user.Email, creatorEmail, boardName, this));
+            }
+            else
+            {
+                Columns = new ObservableCollection<ColumnModel>(controller.GetAllColumns(user.Email, user.Email, boardName, this));
+            }
+            
             Columns.CollectionChanged += HandleChange;
             //laasot getboard me ha backendcontroller
         }

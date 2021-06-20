@@ -19,7 +19,7 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
         private List<string> oldPassword;
         public List<Task> myAssignments;
         public string email;
-        private Boards boards;
+        public Boards boards;
         public Boolean login;
         public UserDTO dtoUser;
         public readonly int passMinLen = 4;
@@ -120,15 +120,15 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
         /// <param name="boardCreator"> the creator of the board this user wants to join .</param>
         /// <param name="boardName"> the name of the board the user wants to join to .</param>
         /// <returns> return nothing, only adding board to boards of this user.</returns>
-        public void joinBoard(User boardCreator, string boardName)
+        public Board joinBoard(User boardCreator, string boardName)
         {
             //checkIfLogedIn();
             Board board = boardCreator.getBoardByName(boardName);
             if (board == null)
                 throw new ArgumentException("No such board was found");
-            board.boardUsers.Add(email);
+            board.addUser(email);
             boards.addboard(board);
-            (new DBoardsController()).Update(boardCreator.email, board.id, BoardsDTO.UsersEmailColumnName, string.Join(",", board.boardUsers));
+            return board;
 
 
         }

@@ -126,7 +126,7 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
                 deleteTask(toMove, column_of_the_task);
                 toMove.columnOrdinal = toMove.columnOrdinal + 1;
                 (new DTask()).Update(creatorEmail, toMove.boardId, toMove.taskId, TaskDTO.ColumnColumnName, column_of_the_task + 1);
-                if (column_of_the_task == columns.Count - 1)
+                if (column_of_the_task+1 == columns.Count - 1)
                     toMove.status = true;
             }
 
@@ -292,6 +292,12 @@ namespace introSE.KanbanBoard.Backend.BuisnessLayer
             BoardsDTO boardsDTO = dBoardsController.SelectBoard(creatorEmail, id);
             boardsDTO.TaskId = taskId;
 
+        }
+        public void addUser(string userEmail) {
+            DBoardsController dBoardsController = new DBoardsController();
+            BoardsDTO boardsDTO = dBoardsController.SelectBoard(creatorEmail, id);
+            boardUsers.Add(userEmail);
+            (new DBoardsController()).Update(creatorEmail, id, BoardsDTO.UsersEmailColumnName, string.Join(",", boardUsers));
         }
 
     }
