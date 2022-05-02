@@ -1,3 +1,3 @@
-# milestone1-dank
-milestone1-dank created by GitHub Classroom
-318944105_319034138_208877183
+# KanbanApp
+application executable in the following path:
+KanbanApp\PresentationLayer\bin\Debug\net5.0-windows\IntroSE.Kanban.PresentationLayer.exe
